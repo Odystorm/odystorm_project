@@ -1,3 +1,4 @@
+require("dotenv").config();
 /**
  * app.js
  *
