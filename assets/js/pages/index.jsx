@@ -1,57 +1,66 @@
-import Counter from '@/components/Counter'
+// import { useState, useEffect } from 'react'
+import { Head } from '@inertiajs/react'
+import { motion } from 'framer-motion'
+// import ProgressBar from '@/components/Progress'
 import { Link } from '@inertiajs/react'
 
 export default function Index({ name }) {
-  return (
-    <div className="flex h-screen flex-col items-center justify-center space-y-8 text-center text-gray-700">
-      <h1>
-        A brand new
-        <span className="text-xl font-bold text-purple-400"> {name}</span> app
-        on Sails
-      </h1>
-      <Counter />
+  // const [progress, setProgress] = useState(0)
 
-      <Link href="/example" className="text-purple-600 underline">
-        Go to example page
-      </Link>
-      <ul className="flex space-x-4 text-gray-400">
-        <li>
-          <a
-            href="https://sailsjs.com"
-            target="_blank"
-            className="hover:text-gray-600 hover:underline"
-          >
-            Sails
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://inertiajs.com"
-            target="_blank"
-            className="hover:text-gray-600 hover:underline"
-          >
-            Inertia
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://reactjs.org"
-            target="_blank"
-            className="hover:text-gray-600 hover:underline"
-          >
-            React
-          </a>
-        </li>
-        <li>
-          <a
-            href="https://tailwindcss.com"
-            target="_blank"
-            className="hover:text-gray-600 hover:underline"
-          >
-            Tailwind CSS
-          </a>
-        </li>
-      </ul>
-    </div>
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setProgress((prev) => (prev < 100 ? prev + 10 : 0))
+  //   }, 1000)
+
+  //   return () => clearInterval(interval)
+  // }, [])
+
+  return (
+    <>
+      <Head title={name} />
+      <motion.section
+        className="relative flex min-h-screen w-full items-center justify-center"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 1.5 }}
+      >
+        <img
+          src="/images/bg/forest.jpg"
+          className="min-h-screen w-full brightness-50"
+          alt=""
+        />
+        <div className="absolute z-10 flex h-screen flex-col items-center justify-center py-3">
+          <div className="flex w-[350px] flex-col items-center justify-center gap-y-5 p-2">
+            <motion.img
+              src="/images/logo/logo.png"
+              className="h-[175px] w-[175px]"
+              alt="Dragon Coin Logo"
+              initial={{ y: 0 }}
+              animate={{ y: [0, -5, 0] }}
+              transition={{
+                duration: 1.5,
+                ease: 'easeInOut',
+                repeat: Infinity,
+                repeatType: 'loop',
+              }}
+            />
+            <h3 className="text-center font-MedievalSharp text-5xl font-bold capitalize text-white drop-shadow-2xl">
+              Welcome to Dragon Quest
+            </h3>
+            <p className="text-center font-MedievalSharp text-xl text-white">
+              Play now and earn valuable dragon tokens!
+            </p>
+            {/* <ProgressBar progress={progress} /> */}
+            <Link
+              href="/play"
+              as="button"
+              className="mt-3 w-[60%] transform rounded-md bg-[#AF955D] py-3 font-uncialAntiqua uppercase text-white transition-transform duration-150 hover:scale-105 active:scale-95 active:border-black active:bg-[#ceaf6d]"
+            >
+              Play
+            </Link>
+          </div>
+        </div>
+      </motion.section>
+    </>
   )
 }
