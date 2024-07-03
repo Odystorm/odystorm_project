@@ -19,5 +19,11 @@ module.exports.routes = {
    *                                                                          *
    ***************************************************************************/
   'GET /': 'home/index',
-  'GET /example': 'example/index'
+  'GET /example': 'example/index',
+
+  // Play Page
+  'GET /play': 'game/play',
+
+  // Telegram Webhook
+  'POST /telegram/webhook': { action: 'bot/telegram-events' },
 }
