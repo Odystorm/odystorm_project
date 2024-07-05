@@ -18,14 +18,15 @@ const data = [
   },
 ]
 
+// @ts-ignore
+const tg = window.Telegram.WebApp
+
 const InviteModal = ({ setOpenModal, user }) => {
-  console.log(user)
+  const referralLink = `https://t.me/odysir_token_bot/app?startapp=ref_${user.referralId}`
 
   async function handleCopy() {
     try {
-      await window.navigator.clipboard.writeText(
-        `https://t.me/odysir_token_bot/app?startapp=ref_${user.referralId}`
-      )
+      await window.navigator.clipboard.writeText(referralLink)
       toast('Referral Link Copied', {
         position: 'top-center',
       })
@@ -37,7 +38,18 @@ const InviteModal = ({ setOpenModal, user }) => {
     }
   }
 
-  function handleSend() {}
+  function handleSend() {
+    const textToShare =
+      "Join me on Odysir and let's earn together\nUse my link to join the fun ⚓"
+    const telegramLink = `https://t.me/share/url?url=${referralLink}&text=${encodeURIComponent(textToShare)}`
+
+    if (window.Telegram && window.Telegram.WebApp) {
+      window.Telegram.WebApp.openTelegramLink(telegramLink)
+    } else {
+      alert('Telegram Web App is not available.')
+    }
+    setOpenModal(false)
+  }
 
   return (
     <div className="fixed left-0 top-0 z-[100] flex min-h-full w-full flex-col justify-end bg-black/50">
@@ -163,7 +175,7 @@ const Referrals = ({ user }) => {
           {user.referrals.length}{' '}
           {user.referrals.length > 1 ? 'Friends' : 'Friend'}
         </h3>
-        <div className='space-y-2'>
+        <div className="space-y-2">
           {user.referrals.map((referral, index) => {
             return (
               <div
