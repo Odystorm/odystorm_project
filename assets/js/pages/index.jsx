@@ -1,65 +1,98 @@
-// import { useState, useEffect } from 'react'
 import { Head } from '@inertiajs/react'
 import { motion } from 'framer-motion'
-// import ProgressBar from '@/components/Progress'
-import { Link } from '@inertiajs/react'
+import axios from 'axios'
+import { useEffect } from 'react'
+import { router } from '@inertiajs/react'
+import { Puff } from 'react-loader-spinner'
+import { ToastContainer, toast } from 'react-toastify'
+
+// @ts-ignore
+const tg = window.Telegram.WebApp
 
 export default function Index({ name }) {
-  // const [progress, setProgress] = useState(0)
+  function getReferralCode() {
+    // @ts-ignore
+    const queryString = window.location.search
+    const match = queryString.match(/[?&]tgWebAppStartParam=([^&]+)/)
+    if (match && match[1].startsWith('ref_')) {
+      return match[1].slice(4) // Remove the 'ref_' prefix
+    } else {
+      return null
+    }
+  }
 
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setProgress((prev) => (prev < 100 ? prev + 10 : 0))
-  //   }, 1000)
+  const referralId = getReferralCode()
 
-  //   return () => clearInterval(interval)
-  // }, [])
+  useEffect(() => {
+    tg.ready()
+    async function registerUser() {
+      // @ts-ignore
+      if (tg) {
+        // Initialize the Web App
+        // Retrieve chat ID and user information
+        const user = tg.initDataUnsafe.user
+
+        try {
+          await axios.post('/register/referral', {
+            chatId: user.id,
+            referralId: referralId,
+          })
+
+          setTimeout(() => {
+            router.get(`/play?user=${user.id}`)
+          }, 3000)
+        } catch (error) {
+          console.error(error)
+          toast('Sign Up Failed', {
+            position: 'top-center',
+          })
+        }
+      } else {
+        console.error('Failed to initialize Telegram Web App')
+      }
+    }
+
+    registerUser()
+  }, [])
 
   return (
     <>
       <Head title={name} />
       <motion.section
-        className="relative flex min-h-screen w-full items-center justify-center"
+        className="relative flex min-h-screen w-full items-center justify-center bg-black"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1.5 }}
       >
-        <img
-          src="/images/bg/forest.jpg"
-          className="min-h-screen w-full brightness-50"
-          alt=""
-        />
         <div className="absolute z-10 flex h-screen flex-col items-center justify-center py-3">
           <div className="flex w-[350px] flex-col items-center justify-center gap-y-5 p-2">
             <motion.img
-              src="/images/logo/logo.png"
+              src="/images/logo/logo.svg"
               className="h-[175px] w-[175px]"
-              alt="Dragon Coin Logo"
-              initial={{ y: 0 }}
-              animate={{ y: [0, -5, 0] }}
-              transition={{
-                duration: 1.5,
-                ease: 'easeInOut',
-                repeat: Infinity,
-                repeatType: 'loop',
-              }}
+              alt="Odysir Coin Logo"
             />
-            <h3 className="text-center font-MedievalSharp text-5xl font-bold capitalize text-white drop-shadow-2xl">
-              Welcome to Dragon Quest
+            <h3 className="text-center  text-5xl font-bold capitalize text-white drop-shadow-2xl">
+              Welcome to Odysir
             </h3>
-            <p className="text-center font-MedievalSharp text-xl text-white">
-              Play now and earn valuable dragon tokens!
+            <p className="text-center text-2xl text-white">
+              Play now and earn valuable Odysir tokens!
             </p>
-            {/* <ProgressBar progress={progress} /> */}
-            <Link
-              href="/play"
-              as="button"
-              className="mt-3 w-[60%] transform rounded-md bg-[#AF955D] py-3 font-uncialAntiqua uppercase text-white transition-transform duration-150 hover:scale-105 active:scale-95 active:border-black active:bg-[#ceaf6d]"
-            >
-              Play
-            </Link>
+            <Puff
+              visible={true}
+              height="55"
+              width="55"
+              color="#FFF"
+              ariaLabel="puff-loading"
+              wrapperStyle={{}}
+              wrapperClass=""
+            />
           </div>
         </div>
+        <ToastContainer
+          autoClose={3000}
+          toastStyle={{ backgroundColor: 'white', color: 'black' }}
+          hideProgressBar={true}
+        />
       </motion.section>
     </>
   )
