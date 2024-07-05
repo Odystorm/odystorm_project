@@ -41,7 +41,9 @@ const InviteModal = ({ setOpenModal, user }) => {
   function handleSend() {
     const textToShare =
       "Join me on Odysir and let's earn together\nUse my link to join the fun ⚓"
-    const telegramLink = `https://t.me/share/url?url=${referralLink}&text=${encodeURIComponent(textToShare)}`
+    const telegramLink = `https://t.me/share/url?url=${referralLink}&text=${encodeURIComponent(
+      textToShare
+    )}`
 
     if (window.Telegram && window.Telegram.WebApp) {
       window.Telegram.WebApp.openTelegramLink(telegramLink)
@@ -138,7 +140,6 @@ const InviteModal = ({ setOpenModal, user }) => {
 
 const Referrals = ({ user }) => {
   const [openModal, setOpenModal] = useState(false)
-  console.log(user)
 
   return (
     <div className="relative flex min-h-screen w-full flex-col justify-between overflow-y-scroll px-3">
@@ -153,7 +154,7 @@ const Referrals = ({ user }) => {
             Invite Friends and Earn Odysir Tokens
           </h3>
         </div>
-        <div className="text-white">
+        {/* <div className="text-white">
           <h4 className="text-xl font-bold">How it Works</h4>
           <ol className="space-y-5">
             {data.map((step, index) => (
@@ -168,51 +169,52 @@ const Referrals = ({ user }) => {
               </li>
             ))}
           </ol>
-        </div>
-      </div>
-      <div className="h-full space-y-3 overflow-y-scroll">
-        <h3 className="text-lg font-bold text-white">
-          {user.referrals.length}{' '}
-          {user.referrals.length > 1 ? 'Friends' : 'Friend'}
-        </h3>
-        <div className="space-y-2">
-          {user.referrals.map((referral, index) => {
-            return (
-              <div
-                key={index}
-                className="flex items-center justify-between text-white"
-              >
-                <div className="flex items-center justify-center gap-x-3">
-                  <p className="text-md inline-flex h-[40px] w-[40px] items-center justify-center rounded-full bg-white text-black">
-                    {referral.firstName[0]}
-                  </p>
-                  <div className="flex flex-col items-start justify-center">
-                    <h3>{referral.firstName}</h3>
-                    <p className="flex items-center justify-center">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="25"
-                        height="25"
-                        viewBox="0 0 20 20"
-                      >
-                        <path
-                          fill="#FFF"
-                          d="M6.75 10a3.25 3.25 0 1 0 0-6.5a3.25 3.25 0 0 0 0 6.5m5.687 5.145c.53.217 1.204.355 2.062.355c4 0 4-3 4-3A1.5 1.5 0 0 0 17 11h-4.628c.393.476.629 1.085.629 1.75v.356a3 3 0 0 1-.017.252a5 5 0 0 1-.546 1.787M17 7.5a2.5 2.5 0 1 1-5 0a2.5 2.5 0 0 1 5 0M1.5 13a2 2 0 0 1 2-2H10a2 2 0 0 1 2 2s0 4-5.25 4s-5.25-4-5.25-4m11.5.106l-.003.064Z"
-                        />
-                      </svg>
+        </div> */}
 
-                      {referral.referrals.length}
+        <div className="h-full space-y-3 overflow-y-scroll">
+          <h3 className="text-lg font-bold text-white">
+            {user.referrals.length}{' '}
+            {user.referrals.length > 1 ? 'Friends' : 'Friend'}
+          </h3>
+          <div className="space-y-2">
+            {user.referrals.map((referral, index) => {
+              return (
+                <div
+                  key={index}
+                  className="flex items-center justify-between text-white"
+                >
+                  <div className="flex items-center justify-center gap-x-3">
+                    <p className="text-md inline-flex h-[40px] w-[40px] items-center justify-center rounded-full bg-white text-black">
+                      {referral.firstName[0]}
                     </p>
+                    <div className="flex flex-col items-start justify-center">
+                      <h3>{referral.firstName}</h3>
+                      <p className="flex items-center justify-center">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="25"
+                          height="25"
+                          viewBox="0 0 20 20"
+                        >
+                          <path
+                            fill="#FFF"
+                            d="M6.75 10a3.25 3.25 0 1 0 0-6.5a3.25 3.25 0 0 0 0 6.5m5.687 5.145c.53.217 1.204.355 2.062.355c4 0 4-3 4-3A1.5 1.5 0 0 0 17 11h-4.628c.393.476.629 1.085.629 1.75v.356a3 3 0 0 1-.017.252a5 5 0 0 1-.546 1.787M17 7.5a2.5 2.5 0 1 1-5 0a2.5 2.5 0 0 1 5 0M1.5 13a2 2 0 0 1 2-2H10a2 2 0 0 1 2 2s0 4-5.25 4s-5.25-4-5.25-4m11.5.106l-.003.064Z"
+                          />
+                        </svg>
+
+                        {referral.referrals.length}
+                      </p>
+                    </div>
+                  </div>
+                  <div>
+                    <span className="text-xl font-semibold">
+                      {referral.wallet[0].balance} ODY
+                    </span>
                   </div>
                 </div>
-                <div>
-                  <span className="text-xl font-semibold">
-                    {referral.wallet[0].balance} ODY
-                  </span>
-                </div>
-              </div>
-            )
-          })}
+              )
+            })}
+          </div>
         </div>
       </div>
       <div className="mb-[7rem] w-full">
