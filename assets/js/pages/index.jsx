@@ -9,7 +9,7 @@ import { ToastContainer, toast } from 'react-toastify'
 // @ts-ignore
 const tg = window.Telegram.WebApp
 
-export default function Index({ name }) {
+export default function Index() {
   function getReferralCode() {
     // @ts-ignore
     const queryString = window.location.search
@@ -40,7 +40,7 @@ export default function Index({ name }) {
 
           setTimeout(() => {
             router.get(`/play?user=${user.id}`)
-          }, 3000)
+          }, 2000)
         } catch (error) {
           console.error(error)
           toast('Sign Up Failed', {
@@ -57,7 +57,7 @@ export default function Index({ name }) {
 
   return (
     <>
-      <Head title={name} />
+      <Head title="Odysir Token Farm" />
       <motion.section
         className="relative flex min-h-screen w-full items-center justify-center bg-black"
         initial={{ opacity: 0 }}
