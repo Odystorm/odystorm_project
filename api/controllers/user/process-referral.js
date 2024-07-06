@@ -64,6 +64,27 @@ module.exports = {
         await Wallet.updateOne({ owner: referrerUser.id }).set({
           balance: wallet.balance + 20,
         })
+
+        const inlineKeyboard = {
+          inline_keyboard: [
+            [
+              {
+                text: 'Launch Odysir',
+                web_app: {
+                  url: `https://gt35m9bz-1337.euw.devtunnels.ms/play?user=${referrerUser.chatId}`,
+                },
+              },
+            ],
+          ],
+        }
+
+        // Send Message To Referrer
+        await sails.helpers.sendMessageCustom(
+          referrerUser.chatId,
+          `Hi ${referrerUser.firstName}\nYour buddy ${userRecord.firstName} just joined Odysir and you just received 20 ODY Tokens.`,
+          inlineKeyboard
+        )
+
         return res.status(200).json({
           message: 'Successfully Sign Up User',
         })
