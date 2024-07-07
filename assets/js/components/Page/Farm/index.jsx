@@ -3,11 +3,17 @@ import { useEffect, useState } from 'react'
 import Countdown from '@/components/Timer'
 import { toast } from 'react-toastify'
 import { Puff } from 'react-loader-spinner'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 
 export function FarmComplete({ amountFarmed, claimToken, isClaimLoading }) {
   return (
-    <div className="absolute left-0 top-0 z-50 flex h-screen w-full flex-col items-center justify-center gap-y-3 bg-black text-center text-white">
+    <motion.div
+      className="absolute left-0 top-0 z-50 flex h-screen w-full flex-col items-center justify-center gap-y-3 bg-black text-center text-white"
+      initial={{ opacity: 0.5 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.8 }}
+    >
       <img src="/images/logo/logo.svg" className="h-[100px] w-[100px]" alt="" />
       <h3 className="text-3xl font-semibold">Farm Complete</h3>
       <p className="text-lg">You have successfully completed farming $ODY</p>
@@ -29,7 +35,7 @@ export function FarmComplete({ amountFarmed, claimToken, isClaimLoading }) {
           Claim {amountFarmed} $ODY
         </button>
       )}
-    </div>
+    </motion.div>
   )
 }
 
@@ -116,13 +122,15 @@ export default function Farm({ user }) {
 
   return (
     <div className="relative flex h-screen max-h-screen w-full flex-col justify-between overflow-y-scroll">
-      {isFarmingComplete && (
-        <FarmComplete
-          amountFarmed={amountFarmed}
-          claimToken={handleClaim}
-          isClaimLoading={isClaimLoading}
-        />
-      )}
+      <AnimatePresence initial={false} mode="sync" exitBeforeEnter={true}>
+        {isFarmingComplete && (
+          <FarmComplete
+            amountFarmed={amountFarmed}
+            claimToken={handleClaim}
+            isClaimLoading={isClaimLoading}
+          />
+        )}
+      </AnimatePresence>
       <div className="mt-10 flex w-full flex-col items-center justify-center gap-y-3 text-white">
         {!user?.profilePicture ? (
           <p className="flex h-[155px] w-[155px] items-center justify-center rounded-full bg-white text-4xl font-bold text-black">
@@ -165,7 +173,7 @@ export default function Farm({ user }) {
               </svg>
             </h3>
             <button
-              className="inline-flex items-center rounded-md bg-black p-3 font-semibold text-white gap-x-3"
+              className="inline-flex items-center gap-x-3 rounded-md bg-black p-3 font-semibold text-white"
               onClick={() => {
                 toast.info('Game is Currently in Development!')
               }}
