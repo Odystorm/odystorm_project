@@ -4,7 +4,7 @@
   "compilerOptions": {
     "types": ["node"],
     "typeRoots": ["./types", "./node_modules/@types"],
-    "lib": ["es2016"],
+    "lib": ["es2016","dom", "es2015"],
     // silences wrong TS error, we don't compile, we only typecheck
     "outDir": "./irrelevant/unused",
     "allowJs": true,
