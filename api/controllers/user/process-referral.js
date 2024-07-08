@@ -69,7 +69,7 @@ module.exports = {
           inline_keyboard: [
             [
               {
-                text: 'Launch Odysir',
+                text: 'Launch OdyStorm',
                 web_app: {
                   url: `https://gt35m9bz-1337.euw.devtunnels.ms/play?user=${referrerUser.chatId}`,
                 },
@@ -81,7 +81,7 @@ module.exports = {
         // Send Message To Referrer
         await sails.helpers.sendMessageCustom(
           referrerUser.chatId,
-          `Hi ${referrerUser.firstName}\nYour buddy ${userRecord.firstName} just joined Odysir and you just received 20 ODY Tokens.`,
+          `Hi ${referrerUser.firstName}\nYour buddy ${userRecord.firstName} just joined OdyStorm and you just received 20 $ODY.`,
           inlineKeyboard
         )
 
