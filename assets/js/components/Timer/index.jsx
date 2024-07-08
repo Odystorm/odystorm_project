@@ -5,13 +5,14 @@ const Countdown = ({
   increment,
   storeCountdown,
   setIsFarmingComplete,
+  username,
 }) => {
   const [timeLeft, setTimeLeft] = useState(hours * 3600)
   const [startTime, setStartTime] = useState(Date.now())
   const [endTime, setEndTime] = useState(Date.now() + hours * 3600 * 1000)
 
   useEffect(() => {
-    const savedData = window.localStorage.getItem('countdownData')
+    const savedData = window.localStorage.getItem(`${username}-countdownData`)
     if (savedData) {
       const { startTime, endTime } = JSON.parse(savedData)
       const currentTime = Date.now()
@@ -36,7 +37,10 @@ const Countdown = ({
         hours,
         increment,
       }
-      window.localStorage.setItem('countdownData', JSON.stringify(data))
+      window.localStorage.setItem(
+        `${username}-countdownData`,
+        JSON.stringify(data)
+      )
       storeCountdown(data)
     }
 
@@ -65,21 +69,25 @@ const Countdown = ({
       .padStart(2, '0')}:${s.toString().padStart(2, '0')}`
   }
 
-  const calculateScore = () => {
-    const elapsedTime = Math.floor((Date.now() - startTime) / 1000)
-    return elapsedTime * increment
+  const calculateScore = (incrementPerSecond, hours) => {
+    const totalSeconds = hours * 3600
+    return incrementPerSecond * totalSeconds
   }
 
   const saveFinalScore = () => {
-    const finalScore = calculateScore()
+    const finalScore = calculateScore(increment, hours)
     const data = {
-      startTime: new Date(startTime).toLocaleString(),
-      endTime: new Date(endTime).toLocaleString(),
+      startTime: new Date(startTime).getTime(),
+      endTime: new Date(endTime).getTime(),
       hours,
       increment,
       savedScore: finalScore,
     }
-    window.localStorage.setItem('countdownData', JSON.stringify(data))
+
+    window.localStorage.setItem(
+      `${username}-countdownData`,
+      JSON.stringify(data)
+    )
     storeCountdown(data)
   }
 
