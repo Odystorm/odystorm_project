@@ -31,7 +31,7 @@ module.exports = {
       type: 'number',
       description: 'Score Level',
     },
-    savedScore: {
+    eligibleClaimAmount: {
       type: 'number',
       description: 'Saved Score',
     },
