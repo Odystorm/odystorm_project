@@ -28,12 +28,7 @@ module.exports = {
 
   exits: {},
 
-  fn: async function ({
-    telegramId,
-    timeline,
-    farmSessionId,
-    eligibleClaimAmount,
-  }) {
+  fn: async function ({ telegramId, timeline, farmSessionId }) {
     const { res } = this
 
     try {
@@ -42,8 +37,8 @@ module.exports = {
       const activity = await Activity.findOne({ owner: userRecord.id })
 
       // Create New Farm Record
-
-      const newFarmRecord = await Farm.create({
+      await Farm.create({
+        activity: activity.id,
         farmSessionId,
         startTime: timeline.startTime,
         endTime: timeline.endTime,
@@ -52,11 +47,9 @@ module.exports = {
         eligibleClaimAmount: timeline.savedScore ? timeline.savedScore : 0,
       }).fetch()
 
-      // await Activity.updateOne({ id: activity.id }).set({
-      //   farmdata: timeline,
-      //   eligibleClaimAmount,
-      //   currentlyFarming: true,
-      // })
+      await Activity.updateOne({ id: activity.id }).set({
+        currentlyFarming: true,
+      })
 
       return res.status(200).json({
         message: 'Successfully updated timeline',

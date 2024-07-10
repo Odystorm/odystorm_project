@@ -144,7 +144,7 @@ module.exports = {
 
         if (!userRecord) {
           const profilePicture = await sails.helpers.getProfilePhoto(chat.id)
-          
+
           const userRecord = await User.create({
             firstName: chat.firstName,
             lastName: chat.lastName,
@@ -156,7 +156,9 @@ module.exports = {
 
           const owner = userRecord.id
           await Wallet.create({ owner })
-          await Activity.create({ owner })
+          const activity = await Activity.create({ owner }).fetch()
+          await sails.helpers.generateBotTasks(owner)
+          await Day.create({ activity: activity.id })
         }
       } catch (error) {
         sails.log.error(error)
@@ -182,7 +184,7 @@ module.exports = {
       }
       await sails.helpers.sendMessageCustom(
         chat.id,
-        `Hello ${chat.username} 😁!\nPlay now and earn valuable Odysir tokens! 💲`,
+        `Hello @${chat.username} 😁!\nPlay now and earn valuable OdyStorm tokens! 💲\n\n\nInvite your friends, family, and colleagues to join the adventure! The more, the merrier—and the more $ODY you'll earn!`,
         inlineKeyboard
       )
 

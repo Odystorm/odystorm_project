@@ -7,7 +7,7 @@
 
 module.exports = {
   attributes: {
-    owner: {
+    activity: {
       model: 'activity',
     },
     farmSessionId: {
@@ -35,6 +35,12 @@ module.exports = {
       type: 'number',
       description: 'Saved Score',
       allowNull: true,
+    },
+    status: {
+      type: 'string',
+      description: 'Current Farming Status',
+      isIn: ['farming', 'farmed'],
+      defaultsTo: 'farming',
     },
   },
 }

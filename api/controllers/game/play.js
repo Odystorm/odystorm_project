@@ -34,30 +34,26 @@ module.exports = {
         })
       )
 
-      let eligibleForDailyBonus = false
+      const farm = await Farm.findOne({ owner: activity.id, status: 'farming' })
+      const currentFarm = farm || null
 
-      // Compare and Update Last Login Time
-      if (activity.lastLogin !== '') {
-        if (!isToday(parseISO(activity.lastLogin))) {
-          // @todo Set Up Update Activity Record
-          eligibleForDailyBonus = true
-        }
-      }
+      let eligibleForDailyBonus = false
 
       // Update Last Login Record & No Of Active Days
       const today = new Date()
 
       if (activity.lastLogin !== '') {
-        const difference = differenceInHours(
-          parseISO(activity.lastLogin),
-          today
-        )
+        const activeDays = await Day.find({ activity: activity.id })
 
-        if (difference > 12 && !isToday(parseISO(activity.lastLogin))) {
-          // Set Number of Active Day + 1
+        if (
+          activeDays.length > 0 &&
+          !isToday(activeDays[activeDays.length - 1].createdAt)
+        ) {
+          await Day.create({ activity: activity.id })
           await Activity.updateOne({ owner: userRecord.id }).set({
-            noOfActiveDays: activity.noOfActiveDays + 1,
+            noOfActiveDays: activeDays.length,
           })
+          eligibleForDailyBonus = true
         }
       }
 
@@ -87,6 +83,7 @@ module.exports = {
               firstTime: activity.lastLogin === '' ? true : false,
               eligibleDailyBonus: eligibleForDailyBonus ? true : false,
             },
+            currentFarm,
           },
         },
       }

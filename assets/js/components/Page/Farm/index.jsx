@@ -1,3 +1,4 @@
+// @ts-nocheck
 import axios from 'axios'
 import { useEffect, useState } from 'react'
 import Countdown from '@/components/Timer'
@@ -138,7 +139,7 @@ export function FarmUpgrades({ setUpgrades, user }) {
 const tg = window.Telegram.WebApp
 
 export default function Farm({ user }) {
-  console.log(user)
+  
   const [isFarming, setIsFarming] = useState(false)
   const [isFarmingComplete, setIsFarmingComplete] = useState(false)
   const [isClaimLoading, setIsClaimLoading] = useState(false)
@@ -150,36 +151,36 @@ export default function Farm({ user }) {
     setIsFarming(true)
   }
 
-  useEffect(() => {
-    const countdownData = window.localStorage.getItem(
-      `${user.username}-countdownData`
-    )
-    if (!countdownData && user.activity.farmdata) {
-      window.localStorage.setItem(
-        `${user.username}-countdownData`,
-        JSON.stringify(user.activity.farmdata)
-      )
-      setIsFarming(true)
-    } else {
-      setIsFarming(false)
-    }
-  }, [])
+  // useEffect(() => {
+  //   const countdownData = window.localStorage.getItem(
+  //     `${user.username}-countdownData`
+  //   )
+  //   if (!countdownData && user.activity.farmdata) {
+  //     window.localStorage.setItem(
+  //       `${user.username}-countdownData`,
+  //       JSON.stringify(user.activity.farmdata)
+  //     )
+  //     setIsFarming(true)
+  //   } else {
+  //     setIsFarming(false)
+  //   }
+  // }, [])
 
-  // If Saved Score to Withdraw Exists
-  useEffect(() => {
-    const existingCountdown = window.localStorage.getItem(
-      `${user.username}-countdownData`
-    )
-    if (existingCountdown) {
-      if (JSON.parse(existingCountdown).savedScore) {
-        setAmountFarmed(JSON.parse(existingCountdown).savedScore)
-        setIsFarming(false)
-        setIsFarmingComplete(true)
-      } else {
-        setIsFarming(true)
-      }
-    }
-  }, [])
+  // // If Saved Score to Withdraw Exists
+  // useEffect(() => {
+  //   const existingCountdown = window.localStorage.getItem(
+  //     `${user.username}-countdownData`
+  //   )
+  //   if (existingCountdown) {
+  //     if (JSON.parse(existingCountdown).savedScore) {
+  //       setAmountFarmed(JSON.parse(existingCountdown).savedScore)
+  //       setIsFarming(false)
+  //       setIsFarmingComplete(true)
+  //     } else {
+  //       setIsFarming(true)
+  //     }
+  //   }
+  // }, [])
 
   async function storeCountdown(data, farmId) {
     tg.ready()
@@ -212,43 +213,43 @@ export default function Farm({ user }) {
     }
   }
 
-  async function handleClaim(farmId) {
-    const farmData = window.localStorage.getItem(
-      `${user.username}-${farmId}-countdownData`
-    )
-    if (!farmData) {
-      toast.error(
-        'There was a problem claiming tokens, please try again later.'
-      )
-      return
-    }
+  // async function handleClaim(farmId) {
+  //   const farmData = window.localStorage.getItem(
+  //     `${user.username}-${farmId}-countdownData`
+  //   )
+  //   if (!farmData) {
+  //     toast.error(
+  //       'There was a problem claiming tokens, please try again later.'
+  //     )
+  //     return
+  //   }
 
-    const parsedFarmData = JSON.parse(farmData)
-    setIsClaimLoading(true)
-    tg.ready()
-    if (tg) {
-      const tgUser = tg.initDataUnsafe.user
-      try {
-        await axios.post('/api/v1/reward/claim-tokens', {
-          telegramId: tgUser.id,
-          tokenFarmAmount: parsedFarmData.savedScore,
-        })
+  //   const parsedFarmData = JSON.parse(farmData)
+  //   setIsClaimLoading(true)
+  //   tg.ready()
+  //   if (tg) {
+  //     const tgUser = tg.initDataUnsafe.user
+  //     try {
+  //       await axios.post('/api/v1/reward/claim-tokens', {
+  //         telegramId: tgUser.id,
+  //         tokenFarmAmount: parsedFarmData.savedScore,
+  //       })
 
-        toast.success(`You have successfully farmed $ODY ${amountFarmed}`)
-        setIsFarmingComplete(false)
-        window.localStorage.removeItem(
-          `${user.username}-${farmId}-countdownData`
-        )
-      } catch (error) {
-        console.error(error)
-        toast.error(
-          'There was a problem claiming your tokens... Please Try Again later'
-        )
-      } finally {
-        setIsClaimLoading(false)
-      }
-    }
-  }
+  //       toast.success(`You have successfully farmed $ODY ${amountFarmed}`)
+  //       setIsFarmingComplete(false)
+  //       window.localStorage.removeItem(
+  //         `${user.username}-${farmId}-countdownData`
+  //       )
+  //     } catch (error) {
+  //       console.error(error)
+  //       toast.error(
+  //         'There was a problem claiming your tokens... Please Try Again later'
+  //       )
+  //     } finally {
+  //       setIsClaimLoading(false)
+  //     }
+  //   }
+  // }
 
   return (
     <div className="relative flex h-screen max-h-screen w-full flex-col justify-between overflow-y-scroll">

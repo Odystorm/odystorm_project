@@ -57,5 +57,9 @@ module.exports = {
       collection: 'stats',
       via: 'owner',
     },
+    tasks:{
+      collection:'tasks',
+      via:"owner"
+    }
   },
 }

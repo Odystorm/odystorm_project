@@ -7,6 +7,9 @@
 
 module.exports = {
   attributes: {
+    owner: {
+      model: 'user',
+    },
     title: {
       type: 'string',
       description: 'Task Title',
@@ -15,18 +18,19 @@ module.exports = {
       type: 'number',
       description: 'Token Reward Amount',
     },
-    isCompleted: {
-      type: 'boolean',
+    status: {
+      type: 'string',
       description: 'Task Completion status',
-      defaultsTo: false,
+      isIn: ['eligible', 'ineligible', 'unfinished', 'done'],
+      defaultsTo: 'ineligible',
     },
     taskType: {
       type: 'string',
-      isIn: ['milestone', 'social_following'],
+      isIn: ['milestone', 'social_following', 'ody_tasks'],
     },
-    icon:{
-      type:'string',
-      description:""
-    }
+    icon: {
+      type: 'string',
+      description: 'description of icon',
+    },
   },
 }

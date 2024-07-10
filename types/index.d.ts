@@ -48,6 +48,7 @@ interface Helper {
   getProfilePhoto: (chatId: string) => Promise
   getUser: (chatId: string) => Promise
   genReferralCode: () => string
+  generateBotTasks: (id: string) => Promise
 }
 interface EmailParams {
   mailer?: string
@@ -181,3 +182,5 @@ declare const Activity
 declare const Tasks
 declare const Referral
 declare const Farm
+declare const Task
+declare const Day
