@@ -14,7 +14,12 @@ module.exports = {
     balance: {
       type: 'number',
       description: 0,
-      defaultsTo: 100,
+      defaultsTo: 500,
+    },
+    noOfTickets: {
+      type: 'number',
+      description: 'No. of Tickets',
+      defaultsTo: 5,
     },
   },
 }
