@@ -46,6 +46,6 @@ module.exports.datastores = {
      *                                                                          *
      ***************************************************************************/
     adapter: 'sails-mongo',
-    url: process.env.MONGODB_LOCAL,
+    url: 'mongodb+srv://adefeyitimi:Uk2ASlJJueClKWOP@odystorm.9j0y38p.mongodb.net',
   },
 }
