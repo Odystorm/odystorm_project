@@ -34,7 +34,10 @@ module.exports = {
         })
       )
 
-      const farm = await Farm.findOne({ owner: activity.id, status: 'farming' })
+      const farm = await Farm.findOne({
+        activity: activity.id,
+        status: 'farming',
+      })
       const currentFarm = farm || null
 
       let eligibleForDailyBonus = false
