@@ -12,7 +12,7 @@ module.exports = {
     const update = req.body
     sails.log.info('Received Update From Bot 🤖', update)
 
-    const botCommandList = ['/start', 'new-user']
+    const botCommandList = ['/start', 'new-user', 'socials', 'join-community']
 
     function isValidCommand(command, botCommandList) {
       for (var i = 0; i < botCommandList.length; i++) {
@@ -25,18 +25,6 @@ module.exports = {
     }
 
     function commandParser() {
-      if (update.message.write_access_allowed) {
-        return {
-          type: 'private',
-          command: 'new-user',
-          chat: {
-            id: update.message.chat.id,
-            firstName: update.message.chat.first_name,
-            lastName: update.message.chat?.last_name,
-            username: update.message.chat.username,
-          },
-        }
-      }
       if (update.message) {
         return {
           type: 'private',
@@ -84,6 +72,19 @@ module.exports = {
             id: update.edited_message.chat.id,
             firstName: update.edited_message.chat.first_name,
             username: update.edited_message.chat.username,
+          },
+        }
+      }
+
+      if (update.message && update.message.write_access_allowed) {
+        return {
+          type: 'private',
+          command: 'new-user',
+          chat: {
+            id: update.message.chat.id,
+            firstName: update.message.chat.first_name,
+            lastName: update.message.chat?.last_name,
+            username: update.message.chat.username,
           },
         }
       }
@@ -185,6 +186,88 @@ module.exports = {
       await sails.helpers.sendMessageCustom(
         chat.id,
         `Hello @${chat.username} 😁!\nPlay now and earn valuable OdyStorm tokens! 💲\n\n\nInvite your friends, family, and colleagues to join the adventure! The more, the merrier—and the more $ODY you'll earn!`,
+        inlineKeyboard
+      )
+
+      return
+    }
+
+    if (type === 'button_click' && command.includes('join-community')) {
+      const inlineKeyboard = {
+        inline_keyboard: [
+          [
+            {
+              text: 'OdyStorm on Telegram',
+              url: 'https://t.me/odystormofficial',
+            },
+          ],
+          [
+            {
+              text: 'OdyStorm on X',
+              url: `https://x.com/odystorm`,
+            },
+          ],
+          [
+            {
+              text: 'OdyStorm on YouTube',
+              url: `https://www.youtube.com/@odystormofficial`,
+            },
+          ],
+          [
+            {
+              text: 'Launch Odysir',
+              web_app: {
+                url: `https://odystorm-bot.onrender.com/play?user=${chat.id}`,
+              },
+            },
+          ],
+        ],
+      }
+
+      await sails.helpers.sendMessageCustom(
+        chat.id,
+        `Join our Socials so you do not miss any important news or updates.`,
+        inlineKeyboard
+      )
+
+      return
+    }
+
+    if (type === 'private' && command.includes('socials')) {
+      const inlineKeyboard = {
+        inline_keyboard: [
+          [
+            {
+              text: 'OdyStorm on Telegram',
+              url: 'https://t.me/odystormofficial',
+            },
+          ],
+          [
+            {
+              text: 'OdyStorm on X',
+              url: `https://x.com/odystorm`,
+            },
+          ],
+          [
+            {
+              text: 'OdyStorm on YouTube',
+              url: `https://www.youtube.com/@odystormofficial`,
+            },
+          ],
+          [
+            {
+              text: 'Launch Odysir',
+              web_app: {
+                url: `https://odystorm-bot.onrender.com/play?user=${chat.id}`,
+              },
+            },
+          ],
+        ],
+      }
+
+      await sails.helpers.sendMessageCustom(
+        chat.id,
+        `Join our Socials so you do not miss any important news or updates.`,
         inlineKeyboard
       )
 
