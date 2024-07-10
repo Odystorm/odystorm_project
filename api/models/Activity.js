@@ -23,6 +23,11 @@ module.exports = {
     currentlyFarming: {
       type: 'boolean',
       description: 'Currently Farming Status',
+      defaultsTo: false,
+    },
+    currentFarmId: {
+      type: 'string',
+      description: 'ID of Current Farm Data',
     },
     farmLevel: {
       type: 'number',
@@ -30,7 +35,7 @@ module.exports = {
     },
     currentNoOfFarmHours: {
       type: 'number',
-      defaultsTo: 4,
+      defaultsTo: 0.25,
       description: 'Current No Of Farms Hours',
     },
     eligibleClaimAmount: {
@@ -40,7 +45,7 @@ module.exports = {
     },
     farming: {
       collection: 'farm',
-      via: 'owner',
+      via: 'activity',
     },
   },
 }
