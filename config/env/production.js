@@ -20,7 +20,7 @@
  */
 
 module.exports = {
-  hookTimeout: 80000,
+  hookTimeout: 120000,
   /**************************************************************************
    *                                                                         *
    * Tell Sails what database(s) it should use in production.                *
@@ -140,8 +140,8 @@ module.exports = {
      * > (For a full list, see http://sailsjs.com/plugins/sessions)             *
      *                                                                          *
      ***************************************************************************/
-    adapter: '@sailshq/connect-redis',
-    url: process.env.REDIS_PROD,
+    // adapter: '@sailshq/connect-redis',
+    // url: process.env.REDIS_PROD,
     //--------------------------------------------------------------------------
     // /\   OR, to avoid checking it in to version control, you might opt to
     // ||   set sensitive credentials like this using an environment variable.
