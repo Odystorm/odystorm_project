@@ -44,8 +44,8 @@ module.exports = {
      *                                                                          *
      ***************************************************************************/
     default: {
-      adapter: 'sails-mongo',
-      url: process.env.MONGODB_PROD,
+      adapter: 'sails-postgresql',
+      url: 'postgresql://admin_timmy:I2ygD3WgcZ0ggNIEwOmrumSpNZqK5DVy@dpg-cq76i5eehbks739bi8pg-a.frankfurt-postgres.render.com/odystorm',
     },
     //--------------------------------------------------------------------------
     //  /\   To avoid checking it in to version control, you might opt to set
@@ -141,7 +141,7 @@ module.exports = {
      *                                                                          *
      ***************************************************************************/
     adapter: '@sailshq/connect-redis',
-    url: process.env.REDIS_PROD,
+    url: 'rediss://red-cq6f5jcs1f4s73e1m4m0:ce3owmHdeC50QVIbRWF0vmzDmN3vqH10@frankfurt-redis.render.com:6379',
     //--------------------------------------------------------------------------
     // /\   OR, to avoid checking it in to version control, you might opt to
     // ||   set sensitive credentials like this using an environment variable.
@@ -262,7 +262,7 @@ module.exports = {
      * (http://sailsjs.com/config/http)                                         *
      *                                                                          *
      ***************************************************************************/
-    // trustProxy: true,
+    trustProxy: true,
   },
 
   /**************************************************************************

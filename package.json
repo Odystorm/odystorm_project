@@ -25,10 +25,12 @@
     "sails": "^1.5.2",
     "sails-flash": "^0.0.1",
     "sails-hook-apianalytics": "^2.0.6",
+    "sails-hook-dotenv": "^0.1.1",
     "sails-hook-organics": "^2.2.2",
     "sails-hook-orm": "^4.0.0",
     "sails-hook-sockets": "^3.0.0",
-    "sails-mongo": "^2.1.1"
+    "sails-mongo": "^2.1.0",
+    "sails-postgresql": "^5.0.1"
   },
   "devDependencies": {
     "@rsbuild/plugin-react": "^0.7.3",
