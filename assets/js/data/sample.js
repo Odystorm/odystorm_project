@@ -54,9 +54,7 @@ export const navLinks = [
         viewBox="0 0 24 24"
         {...props}
       >
-        <path
-          d="M7 21v-2h4v-3.1q-1.225-.275-2.187-1.037T7.4 12.95q-1.875-.225-3.137-1.637T3 8V7q0-.825.588-1.412T5 5h2V3h10v2h2q.825 0 1.413.588T21 7v1q0 1.9-1.263 3.313T16.6 12.95q-.45 1.15-1.412 1.913T13 15.9V19h4v2zm0-10.2V7H5v1q0 .95.55 1.713T7 10.8m10 0q.9-.325 1.45-1.088T19 8V7h-2z"
-        />
+        <path d="M7 21v-2h4v-3.1q-1.225-.275-2.187-1.037T7.4 12.95q-1.875-.225-3.137-1.637T3 8V7q0-.825.588-1.412T5 5h2V3h10v2h2q.825 0 1.413.588T21 7v1q0 1.9-1.263 3.313T16.6 12.95q-.45 1.15-1.412 1.913T13 15.9V19h4v2zm0-10.2V7H5v1q0 .95.55 1.713T7 10.8m10 0q.9-.325 1.45-1.088T19 8V7h-2z" />
       </svg>
     ),
     component: 'stats',
@@ -65,7 +63,7 @@ export const navLinks = [
 
 export const tasks = [
   {
-    task: 'Join Odysir',
+    task: 'Join OdyStorm',
     rewardAmount: 500,
     isCompleted: true,
     taskType: 'social_following',
@@ -85,7 +83,7 @@ export const tasks = [
     ),
   },
   {
-    task: 'Join Odysir',
+    task: 'Join OdyStorm',
     rewardAmount: 230,
     isCompleted: true,
     taskType: 'milestone',
@@ -105,7 +103,7 @@ export const tasks = [
     ),
   },
   {
-    task: 'Join Odysir',
+    task: 'Join OdyStorm',
     rewardAmount: 500,
     isCompleted: false,
     icon: (props) => (
@@ -124,7 +122,7 @@ export const tasks = [
     ),
   },
   {
-    task: 'Join Odysir',
+    task: 'Join OdyStorm',
     rewardAmount: 500,
     isCompleted: false,
     icon: (props) => (
@@ -143,7 +141,7 @@ export const tasks = [
     ),
   },
   {
-    task: 'Join Odysir',
+    task: 'Join OdyStorm',
     rewardAmount: 500,
     isCompleted: false,
     icon: (props) => (
@@ -162,7 +160,7 @@ export const tasks = [
     ),
   },
   {
-    task: 'Join Odysir',
+    task: 'Join OdyStorm',
     rewardAmount: 500,
     isCompleted: false,
     icon: (props) => (
@@ -181,7 +179,7 @@ export const tasks = [
     ),
   },
   {
-    task: 'Join Odysir',
+    task: 'Join OdyStorm',
     rewardAmount: 500,
     isCompleted: false,
     icon: (props) => (
@@ -200,7 +198,7 @@ export const tasks = [
     ),
   },
   {
-    task: 'Join Odysir',
+    task: 'Join OdyStorm',
     rewardAmount: 500,
     isCompleted: false,
     icon: (props) => (
@@ -219,7 +217,7 @@ export const tasks = [
     ),
   },
   {
-    task: 'Join Odysir',
+    task: 'Join OdyStorm',
     rewardAmount: 500,
     isCompleted: false,
     icon: (props) => (
@@ -238,7 +236,7 @@ export const tasks = [
     ),
   },
   {
-    task: 'Join Odysir',
+    task: 'Join OdyStorm',
     rewardAmount: 500,
     isCompleted: false,
     icon: (props) => (
@@ -257,7 +255,7 @@ export const tasks = [
     ),
   },
   {
-    task: 'Join Odysir',
+    task: 'Join OdyStorm',
     rewardAmount: 500,
     isCompleted: false,
     icon: (props) => (
@@ -276,7 +274,7 @@ export const tasks = [
     ),
   },
   {
-    task: 'Join Odysir',
+    task: 'Join OdyStorm',
     rewardAmount: 500,
     isCompleted: false,
     icon: (props) => (
@@ -295,7 +293,7 @@ export const tasks = [
     ),
   },
   {
-    task: 'Join Odysir',
+    task: 'Join OdyStorm',
     rewardAmount: 500,
     isCompleted: false,
     icon: (props) => (
@@ -314,7 +312,7 @@ export const tasks = [
     ),
   },
   {
-    task: 'Join Odysir',
+    task: 'Join OdyStorm',
     rewardAmount: 500,
     isCompleted: false,
     icon: (props) => (
@@ -333,7 +331,7 @@ export const tasks = [
     ),
   },
   {
-    task: 'Join Odysir',
+    task: 'Join OdyStorm',
     rewardAmount: 500,
     isCompleted: false,
     icon: (props) => (
@@ -352,7 +350,7 @@ export const tasks = [
     ),
   },
   {
-    task: 'Join Odysir',
+    task: 'Join OdyStorm',
     rewardAmount: 500,
     isCompleted: false,
     icon: (props) => (
@@ -371,7 +369,7 @@ export const tasks = [
     ),
   },
   {
-    task: 'Join Odysir',
+    task: 'Join OdyStorm',
     rewardAmount: 500,
     isCompleted: false,
     icon: (props) => (
@@ -390,7 +388,7 @@ export const tasks = [
     ),
   },
   {
-    task: 'Join Odysir',
+    task: 'Join OdyStorm',
     rewardAmount: 500,
     isCompleted: false,
     icon: (props) => (
@@ -409,7 +407,7 @@ export const tasks = [
     ),
   },
   {
-    task: 'Join Odysir',
+    task: 'Join OdyStorm',
     rewardAmount: 500,
     isCompleted: false,
     icon: (props) => (
@@ -428,7 +426,7 @@ export const tasks = [
     ),
   },
   {
-    task: 'Join Odysir',
+    task: 'Join OdyStorm',
     rewardAmount: 500,
     isCompleted: false,
     icon: (props) => (
@@ -445,5 +443,113 @@ export const tasks = [
         />
       </svg>
     ),
+  },
+]
+
+export const farmUpgrades = [
+  {
+    Tool: 'Adaptive Shields',
+    Description: 'Energy-efficient shields that provide better protection.',
+    Increment: 2,
+    FarmPeriod: 2,
+    Cost: 10000,
+  },
+  {
+    Tool: 'Cargo Expander',
+    Description: 'Increases cargo capacity.',
+    Increment: 3,
+    FarmPeriod: 2.5,
+    Cost: 30000,
+  },
+  {
+    Tool: 'Neural Interface',
+    Description: "Directly links the pilot's brain to the ship's systems.",
+    Increment: 4,
+    FarmPeriod: 3,
+    Cost: 60000,
+  },
+  {
+    Tool: 'Cryo Sleep Pods',
+    Description: 'Allows the crew to rest for extended periods.',
+    Increment: 5,
+    FarmPeriod: 3.5,
+    Cost: 100000,
+  },
+  {
+    Tool: 'Hyperspace Scanner',
+    Description: 'Advanced scanning technology.',
+    Increment: 6,
+    FarmPeriod: 4,
+    Cost: 150000,
+  },
+  {
+    Tool: 'Robotic Harvesters',
+    Description: 'Automated systems that gather resources more efficiently.',
+    Increment: 7,
+    FarmPeriod: 4.5,
+    Cost: 210000,
+  },
+  {
+    Tool: 'AI Co-Pilot',
+    Description: 'An intelligent co-pilot system.',
+    Increment: 8,
+    FarmPeriod: 5,
+    Cost: 280000,
+  },
+  {
+    Tool: 'Nano Alloy Armor',
+    Description: 'Lightweight, durable armor.',
+    Increment: 9,
+    FarmPeriod: 5.5,
+    Cost: 360000,
+  },
+  {
+    Tool: 'Solar Sails',
+    Description: 'Harnesses solar energy.',
+    Increment: 10,
+    FarmPeriod: 6,
+    Cost: 450000,
+  },
+  {
+    Tool: 'Fusion Reactor',
+    Description: 'Provides a more powerful and efficient energy source.',
+    Increment: 11,
+    FarmPeriod: 6.5,
+    Cost: 550000,
+  },
+  {
+    Tool: 'Graviton Field Generator',
+    Description: 'Manipulates gravity fields to stabilize the ship.',
+    Increment: 12,
+    FarmPeriod: 7,
+    Cost: 660000,
+  },
+  {
+    Tool: 'Quantum Drive',
+    Description: "Enhances the ship's speed and efficiency.",
+    Increment: 13,
+    FarmPeriod: 7.5,
+    Cost: 780000,
+  },
+  {
+    Tool: 'Warp Stabilizer',
+    Description: 'Stabilizes warp travel.',
+    Increment: 14,
+    FarmPeriod: 8,
+    Cost: 910000,
+  },
+  {
+    Tool: 'Plasma Thrusters',
+    Description: 'Advanced propulsion system.',
+    Increment: 15,
+    FarmPeriod: 8.5,
+    Cost: 1050000,
+  },
+  {
+    Tool: 'Advanced Life Support',
+    Description: 'Improved life support systems.',
+    Increment: 16,
+    FarmPeriod: 9,
+    Cost: 1200000,
   },
 ]

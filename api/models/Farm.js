@@ -34,6 +34,7 @@ module.exports = {
     eligibleClaimAmount: {
       type: 'number',
       description: 'Saved Score',
+      allowNull: true,
     },
   },
 }

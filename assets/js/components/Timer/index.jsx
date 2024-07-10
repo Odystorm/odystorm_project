@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { nanoid } from 'nanoid'
 
 const Countdown = ({
   hours,
@@ -6,13 +7,16 @@ const Countdown = ({
   storeCountdown,
   setIsFarmingComplete,
   username,
+  farmId,
 }) => {
   const [timeLeft, setTimeLeft] = useState(hours * 3600)
   const [startTime, setStartTime] = useState(Date.now())
   const [endTime, setEndTime] = useState(Date.now() + hours * 3600 * 1000)
 
   useEffect(() => {
-    const savedData = window.localStorage.getItem(`${username}-countdownData`)
+    const savedData = window.localStorage.getItem(
+      `${username}-${farmId}-countdownData`
+    )
     if (savedData) {
       const { startTime, endTime } = JSON.parse(savedData)
       const currentTime = Date.now()
@@ -38,10 +42,10 @@ const Countdown = ({
         increment,
       }
       window.localStorage.setItem(
-        `${username}-countdownData`,
+        `${username}-${farmId}-countdownData`,
         JSON.stringify(data)
       )
-      storeCountdown(data)
+      // storeCountdown(data)
     }
 
     const interval = setInterval(() => {
@@ -58,7 +62,7 @@ const Countdown = ({
     }, 1000)
 
     return () => clearInterval(interval)
-  }, [hours, increment, endTime])
+  }, [hours, increment, endTime, setIsFarmingComplete])
 
   const formatTime = (seconds) => {
     const h = Math.floor(seconds / 3600)
@@ -67,6 +71,11 @@ const Countdown = ({
     return `${h.toString().padStart(2, '0')}:${m
       .toString()
       .padStart(2, '0')}:${s.toString().padStart(2, '0')}`
+  }
+
+  const calculateCurrentScore = () => {
+    const elapsedTimeInSeconds = hours * 3600 - timeLeft
+    return elapsedTimeInSeconds * increment
   }
 
   const calculateScore = (incrementPerSecond, hours) => {
@@ -85,15 +94,17 @@ const Countdown = ({
     }
 
     window.localStorage.setItem(
-      `${username}-countdownData`,
+      `${username}-${farmId}-countdownData`,
       JSON.stringify(data)
     )
-    storeCountdown(data)
+    // storeCountdown(data)
   }
 
   return (
     <div className="flex w-full items-center justify-between">
-      <div>Farming $ODY {calculateScore() ? calculateScore() : 0}</div>
+      <div>
+        Farming $ODY {calculateCurrentScore() ? calculateCurrentScore() : 0}
+      </div>
       <div>{timeLeft > 0 ? formatTime(timeLeft) : "Time's up!"}</div>
     </div>
   )

@@ -1,5 +1,5 @@
-// @ts-nocheck
 const { encode } = require('querystring')
+
 module.exports = function inertia(data) {
   const req = this.req
   const res = this.res
@@ -11,12 +11,12 @@ module.exports = function inertia(data) {
 
   const allProps = {
     ...sharedProps,
-    ...data.props
+    ...data.props,
   }
 
   const allViewData = {
     ...sharedViewData,
-    ...data.viewData
+    ...data.viewData,
   }
 
   let url = req.url || req.originalUrl
@@ -28,10 +28,10 @@ module.exports = function inertia(data) {
     component: data.page,
     version: currentVersion,
     props: allProps,
-    url
+    url,
   }
-
-  // Implements inertia partial reload. See https://inertiajs.com/partial-reload
+  
+  // Implements inertia partial reload
   if (
     req.get(inertiaHeaders.PARTIAL_DATA) &&
     req.get(inertiaHeaders.PARTIAL_COMPONENT) === page.component
@@ -49,12 +49,18 @@ module.exports = function inertia(data) {
   if (req.get(inertiaHeaders.INERTIA)) {
     res.set(inertiaHeaders.INERTIA, true)
     res.set('Vary', 'Accept')
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate')
+    res.set('Pragma', 'no-cache')
+    res.set('Expires', '0')
     return res.json(page)
   } else {
     // Implements full page reload
+    res.set('Cache-Control', 'no-cache, no-store, must-revalidate')
+    res.set('Pragma', 'no-cache')
+    res.set('Expires', '0')
     return res.view(rootView, {
       page,
-      viewData: allViewData
+      viewData: allViewData,
     })
   }
 }
@@ -68,5 +74,5 @@ const inertiaHeaders = {
   VERSION: 'X-Inertia-Version',
   PARTIAL_DATA: 'X-Inertia-Partial-Data',
   PARTIAL_COMPONENT: 'X-Inertia-Partial-Component',
-  LOCATION: 'X-Inertia-Location'
+  LOCATION: 'X-Inertia-Location',
 }

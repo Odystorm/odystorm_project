@@ -43,6 +43,11 @@ interface Helper {
   }
   getUserInitials: (fullName: string) => string
   capitalize: (inputString: string) => string
+  sendMessage: (chatId: string, message: string) => Promise
+  sendMessageCustom: (chatId: string, message: string, inlineKeyboard: array) => Promise
+  getProfilePhoto: (chatId: string) => Promise
+  getUser: (chatId: string) => Promise
+  genReferralCode: () => string
 }
 interface EmailParams {
   mailer?: string
@@ -171,3 +176,8 @@ interface LoggedInUser {
 declare const sails: Sails
 
 declare const User
+declare const Wallet
+declare const Activity
+declare const Tasks
+declare const Referral
+declare const Farm

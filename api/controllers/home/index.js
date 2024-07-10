@@ -7,16 +7,19 @@ module.exports = {
 
   exits: {
     success: {
-      responseType: 'inertia'
-    }
+      responseType: 'inertia',
+    },
   },
 
   fn: async function () {
+    const { req } = this
+    sails.log.info(req.url)
+
     return {
       page: 'index',
       props: {
-        name: 'Inertia'
-      }
+        name: 'OdyStorm Token',
+      },
     }
-  }
+  },
 }

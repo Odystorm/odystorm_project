@@ -9,7 +9,7 @@ const data = [
     text: 'Win a chance to play a Match',
   },
   {
-    heading: 'Your friends Join Odysir',
+    heading: 'Your friends Join OdyStorm',
     text: 'and start farming tokens',
   },
   {
@@ -40,7 +40,7 @@ const InviteModal = ({ setOpenModal, user }) => {
 
   function handleSend() {
     const textToShare =
-      "Join me on Odysir and let's earn together\nUse my link to join the fun ⚓"
+      "Join me on OdyStorm and let's earn together\nUse my link to join the fun ⚓"
     const telegramLink = `https://t.me/share/url?url=${referralLink}&text=${encodeURIComponent(
       textToShare
     )}`
@@ -56,11 +56,11 @@ const InviteModal = ({ setOpenModal, user }) => {
   return (
     <div className="fixed left-0 top-0 z-[100] flex min-h-full w-full flex-col justify-end bg-black/50">
       <motion.div
+        className="z-10 h-fit w-full space-y-5 rounded-t-lg bg-white py-3"
         initial={{ y: '100%' }}
         animate={{ y: 0 }}
         exit={{ y: '100%' }}
         transition={{ type: 'spring', stiffness: 80, duration: '800' }}
-        className="z-10 h-fit w-full space-y-5 rounded-t-lg bg-white py-3"
       >
         <div className="flex items-center justify-between px-3 text-center">
           <span>
@@ -151,7 +151,7 @@ const Referrals = ({ user }) => {
             alt=""
           />
           <h3 className="text-3xl font-semibold text-white">
-            Invite Friends and Earn Odysir Tokens
+            Invite Friends and Earn OdyStorm Tokens
           </h3>
         </div>
         {/* <div className="text-white">

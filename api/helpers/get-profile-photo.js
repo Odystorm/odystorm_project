@@ -61,7 +61,8 @@ module.exports = {
         }
       }
     } catch (error) {
-      throw new Error('No profile photos found for the user.')
+      sails.log.error(error)
+      return ""
     }
   },
 }

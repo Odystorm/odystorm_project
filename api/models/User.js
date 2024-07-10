@@ -27,7 +27,7 @@ module.exports = {
     profilePicture: {
       type: 'string',
       description: 'Profile Picture',
-      allowNull:true
+      allowNull: true,
     },
     chatId: {
       type: 'string',
@@ -53,9 +53,9 @@ module.exports = {
       collection: 'referral',
       via: 'owner',
     },
-    stats:{
-      collection:"stats",
-      via:"owner"
-    }
+    stats: {
+      collection: 'stats',
+      via: 'owner',
+    },
   },
 }

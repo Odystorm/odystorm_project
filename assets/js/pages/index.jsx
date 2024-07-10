@@ -26,7 +26,6 @@ export default function Index() {
   useEffect(() => {
     tg.ready()
     async function registerUser() {
-      // @ts-ignore
       if (tg) {
         // Initialize the Web App
         // Retrieve chat ID and user information
@@ -57,7 +56,7 @@ export default function Index() {
 
   return (
     <>
-      <Head title="Odysir Token Farm" />
+      <Head title="OdyStorm Token Farm" />
       <motion.section
         className="relative flex min-h-screen w-full items-center justify-center bg-black"
         initial={{ opacity: 0 }}
@@ -69,13 +68,13 @@ export default function Index() {
             <motion.img
               src="/images/logo/logo.svg"
               className="h-[175px] w-[175px]"
-              alt="Odysir Coin Logo"
+              alt="OdyStorm Coin Logo"
             />
             <h3 className="text-center  text-5xl font-bold capitalize text-white drop-shadow-2xl">
-              Welcome to Odysir
+              Welcome to OdyStorm
             </h3>
             <p className="text-center text-2xl text-white">
-              Play now and earn valuable Odysir tokens!
+              Play now and earn valuable OdyStorm tokens!
             </p>
             <Puff
               visible={true}

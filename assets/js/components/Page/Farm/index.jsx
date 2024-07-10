@@ -4,15 +4,17 @@ import Countdown from '@/components/Timer'
 import { toast } from 'react-toastify'
 import { Puff } from 'react-loader-spinner'
 import { motion, AnimatePresence } from 'framer-motion'
+import { farmUpgrades } from '@/data/sample'
+import { nanoid } from 'nanoid'
 
 export function FarmComplete({ amountFarmed, claimToken, isClaimLoading }) {
   return (
     <motion.div
       className="absolute left-0 top-0 z-50 flex h-screen w-full flex-col items-center justify-center gap-y-3 bg-black text-center text-white"
-      initial={{ opacity: 0.5 }}
+      initial={{ opacity: 0.8 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.8 }}
+      transition={{ duration: 0.5 }}
     >
       <img src="/images/logo/logo.svg" className="h-[100px] w-[100px]" alt="" />
       <h3 className="text-3xl font-semibold">Farm Complete</h3>
@@ -39,6 +41,99 @@ export function FarmComplete({ amountFarmed, claimToken, isClaimLoading }) {
   )
 }
 
+export function FarmUpgrades({ setUpgrades, user }) {
+  const [isPurchasing, setIsPurchasing] = useState(false)
+
+  async function handleUpgradePurchase(upgrade) {
+    if (upgrade.Cost > user.wallet[0].balance) {
+      toast.info('You have insufficient funds...')
+      return
+    }
+
+    setIsPurchasing(true)
+    try {
+      setTimeout(() => {
+        toast.success('Successfully Purchased Upgrade')
+        setUpgrades(false)
+      }, 3000)
+    } catch (error) {
+      toast.error('Upgrade Purchase Failed')
+    } finally {
+      setIsPurchasing(false)
+    }
+  }
+
+  return (
+    <motion.div
+      className="absolute left-0 top-0 z-50 flex h-screen w-full flex-col items-center justify-start space-y-3 overflow-y-scroll bg-black p-5 text-white"
+      initial={{ opacity: 0.8 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <div className="flex w-full justify-end">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="32"
+          height="32"
+          viewBox="0 0 24 24"
+          onClick={() => setUpgrades(false)}
+        >
+          <path
+            fill="#FFF"
+            d="m8.4 17l3.6-3.6l3.6 3.6l1.4-1.4l-3.6-3.6L17 8.4L15.6 7L12 10.6L8.4 7L7 8.4l3.6 3.6L7 15.6zm3.6 5q-2.075 0-3.9-.788t-3.175-2.137T2.788 15.9T2 12t.788-3.9t2.137-3.175T8.1 2.788T12 2t3.9.788t3.175 2.137T21.213 8.1T22 12t-.788 3.9t-2.137 3.175t-3.175 2.138T12 22"
+          />
+        </svg>
+      </div>
+      <h3 className="text-3xl font-bold">Purchase Upgrades</h3>
+      <div className="-m-2 flex flex-wrap gap-y-3 p-3">
+        {farmUpgrades.map((upgrade, index) => (
+          <div
+            key={index}
+            className="w-full space-y-2 rounded-md border p-3 text-center"
+          >
+            <p className="text-xl">{upgrade.Tool}</p>
+            <p>{upgrade.Description}</p>
+            <p>Cost: {upgrade.Cost.toLocaleString()} $ODY</p>
+            <p>Token: +{upgrade.Increment}</p>
+            <p>Farm Period: {upgrade.FarmPeriod} Hours</p>
+            {isPurchasing ? (
+              <button className={`rounded-md bg-white px-7 py-3 text-black`}>
+                <Puff
+                  visible={true}
+                  height="25"
+                  width="25"
+                  color="#000"
+                  ariaLabel="puff-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                />
+              </button>
+            ) : (
+              <button
+                className={`rounded-md px-7 py-3 text-black ${
+                  upgrade.Cost > user.wallet[0].balance
+                    ? 'bg-white/60'
+                    : user.activity.farmLevel >= upgrade.Increment
+                    ? 'bg-white/60'
+                    : 'bg-white'
+                }`}
+                onClick={() => handleUpgradePurchase(upgrade)}
+              >
+                {upgrade.Cost > user.wallet[0].balance
+                  ? 'Insufficient Balance'
+                  : user.activity.farmLevel >= upgrade.Increment
+                  ? 'Already own this upgrade'
+                  : 'Pay'}
+              </button>
+            )}
+          </div>
+        ))}
+      </div>
+    </motion.div>
+  )
+}
+
 // @ts-ignore
 const tg = window.Telegram.WebApp
 
@@ -47,17 +142,21 @@ export default function Farm({ user }) {
   const [isFarming, setIsFarming] = useState(false)
   const [isFarmingComplete, setIsFarmingComplete] = useState(false)
   const [isClaimLoading, setIsClaimLoading] = useState(false)
-  const amountFarmed = 14400
+  const [viewUpgrades, setUpgrades] = useState(false)
+  const [amountFarmed, setAmountFarmed] = useState()
+
 
   function handleFarming() {
     setIsFarming(true)
   }
 
   useEffect(() => {
-    const countdownData = window.localStorage.getItem('countdownData')
+    const countdownData = window.localStorage.getItem(
+      `${user.username}-countdownData`
+    )
     if (!countdownData && user.activity.farmdata) {
       window.localStorage.setItem(
-        'countdownData',
+        `${user.username}-countdownData`,
         JSON.stringify(user.activity.farmdata)
       )
       setIsFarming(true)
@@ -66,7 +165,23 @@ export default function Farm({ user }) {
     }
   }, [])
 
-  async function storeCountdown(data) {
+  // If Saved Score to Withdraw Exists
+  useEffect(() => {
+    const existingCountdown = window.localStorage.getItem(
+      `${user.username}-countdownData`
+    )
+    if (existingCountdown) {
+      if (JSON.parse(existingCountdown).savedScore) {
+        setAmountFarmed(JSON.parse(existingCountdown).savedScore)
+        setIsFarming(false)
+        setIsFarmingComplete(true)
+      } else {
+        setIsFarming(true)
+      }
+    }
+  }, [])
+
+  async function storeCountdown(data, farmId) {
     tg.ready()
     if (tg) {
       const tgUser = tg.initDataUnsafe.user
@@ -78,9 +193,17 @@ export default function Farm({ user }) {
           eligibleClaimAmount: data.savedScore,
         })
 
-        toast.success(
-          `You just started farming $ODY for the next ${user.activity.currentNoOfFarmHours} hours`
+        const existingCountdown = window.localStorage.getItem(
+          `${user.username}-${farmId}-countdownData`
         )
+
+        if (!existingCountdown) {
+          toast.success(
+            `You just started farming $ODY for the next ${user.activity.currentNoOfFarmHours} hours`
+          )
+        }
+
+        setAmountFarmed(data.savedScore)
         setIsFarming(true)
       } catch (error) {
         console.error(error)
@@ -89,14 +212,18 @@ export default function Farm({ user }) {
     }
   }
 
-  useEffect(() => {
-    const existingCountdown = window.localStorage.getItem('countdownData')
-    if (existingCountdown) {
-      setIsFarming(true)
+  async function handleClaim(farmId) {
+    const farmData = window.localStorage.getItem(
+      `${user.username}-${farmId}-countdownData`
+    )
+    if (!farmData) {
+      toast.error(
+        'There was a problem claiming tokens, please try again later.'
+      )
+      return
     }
-  }, [])
 
-  async function handleClaim() {
+    const parsedFarmData = JSON.parse(farmData)
     setIsClaimLoading(true)
     tg.ready()
     if (tg) {
@@ -104,11 +231,14 @@ export default function Farm({ user }) {
       try {
         await axios.post('/api/v1/reward/claim-tokens', {
           telegramId: tgUser.id,
-          tokenFarmAmount: amountFarmed,
+          tokenFarmAmount: parsedFarmData.savedScore,
         })
 
-        toast.success(`You have successfully farmed ${amountFarmed}`)
+        toast.success(`You have successfully farmed $ODY ${amountFarmed}`)
         setIsFarmingComplete(false)
+        window.localStorage.removeItem(
+          `${user.username}-${farmId}-countdownData`
+        )
       } catch (error) {
         console.error(error)
         toast.error(
@@ -131,6 +261,9 @@ export default function Farm({ user }) {
           />
         )}
       </AnimatePresence>
+      <AnimatePresence initial={false} mode="sync" exitBeforeEnter={true}>
+        {viewUpgrades && <FarmUpgrades setUpgrades={setUpgrades} user={user} />}
+      </AnimatePresence>
       <div className="mt-10 flex w-full flex-col items-center justify-center gap-y-3 text-white">
         {!user?.profilePicture ? (
           <p className="flex h-[155px] w-[155px] items-center justify-center rounded-full bg-white text-4xl font-bold text-black">
@@ -144,10 +277,12 @@ export default function Farm({ user }) {
         )}
 
         <p className=" text-xl font-semibold">
-          {user?.username ? user?.username : 'johndoe'}
+          {user?.firstName ? user?.firstName : 'johndoe'}
         </p>
         <p className="mt-5 flex items-center justify-center gap-x-3  text-3xl font-semibold">
-          <span className="text-4xl">$ODY {user?.wallet[0].balance}</span>
+          <span className="text-4xl">
+            $ODY {user?.wallet[0].balance.toLocaleString()}
+          </span>
         </p>
       </div>
       <div className="mb-[7.5rem] flex flex-col items-center justify-center gap-y-3 px-2">
@@ -158,7 +293,10 @@ export default function Farm({ user }) {
             alt="OdyStorm Logo"
           />
           <div className="flex w-full justify-between">
-            <h3 className="inline-flex items-center gap-x-3 rounded-md bg-black p-3 text-white">
+            <h3
+              className="inline-flex items-center gap-x-3 rounded-md bg-black p-3 text-white"
+              onClick={() => setUpgrades(true)}
+            >
               Upgrade{' '}
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -205,6 +343,8 @@ export default function Farm({ user }) {
                 increment={user.activity.farmLevel}
                 storeCountdown={storeCountdown}
                 setIsFarmingComplete={setIsFarmingComplete}
+                username={user.username}
+                farmId={nanoid()}
               />
             </button>
           ) : (
