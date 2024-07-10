@@ -71,7 +71,7 @@ module.exports = {
               {
                 text: 'Launch OdyStorm',
                 web_app: {
-                  url: `https://gt35m9bz-1337.euw.devtunnels.ms/play?user=${referrerUser.chatId}`,
+                  url: `https://odystorm-bot.onrender.com/play?user=${referrerUser.chatId}`,
                 },
               },
             ],

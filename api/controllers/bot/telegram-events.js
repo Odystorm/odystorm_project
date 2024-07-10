@@ -170,7 +170,7 @@ module.exports = {
             {
               text: 'Launch Odysir',
               web_app: {
-                url: `https://gt35m9bz-1337.euw.devtunnels.ms/play?user=${chat.id}`,
+                url: `https://odystorm-bot.onrender.com/play?user=${chat.id}`,
               },
             },
           ],

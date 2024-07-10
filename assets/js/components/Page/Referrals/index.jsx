@@ -22,7 +22,7 @@ const data = [
 const tg = window.Telegram.WebApp
 
 const InviteModal = ({ setOpenModal, user }) => {
-  const referralLink = `https://t.me/odysir_token_bot/app?startapp=ref_${user.referralId}`
+  const referralLink = `https://t.me/odystorm_bot/app?startapp=ref_${user.referralId}`
 
   async function handleCopy() {
     try {
