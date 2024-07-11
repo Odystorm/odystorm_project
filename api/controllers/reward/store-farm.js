@@ -39,6 +39,19 @@ module.exports = {
     const { res } = this
 
     try {
+      // Check for Existing Farm Record
+      const farms = await Farm.find({})
+
+      if (farms.length > 0) {
+        for (var i = 0; i < farms.length; i++) {
+          if (farms[i].status === 'farming') {
+            return res.badRequest({
+              message: 'There is a current running farm session',
+            })
+          }
+        }
+      }
+
       // Find User
       const userRecord = await User.findOne({ chatId: telegramId })
       const activity = await Activity.findOne({ owner: userRecord.id })

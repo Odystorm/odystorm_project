@@ -182,6 +182,13 @@ export default function Farm({ user }) {
         window.location.reload()
       } catch (error) {
         console.error(error)
+        if (error && error.response && error.response.status) {
+          toast.error("There's a Farm Session in Progress... Reloading Now")
+          setTimeout(() => {
+            window.location.reload()
+          }, 2000)
+          return
+        }
         toast.error('Failed to Store Farm timeline')
       } finally {
         setIsLoadingStartFarming(false)
