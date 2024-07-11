@@ -28,15 +28,15 @@ module.exports = {
       const userRecord = await User.findOne({ chatId: telegramId })
       const wallet = await Wallet.findOne({ owner: userRecord.id })
 
-      await Farm.updateOne({ id: farmId }).set({
-        status: 'farmed',
-      })
-
       // Update Farm Status
       await await Wallet.updateOne({
         id: wallet.id,
       }).set({
         balance: wallet.balance + tokenFarmAmount,
+      })
+
+      await Farm.updateOne({ id: farmId }).set({
+        status: 'farmed',
       })
 
       return res.status(200).json({
