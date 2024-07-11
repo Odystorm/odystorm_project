@@ -7,6 +7,7 @@ import { Puff } from 'react-loader-spinner'
 import { motion, AnimatePresence } from 'framer-motion'
 import { farmUpgrades } from '@/data/sample'
 import { nanoid } from 'nanoid'
+import { addHours } from 'date-fns'
 
 export function FarmComplete({ amountFarmed, claimToken, isClaimLoading }) {
   return (
@@ -139,124 +140,96 @@ export function FarmUpgrades({ setUpgrades, user }) {
 const tg = window.Telegram.WebApp
 
 export default function Farm({ user }) {
-  
+  const [farm, setFarm] = useState(user.currentFarm ? user.currentFarm : null)
   const [isFarming, setIsFarming] = useState(false)
   const [isFarmingComplete, setIsFarmingComplete] = useState(false)
+  const [isLoadingStartFarming, setIsLoadingStartFarming] = useState(false)
   const [isClaimLoading, setIsClaimLoading] = useState(false)
+  const [farmingStarted, setFarmingStarted] = useState(false)
   const [viewUpgrades, setUpgrades] = useState(false)
-  const [amountFarmed, setAmountFarmed] = useState()
 
-
-  function handleFarming() {
-    setIsFarming(true)
-  }
-
-  // useEffect(() => {
-  //   const countdownData = window.localStorage.getItem(
-  //     `${user.username}-countdownData`
-  //   )
-  //   if (!countdownData && user.activity.farmdata) {
-  //     window.localStorage.setItem(
-  //       `${user.username}-countdownData`,
-  //       JSON.stringify(user.activity.farmdata)
-  //     )
-  //     setIsFarming(true)
-  //   } else {
-  //     setIsFarming(false)
-  //   }
-  // }, [])
-
-  // // If Saved Score to Withdraw Exists
-  // useEffect(() => {
-  //   const existingCountdown = window.localStorage.getItem(
-  //     `${user.username}-countdownData`
-  //   )
-  //   if (existingCountdown) {
-  //     if (JSON.parse(existingCountdown).savedScore) {
-  //       setAmountFarmed(JSON.parse(existingCountdown).savedScore)
-  //       setIsFarming(false)
-  //       setIsFarmingComplete(true)
-  //     } else {
-  //       setIsFarming(true)
-  //     }
-  //   }
-  // }, [])
-
-  async function storeCountdown(data, farmId) {
+  async function handleStartFarming() {
+    setIsLoadingStartFarming(true)
     tg.ready()
     if (tg) {
       const tgUser = tg.initDataUnsafe.user
+      const startTime = Date.now()
+      const endTime = addHours(startTime, user.activity.currentNoOfFarmHours)
+
+      const calculateFinalScore = (startTime, endTime, increment) => {
+        const totalTimeInSeconds = Math.floor((endTime - startTime) / 1000)
+        return totalTimeInSeconds * increment
+      }
 
       try {
-        await axios.post('/api/v1/reward/store-farm', {
-          telegramId: tgUser.id,
-          timeline: data,
-          eligibleClaimAmount: data.savedScore,
+        const farmData = await axios.post('/api/v1/reward/store-farm', {
+          telegramId: '1860438101',
+          startTime,
+          endTime: endTime.getTime(),
+          hours: user.activity.currentNoOfFarmHours,
+          eligibleClaimAmount: calculateFinalScore(
+            startTime,
+            endTime.getTime(),
+            user.activity.farmLevel
+          ),
         })
 
-        const existingCountdown = window.localStorage.getItem(
-          `${user.username}-${farmId}-countdownData`
-        )
-
-        if (!existingCountdown) {
-          toast.success(
-            `You just started farming $ODY for the next ${user.activity.currentNoOfFarmHours} hours`
-          )
-        }
-
-        setAmountFarmed(data.savedScore)
-        setIsFarming(true)
+        setFarm(farmData)
+        setFarmingStarted(true)
+        setTimeout(() => {
+          setIsFarming(true)
+        }, 2000)
+        window.location.reload()
       } catch (error) {
         console.error(error)
         toast.error('Failed to Store Farm timeline')
+      } finally {
+        setIsLoadingStartFarming(false)
       }
     }
   }
 
-  // async function handleClaim(farmId) {
-  //   const farmData = window.localStorage.getItem(
-  //     `${user.username}-${farmId}-countdownData`
-  //   )
-  //   if (!farmData) {
-  //     toast.error(
-  //       'There was a problem claiming tokens, please try again later.'
-  //     )
-  //     return
-  //   }
+  useEffect(() => {
+    if (user.currentFarm) {
+      setIsFarming(true)
+    }
+  }, [])
 
-  //   const parsedFarmData = JSON.parse(farmData)
-  //   setIsClaimLoading(true)
-  //   tg.ready()
-  //   if (tg) {
-  //     const tgUser = tg.initDataUnsafe.user
-  //     try {
-  //       await axios.post('/api/v1/reward/claim-tokens', {
-  //         telegramId: tgUser.id,
-  //         tokenFarmAmount: parsedFarmData.savedScore,
-  //       })
+  async function handleClaim() {
+    setIsClaimLoading(true)
+    tg.ready()
+    if (tg) {
+      const tgUser = tg.initDataUnsafe.user
+      try {
+        await axios.post('/api/v1/reward/claim-tokens', {
+          telegramId: '1860438101',
+          farmId: farm.id,
+          tokenFarmAmount: farm.eligibleClaimAmount,
+        })
 
-  //       toast.success(`You have successfully farmed $ODY ${amountFarmed}`)
-  //       setIsFarmingComplete(false)
-  //       window.localStorage.removeItem(
-  //         `${user.username}-${farmId}-countdownData`
-  //       )
-  //     } catch (error) {
-  //       console.error(error)
-  //       toast.error(
-  //         'There was a problem claiming your tokens... Please Try Again later'
-  //       )
-  //     } finally {
-  //       setIsClaimLoading(false)
-  //     }
-  //   }
-  // }
+        toast.success(
+          `You have successfully farmed $ODY ${farm.eligibleClaimAmount}`
+        )
+        setIsFarmingComplete(false)
+        setIsFarming(false)
+        window.location.reload()
+      } catch (error) {
+        console.error(error)
+        toast.error(
+          'There was a problem claiming your tokens... Please Try Again later'
+        )
+      } finally {
+        setIsClaimLoading(false)
+      }
+    }
+  }
 
   return (
     <div className="relative flex h-screen max-h-screen w-full flex-col justify-between overflow-y-scroll">
       <AnimatePresence initial={false} mode="sync" exitBeforeEnter={true}>
         {isFarmingComplete && (
           <FarmComplete
-            amountFarmed={amountFarmed}
+            amountFarmed={farm.eligibleClaimAmount}
             claimToken={handleClaim}
             isClaimLoading={isClaimLoading}
           />
@@ -264,6 +237,24 @@ export default function Farm({ user }) {
       </AnimatePresence>
       <AnimatePresence initial={false} mode="sync" exitBeforeEnter={true}>
         {viewUpgrades && <FarmUpgrades setUpgrades={setUpgrades} user={user} />}
+      </AnimatePresence>
+      <AnimatePresence initial={false} mode="sync" exitBeforeEnter={true}>
+        {farmingStarted && (
+          <motion.div
+            className="absolute flex h-[100dvh] w-full flex-col items-center justify-center space-y-3 bg-black text-white"
+            initial={{ opacity: 0.8 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <img
+              src="/images/logo/logo.svg"
+              className="h-[100px] w-[100px]"
+              alt=""
+            />
+            <h3 className="text-3xl">Successfully Started Farming</h3>
+          </motion.div>
+        )}
       </AnimatePresence>
       <div className="mt-10 flex w-full flex-col items-center justify-center gap-y-3 text-white">
         {!user?.profilePicture ? (
@@ -337,23 +328,35 @@ export default function Farm({ user }) {
           </div>
         </div>
         <div className="w-full">
-          {isFarming ? (
-            <button className="inline-flex h-[3.5rem] w-full items-center justify-between rounded-md bg-white p-3 text-lg font-semibold text-black">
-              <Countdown
-                hours={user.activity.currentNoOfFarmHours}
-                increment={user.activity.farmLevel}
-                storeCountdown={storeCountdown}
-                setIsFarmingComplete={setIsFarmingComplete}
-                username={user.username}
-                farmId={nanoid()}
-              />
+          {!isFarming ? (
+            <button
+              className="inline-flex h-[3.5rem] w-full items-center justify-center rounded-md bg-white font-semibold text-black"
+              onClick={handleStartFarming}
+            >
+              {isLoadingStartFarming ? (
+                <Puff
+                  visible={true}
+                  height="35"
+                  width="35"
+                  color="#000"
+                  ariaLabel="puff-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
+                />
+              ) : (
+                'Start Farming'
+              )}
             </button>
           ) : (
-            <button
-              className="h-[3.5rem] w-full rounded-md bg-white font-semibold text-black"
-              onClick={handleFarming}
-            >
-              Start Farming
+            <button className="inline-flex h-[3.5rem] w-full items-center justify-between rounded-md bg-white p-3 text-lg font-semibold text-black">
+              {farm && (
+                <Countdown
+                  increment={farm.increment}
+                  startTime={farm.startTime}
+                  endTime={farm.endTime}
+                  setIsFarmingComplete={setIsFarmingComplete}
+                />
+              )}
             </button>
           )}
         </div>
