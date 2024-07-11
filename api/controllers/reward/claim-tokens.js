@@ -8,6 +8,10 @@ module.exports = {
       type: 'string',
       description: "Current User's Telegram Id",
     },
+    farmId: {
+      type: 'string',
+      description: 'Farm ID',
+    },
     tokenFarmAmount: {
       type: 'number',
       description: 'Amount of Tokens Farmed',
@@ -16,7 +20,7 @@ module.exports = {
 
   exits: {},
 
-  fn: async function ({ telegramId, tokenFarmAmount }) {
+  fn: async function ({ telegramId, farmId, tokenFarmAmount }) {
     const { res } = this
 
     try {
@@ -24,18 +28,12 @@ module.exports = {
       const userRecord = await User.findOne({ chatId: telegramId })
       const wallet = await Wallet.findOne({ owner: userRecord.id })
 
-      if(userRecord){
-        sails.log.debug("Updating Activity Model...")
-        await Activity.updateOne({
-          owner: userRecord.id,
-        }).set({
-          currentlyFarming: false,
-          eligibleClaimAmount: 0,
-          farmData: {},
-        })
-      }
+      await Farm.updateOne({ id: farmId }).set({
+        status: 'farmed',
+      })
 
-      await Wallet.updateOne({
+      // Update Farm Status
+      await await Wallet.updateOne({
         id: wallet.id,
       }).set({
         balance: wallet.balance + tokenFarmAmount,
