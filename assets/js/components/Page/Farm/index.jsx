@@ -163,7 +163,7 @@ export default function Farm({ user }) {
 
       try {
         const farmData = await axios.post('/api/v1/reward/store-farm', {
-          telegramId: '1860438101',
+          telegramId: tgUser.id,
           startTime,
           endTime: endTime.getTime(),
           hours: user.activity.currentNoOfFarmHours,
@@ -202,7 +202,7 @@ export default function Farm({ user }) {
       const tgUser = tg.initDataUnsafe.user
       try {
         await axios.post('/api/v1/reward/claim-tokens', {
-          telegramId: '1860438101',
+          telegramId: tgUser.id,
           farmId: farm.id,
           tokenFarmAmount: farm.eligibleClaimAmount,
         })
