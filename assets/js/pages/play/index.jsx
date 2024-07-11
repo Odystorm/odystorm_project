@@ -14,7 +14,10 @@ export function Notification({ activity, setShowNotification }) {
   return (
     <motion.div
       className="absolute left-0 top-0 z-[100] flex min-h-screen w-full flex-col items-center justify-center gap-y-3 bg-black text-center text-white"
-      onClick={() => setShowNotification(false)}
+      onClick={() => {
+        setShowNotification(false)
+        window.location.reload()
+      }}
       initial={{ opacity: 0.5 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -22,7 +25,7 @@ export function Notification({ activity, setShowNotification }) {
     >
       <h2 className="text-3xl font-bold">Day {activity.noOfActiveDays}</h2>
       <h3 className="text-xl">You have received your daily bonus</h3>
-      <p className="text-lg font-semibold">+10 ODY</p>
+      <p className="text-lg font-semibold">+100 ODY</p>
     </motion.div>
   )
 }

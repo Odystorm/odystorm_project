@@ -70,7 +70,7 @@ module.exports = {
         // Find Current Wallet to Get Balance
         const wallet = await Wallet.findOne({ owner: userRecord.id })
         await Wallet.updateOne({ owner: userRecord.id }).set({
-          balance: wallet.balance + 10,
+          balance: wallet.balance + 100,
         })
       }
 
