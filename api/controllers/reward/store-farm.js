@@ -39,8 +39,12 @@ module.exports = {
     const { res } = this
 
     try {
+      // Find User
+      const userRecord = await User.findOne({ chatId: telegramId })
+      const activity = await Activity.findOne({ owner: userRecord.id })
+
       // Check for Existing Farm Record
-      const farms = await Farm.find({})
+      const farms = await Farm.find({ activity: activity.id })
 
       if (farms.length > 0) {
         for (var i = 0; i < farms.length; i++) {
@@ -51,10 +55,6 @@ module.exports = {
           }
         }
       }
-
-      // Find User
-      const userRecord = await User.findOne({ chatId: telegramId })
-      const activity = await Activity.findOne({ owner: userRecord.id })
 
       // Create New Farm Record
       const newFarm = await Farm.create({
