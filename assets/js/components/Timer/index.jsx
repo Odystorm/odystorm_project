@@ -1,68 +1,37 @@
 import { useState, useEffect } from 'react'
-import { nanoid } from 'nanoid'
 
-const Countdown = ({
-  hours,
-  increment,
-  storeCountdown,
-  setIsFarmingComplete,
-  username,
-  farmId,
-}) => {
-  const [timeLeft, setTimeLeft] = useState(hours * 3600)
-  const [startTime, setStartTime] = useState(Date.now())
-  const [endTime, setEndTime] = useState(Date.now() + hours * 3600 * 1000)
+const Countdown = ({ startTime, endTime, increment, setIsFarmingComplete }) => {
+  const calculateTimeLeft = () => Math.floor((endTime - Date.now()) / 1000)
+
+  const [timeLeft, setTimeLeft] = useState(() => calculateTimeLeft())
+  const [currentScore, setCurrentScore] = useState(0)
 
   useEffect(() => {
-    const savedData = window.localStorage.getItem(
-      `${username}-${farmId}-countdownData`
-    )
-    if (savedData) {
-      const { startTime, endTime } = JSON.parse(savedData)
-      const currentTime = Date.now()
-      const timeDiff = Math.floor((endTime - currentTime) / 1000)
-
-      setStartTime(startTime)
-      setEndTime(endTime)
-
-      if (timeDiff > 0) {
-        setTimeLeft(timeDiff)
-      } else {
-        setTimeLeft(0)
-      }
-    } else {
-      const initialEndTime = Date.now() + hours * 3600 * 1000
-      setStartTime(Date.now())
-      setEndTime(initialEndTime)
-
-      const data = {
-        startTime: Date.now(),
-        endTime: initialEndTime,
-        hours,
-        increment,
-      }
-      window.localStorage.setItem(
-        `${username}-${farmId}-countdownData`,
-        JSON.stringify(data)
-      )
-      // storeCountdown(data)
-    }
+    // Initialize the countdown once the component mounts
+    setTimeLeft(calculateTimeLeft())
 
     const interval = setInterval(() => {
       const currentTime = Date.now()
-      const timeDiff = Math.floor((endTime - currentTime) / 1000)
+      const timeDiff = calculateTimeLeft()
 
       if (timeDiff >= 0) {
         setTimeLeft(timeDiff)
+        const elapsedTimeInSeconds = Math.floor(
+          (currentTime - startTime) / 1000
+        )
+
+        if (!isNaN(elapsedTimeInSeconds) && !isNaN(increment)) {
+          setCurrentScore(elapsedTimeInSeconds * increment)
+        }
       } else {
+        setTimeLeft(0) // Ensure timeLeft is set to 0 to prevent negative values
         clearInterval(interval)
-        saveFinalScore()
-        setIsFarmingComplete(true)
+        setIsFarmingComplete(true) // Trigger farming complete
       }
     }, 1000)
 
     return () => clearInterval(interval)
-  }, [hours, increment, endTime, setIsFarmingComplete])
+  }, [endTime, increment, startTime, setIsFarmingComplete])
 
   const formatTime = (seconds) => {
     const h = Math.floor(seconds / 3600)
@@ -73,38 +42,9 @@ const Countdown = ({
       .padStart(2, '0')}:${s.toString().padStart(2, '0')}`
   }
 
-  const calculateCurrentScore = () => {
-    const elapsedTimeInSeconds = hours * 3600 - timeLeft
-    return elapsedTimeInSeconds * increment
-  }
-
-  const calculateScore = (incrementPerSecond, hours) => {
-    const totalSeconds = hours * 3600
-    return incrementPerSecond * totalSeconds
-  }
-
-  const saveFinalScore = () => {
-    const finalScore = calculateScore(increment, hours)
-    const data = {
-      startTime: new Date(startTime).getTime(),
-      endTime: new Date(endTime).getTime(),
-      hours,
-      increment,
-      savedScore: finalScore,
-    }
-
-    window.localStorage.setItem(
-      `${username}-${farmId}-countdownData`,
-      JSON.stringify(data)
-    )
-    // storeCountdown(data)
-  }
-
   return (
     <div className="flex w-full items-center justify-between">
-      <div>
-        Farming $ODY {calculateCurrentScore() ? calculateCurrentScore() : 0}
-      </div>
+      <div>Farming $ODY {currentScore}</div>
       <div>{timeLeft > 0 ? formatTime(timeLeft) : "Time's up!"}</div>
     </div>
   )
