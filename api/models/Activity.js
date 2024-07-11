@@ -35,7 +35,7 @@ module.exports = {
     },
     currentNoOfFarmHours: {
       type: 'number',
-      defaultsTo: 0.25,
+      defaultsTo: 4,
       description: 'Current No Of Farms Hours',
     },
     eligibleClaimAmount: {
