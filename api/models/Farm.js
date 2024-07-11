@@ -10,11 +10,6 @@ module.exports = {
     activity: {
       model: 'activity',
     },
-    farmSessionId: {
-      type: 'string',
-      description: 'Farm Session ID',
-      example: 'V1StGXR8_Z5jdHi6B-myT',
-    },
     startTime: {
       type: 'number',
       description: 'Start Time in Timestamp format',
