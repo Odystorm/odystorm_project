@@ -169,7 +169,7 @@ module.exports = {
         inline_keyboard: [
           [
             {
-              text: 'Launch Odysir',
+              text: 'Launch OdyStorm',
               web_app: {
                 url: `https://odystorm-bot.onrender.com/play?user=${chat.id}`,
               },
@@ -215,7 +215,7 @@ module.exports = {
           ],
           [
             {
-              text: 'Launch Odysir',
+              text: 'Launch OdyStorm',
               web_app: {
                 url: `https://odystorm-bot.onrender.com/play?user=${chat.id}`,
               },
@@ -256,7 +256,7 @@ module.exports = {
           ],
           [
             {
-              text: 'Launch Odysir',
+              text: 'Launch OdyStorm',
               web_app: {
                 url: `https://odystorm-bot.onrender.com/play?user=${chat.id}`,
               },
