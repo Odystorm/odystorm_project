@@ -248,7 +248,7 @@ export default function Farm({ user }) {
       <AnimatePresence initial={false} mode="sync" exitBeforeEnter={true}>
         {farmingStarted && (
           <motion.div
-            className="absolute flex h-[100dvh] w-full flex-col items-center justify-center space-y-3 bg-black text-white"
+            className="absolute flex h-[100dvh] w-full flex-col items-center justify-center space-y-3 bg-black text-white z-[100]"
             initial={{ opacity: 0.8 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
