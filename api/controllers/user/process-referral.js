@@ -47,7 +47,7 @@ module.exports = {
         const userRecord = await User.create({
           firstName: user.first_name,
           lastName: '',
-          username: user.username,
+          username: user.username ? user.username : user.first_name,
           chatId: user.id,
           referrer: referer,
           referralId: newReferralId,
