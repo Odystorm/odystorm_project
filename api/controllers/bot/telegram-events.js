@@ -17,13 +17,17 @@ module.exports = {
     const botCommandList = ['/start', 'new-user', 'socials', 'join-community']
 
     function isValidCommand(command, botCommandList) {
-      for (var i = 0; i < botCommandList.length; i++) {
-        if (command.includes(botCommandList[i])) {
-          return true
+      try {
+        for (var i = 0; i < botCommandList.length; i++) {
+          if (command.includes(botCommandList[i])) {
+            return true
+          }
         }
-      }
 
-      return false
+        return false
+      } catch (error) {
+        sails.log.error(error)
+      }
     }
 
     function commandParser() {
@@ -91,6 +95,22 @@ module.exports = {
         }
       }
 
+      if (
+        update.message &&
+        update.message.write_access_allowed.web_app_name === 'app'
+      ) {
+        return {
+          type: 'private',
+          command: 'new-user',
+          chat: {
+            id: update.message.chat.id,
+            firstName: update.message.chat.first_name,
+            lastName: update.message.chat?.last_name,
+            username: update.message.chat.username,
+          },
+        }
+      }
+
       return {
         type: 'unspecified',
         command: 'unknown',
@@ -130,7 +150,10 @@ module.exports = {
       return
     }
 
-    if (type === 'private' && command.includes('start')) {
+    if (
+      (type === 'private' && command.includes('start')) ||
+      command.includes('new-user')
+    ) {
       try {
         const userRecord = await User.findOne({ chatId: chat.id })
 
