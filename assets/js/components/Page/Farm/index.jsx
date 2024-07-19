@@ -157,12 +157,26 @@ export default function Farm({ user }) {
   const [farmingStarted, setFarmingStarted] = useState(false)
   const [viewUpgrades, setUpgrades] = useState(false)
   const [openMenuDropdown, setOpenMenuDropdown] = useState(true)
+  const [walletBalance, setWalletBalance] = useState(0)
 
   const menuOptions = [
     {
       option: 'Profile',
     },
   ]
+
+  useEffect(() => {
+    async function getWallet() {
+      try {
+        const response = await axios.get(`/user/wallet/${user.chatId}`)
+        setWalletBalance(response.data.balance)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
+    getWallet()
+  }, [])
 
   async function handleStartFarming() {
     setIsLoadingStartFarming(true)
@@ -333,9 +347,13 @@ export default function Farm({ user }) {
         <div className="mt-5 space-y-5">
           <p className="mt-5 flex flex-col items-center justify-center gap-y-3 font-orbitron font-semibold">
             <p className="text-sm uppercase">Current Balance</p>
-            <span className="text-4xl">
-              $ODY {user?.wallet[0].balance.toLocaleString()}
-            </span>
+            {walletBalance ? (
+              <span className="inline-flex items-center gap-x-3 text-4xl">
+                $ODY {walletBalance.toLocaleString()}
+              </span>
+            ) : (
+              <Puff color="#fff" width={30} height={30} />
+            )}
             <p className="rounded-md bg-gradient-to-r from-cyan-400 to-blue-500 p-3 font-orbitron text-lg font-semibold text-white shadow-2xl shadow-blue-500">
               Mining Rate <sup>+{user?.activity?.farmLevel}</sup> | Timeline{' '}
               {user?.activity.currentNoOfFarmHours} Hrs
@@ -359,10 +377,13 @@ export default function Farm({ user }) {
         </div>
       </div>
       <div className="mb-[7.5rem] flex flex-col items-center justify-center gap-y-3 px-2">
-        <img
+        <motion.img
           src="/images/ships/base_ship.webp"
           className="h-auto w-[30%]"
           alt=""
+          initial={{ y: '0' }}
+          animate={{ y: '-5' }}
+          transition={{ duration: '0.8s' }}
         />
         <p className="text-center font-orbitron font-semibold text-white">
           Rank : {getRankingOfficerTitle(user.activity.farmLevel)}
