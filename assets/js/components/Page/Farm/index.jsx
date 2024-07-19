@@ -240,7 +240,7 @@ export default function Farm({ user }) {
       const tgUser = tg.initDataUnsafe.user
       try {
         await axios.post('/api/v1/reward/claim-tokens', {
-          telegramId: tgUser.id,
+          telegramId: user.chatId,
           farmId: farm.id,
           tokenFarmAmount: farm.eligibleClaimAmount,
         })
@@ -381,14 +381,14 @@ export default function Farm({ user }) {
         </div>
       </div>
       <div className="mb-[7.5rem] flex flex-col items-center justify-center gap-y-3 px-2">
-        <motion.img
+        {/* <motion.img
           src="/images/ships/base_ship.webp"
-          className="h-auto w-[30%]"
+          className="h-auto w-[10%]"
           alt=""
           initial={{ y: '0' }}
           animate={{ y: '-5' }}
           transition={{ duration: '0.8s' }}
-        />
+        /> */}
         <p className="text-center font-orbitron font-semibold text-white">
           Rank : {getRankingOfficerTitle(user.activity.farmLevel)}
         </p>
