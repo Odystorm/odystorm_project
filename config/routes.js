@@ -27,6 +27,13 @@ module.exports.routes = {
   // Play Page
   'GET /play': 'game/play',
 
+  // User Wallet
+  'GET /user/wallet/:tgId': { action: 'user/get-wallet' },
+  // Tasks
+  'GET /user/tasks/:tgId': { action: 'user/get-tasks' },
+  // Claim Task Tokens
+  'POST /user/tasks/claim': { action: 'reward/claim-task-reward' },
+
   // Activity
   // Store Farm Timeline
   'POST /api/v1/reward/store-farm': { action: 'reward/store-farm' },
@@ -39,6 +46,13 @@ module.exports.routes = {
   'POST /api/v1/reward/claim-tokens': {
     action: 'reward/claim-tokens',
   },
+  // Stay Alive
+  'GET /cron-job': {
+    action: 'cronjob/stay-alive',
+  },
+
+  // Upgrades
+  'POST /api/v1/upgrade/farming': { action: 'reward/upgrade-farm' },
 
   // Telegram Webhook
   'POST /telegram/webhook': { action: 'bot/telegram-events' },
