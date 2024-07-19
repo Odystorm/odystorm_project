@@ -58,20 +58,21 @@ export default function Index() {
     <>
       <Head title="OdyStorm Token Farm" />
       <motion.section
-        className="relative flex min-h-screen w-full items-center justify-center bg-black"
+        className="relative flex min-h-screen w-full items-center justify-center"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 1.5 }}
       >
+        <img src="/images/bg/bg_space.png" alt="" className='h-screen absolute top-0 left-0 object-cover brightness-[0.5]' />
         <div className="absolute z-10 flex h-screen flex-col items-center justify-center py-3">
           <div className="flex w-[350px] flex-col items-center justify-center gap-y-5 p-2">
             <motion.img
               src="/images/logo/logo.svg"
-              className="h-[175px] w-[175px]"
+              className="h-[135px] w-[135px]"
               alt="OdyStorm Coin Logo"
             />
-            <h3 className="text-center  text-5xl font-bold capitalize text-white drop-shadow-2xl">
-              Welcome to OdyStorm
+            <h3 className="text-center font-orbitron text-5xl font-bold capitalize text-white drop-shadow-2xl">
+              OdyStorm Space Defense
             </h3>
             <p className="text-center text-2xl text-white">
               Play now and earn valuable OdyStorm tokens!
