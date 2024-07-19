@@ -1,62 +1,81 @@
 const tasks = [
+  // {
+  //   title: 'Join OdyStorm Telegram',
+  //   rewardAmount: 10000,
+  //   taskType: 'social_following',
+  //   requirement: {
+  //     url:''
+  //   },
+  //   icon: '$ody_logo',
+  // },
   {
-    title: 'Farm 50,000 $ODY',
-    rewardAmount: 50000,
+    title: 'Mine 50,000 $ODY',
+    rewardAmount: 10000,
     taskType: 'milestone',
+    requirement: 50000,
     icon: '$ody_logo',
   },
   {
-    title: 'Farm 100,000 $ODY',
-    rewardAmount: 100000,
+    title: 'Mine 100,000 $ODY',
+    rewardAmount: 20000,
     taskType: 'milestone',
+    requirement: 100000,
     icon: '$ody_logo',
   },
   {
-    title: 'Farm 200,000 $ODY',
-    rewardAmount: 200000,
+    title: 'Mine 200,000 $ODY',
+    rewardAmount: 40000,
     taskType: 'milestone',
+    requirement: 200000,
     icon: '$ody_logo',
   },
   {
-    title: 'Farm 400,000 $ODY',
-    rewardAmount: 400000,
+    title: 'Mine 400,000 $ODY',
+    rewardAmount: 80000,
     taskType: 'milestone',
+    requirement: 400000,
     icon: '$ody_logo',
   },
   {
-    title: 'Farm 800,000 $ODY',
-    rewardAmount: 800000,
+    title: 'Mine 800,000 $ODY',
+    rewardAmount: 160000,
     taskType: 'milestone',
+    requirement: 800000,
     icon: '$ody_logo',
   },
   {
-    title: 'Farm 1,600,000 $ODY',
-    rewardAmount: 1600000,
+    title: 'Mine 1,600,000 $ODY',
+    rewardAmount: 320000,
     taskType: 'milestone',
+    requirement: 1600000,
     icon: '$ody_logo',
   },
   {
-    title: 'Farm 3,200,000 $ODY',
-    rewardAmount: 3200000,
+    title: 'Mine 3,200,000 $ODY',
+    rewardAmount: 640000,
     taskType: 'milestone',
+    requirement: 3200000,
     icon: '$ody_logo',
   },
   {
-    title: 'Farm 6,400,000 $ODY',
-    rewardAmount: 6400000,
+    title: 'Mine 6,400,000 $ODY',
+    rewardAmount: 1280000,
     taskType: 'milestone',
+    requirement: 6400000,
     icon: '$ody_logo',
   },
   {
-    title: 'Farm 12,800,000 $ODY',
-    rewardAmount: 12800000,
+    title: 'Mine 12,800,000 $ODY',
+    rewardAmount: 2560000,
     taskType: 'milestone',
+    requirement: 12800000,
     icon: '$ody_logo',
   },
   {
-    title: 'Farm 25,600,000 $ODY',
-    rewardAmount: 25600000,
+    title: 'Mine 25,600,000 $ODY',
+    rewardAmount: 5120000,
     taskType: 'milestone',
+    requirement: 25600000,
     icon: '$ody_logo',
   },
 ]
@@ -83,13 +102,18 @@ module.exports = {
   fn: async function ({ id }) {
     const createTasks = tasks.map(async (task) => {
       try {
-        await Tasks.create({
-          owner: id,
-          title: task.title,
-          rewardAmount: task.rewardAmount,
-          taskType: task.taskType,
-          icon: 'ody_logo',
-        })
+        if (task.taskType === 'milestone') {
+          await Tasks.create({
+            owner: id,
+            title: task.title,
+            rewardAmount: task.rewardAmount,
+            taskType: task.taskType,
+            requirement: {
+              mineTotal: task.requirement,
+            },
+            icon: 'ody_logo',
+          })
+        }
       } catch (error) {
         sails.log.error(error)
       }

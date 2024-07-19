@@ -14,7 +14,7 @@ module.exports = {
   },
 
   fn: async function () {
-    const { req, res } = this
+    const { req } = this
     const { user } = req.query
 
     try {
@@ -33,6 +33,8 @@ module.exports = {
           return userAccount
         })
       )
+
+      const tasksList = await Tasks.find({ owner: userRecord.id })
 
       const farm = await Farm.findOne({
         activity: activity.id,
@@ -87,6 +89,7 @@ module.exports = {
               eligibleDailyBonus: eligibleForDailyBonus ? true : false,
             },
             currentFarm,
+            tasks: tasksList,
           },
         },
       }

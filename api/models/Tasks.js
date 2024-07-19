@@ -22,11 +22,15 @@ module.exports = {
       type: 'string',
       description: 'Task Completion status',
       isIn: ['eligible', 'ineligible', 'unfinished', 'done'],
-      defaultsTo: 'ineligible',
+      defaultsTo: 'eligible',
     },
     taskType: {
       type: 'string',
       isIn: ['milestone', 'social_following', 'ody_tasks'],
+    },
+    requirement: {
+      type: 'json',
+      description: 'Requirement Data',
     },
     icon: {
       type: 'string',

@@ -132,6 +132,7 @@ interface Custom {
   rememberMeCookieMaxAge: number
   internalEmail: string
   verifyEmail: boolean
+  botBaseURL:string
 }
 interface Wish {
   provider: (provider: string) => Wish

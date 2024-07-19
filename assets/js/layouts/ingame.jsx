@@ -6,11 +6,14 @@ export const GameLayout = ({ children, component, setComponent }) => {
   return (
     <>
       <Head title="Play OdyStorm Token Farm" />
-      <section className="relative max-h-screen min-h-screen w-full flex-col overflow-hidden bg-black">
-        {/* <img
-          src="/images/bg/forest.jpg"
-          className="max-h-screen min-h-full min-w-full brightness-[0.20] absolute z-0"
+      <section className="relative max-h-screen min-h-screen w-full overflow-hidden bg-black">
+        {/* <TopNav 
         /> */}
+        <img
+          src="/images/bg/bg_space.webp"
+          alt=""
+          className="absolute left-0 top-0 h-screen object-cover brightness-[0.45]"
+        />
         <main className="z-50 min-w-full">{children}</main>
         <BottomNav component={component} setComponent={setComponent} />
       </section>

@@ -51,7 +51,7 @@ const Play = ({ user }) => {
       case 'stats':
         return <Stats />
       case 'tasks':
-        return <Tasks />
+        return <Tasks tasks={user.tasks} wallet={user.wallet[0]} user={user} />
       default:
         return <Farm user={user} />
     }

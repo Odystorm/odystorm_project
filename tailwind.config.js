@@ -1,7 +1,11 @@
 module.exports = {
   content: ['./views/**/*.ejs', './assets/js/**/*.{js,jsx,ts,tsx}'],
   theme: {
-    extend: {}
+    extend: {
+      fontFamily: {
+        orbitron: ['Orbitron', 'sans-serif'],
+      },
+    },
   },
-  plugins: []
+  plugins: [],
 }

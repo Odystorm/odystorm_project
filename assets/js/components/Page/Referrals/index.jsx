@@ -54,7 +54,7 @@ const InviteModal = ({ setOpenModal, user }) => {
   }
 
   return (
-    <div className="fixed left-0 top-0 z-[100] flex min-h-full w-full flex-col justify-end bg-black/50">
+    <div className="fixed left-0 top-0 z-[100] flex min-h-full w-full flex-col justify-end bg-black/50 font-orbitron">
       <motion.div
         className="z-10 h-fit w-full space-y-5 rounded-t-lg bg-white py-3"
         initial={{ y: '100%' }}
@@ -144,14 +144,14 @@ const Referrals = ({ user }) => {
   return (
     <div className="relative flex min-h-screen w-full flex-col justify-between overflow-y-scroll px-3">
       <div>
-        <div className="my-5 flex flex-col items-center justify-center text-center">
+        <div className="my-5 mt-20 flex flex-col items-center justify-center text-center">
           <img
             src="/images/logo/logo.svg"
             className="h-[150px] w-[150px]"
             alt=""
           />
-          <h3 className="text-3xl font-semibold text-white">
-            Invite Friends and Earn OdyStorm Tokens
+          <h3 className="font-orbitron text-3xl font-semibold text-white">
+            Invite Friends to Join the Odystorm Space Defense
           </h3>
         </div>
         {/* <div className="text-white">
@@ -219,7 +219,7 @@ const Referrals = ({ user }) => {
       </div>
       <div className="mb-[7rem] w-full">
         <button
-          className="h-[3.5rem] w-full rounded-md bg-white font-semibold text-black"
+          className="h-[3.5rem] w-full rounded-md bg-gradient-to-r from-cyan-400 to-blue-500 font-semibold text-white shadow-2xl shadow-blue-500 text-lg font-orbitron"
           onClick={() => setOpenModal(true)}
         >
           Invite a Friend
