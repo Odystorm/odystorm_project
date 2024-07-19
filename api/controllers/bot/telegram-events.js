@@ -12,6 +12,8 @@ module.exports = {
     const update = req.body
     sails.log.info('Received Update From Bot 🤖', update)
 
+    const botBaseURL = sails.config.custom.botBaseURL
+
     const botCommandList = ['/start', 'new-user', 'socials', 'join-community']
 
     function isValidCommand(command, botCommandList) {
@@ -171,7 +173,7 @@ module.exports = {
             {
               text: 'Launch OdyStorm',
               web_app: {
-                url: `https://odystorm-bot.onrender.com/play?user=${chat.id}`,
+                url: `${botBaseURL}/play?user=${chat.id}`,
               },
             },
           ],
@@ -217,7 +219,7 @@ module.exports = {
             {
               text: 'Launch OdyStorm',
               web_app: {
-                url: `https://odystorm-bot.onrender.com/play?user=${chat.id}`,
+                url: `${botBaseURL}/play?user=${chat.id}`,
               },
             },
           ],
@@ -258,7 +260,7 @@ module.exports = {
             {
               text: 'Launch OdyStorm',
               web_app: {
-                url: `https://odystorm-bot.onrender.com/play?user=${chat.id}`,
+                url: `${botBaseURL}/play?user=${chat.id}`,
               },
             },
           ],
