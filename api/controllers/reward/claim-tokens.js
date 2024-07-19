@@ -29,7 +29,7 @@ module.exports = {
       const wallet = await Wallet.findOne({ owner: userRecord.id })
 
       // Update Farm Status
-      await await Wallet.updateOne({
+      await Wallet.updateOne({
         id: wallet.id,
       }).set({
         balance: wallet.balance + tokenFarmAmount,
