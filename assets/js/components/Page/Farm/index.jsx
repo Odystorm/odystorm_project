@@ -337,6 +337,7 @@ export default function Farm({ user }) {
               width="35"
               height="35"
               viewBox="0 0 24 24"
+              onClick={() => toast('Feature currently in development')}
             >
               <path
                 fill="#FFF"
