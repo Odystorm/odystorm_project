@@ -20,6 +20,7 @@ module.exports = {
   fn: async function ({ chatId, referralId }) {
     const { res } = this
     sails.log.debug(chatId, referralId)
+    const botBaseURL = sails.config.custom.botBaseURL
 
     try {
       // Create New User
@@ -62,7 +63,7 @@ module.exports = {
         // Find Referrer Wallet
         const wallet = await Wallet.findOne({ owner: referrerUser.id })
         await Wallet.updateOne({ owner: referrerUser.id }).set({
-          balance: wallet.balance + 20,
+          balance: wallet.balance + 1500,
         })
 
         const inlineKeyboard = {
@@ -71,7 +72,7 @@ module.exports = {
               {
                 text: 'Launch OdyStorm',
                 web_app: {
-                  url: `https://odystorm-bot.onrender.com/play?user=${referrerUser.chatId}`,
+                  url: `${botBaseURL}/play?user=${referrerUser.chatId}`,
                 },
               },
             ],
@@ -81,7 +82,7 @@ module.exports = {
         // Send Message To Referrer
         await sails.helpers.sendMessageCustom(
           referrerUser.chatId,
-          `Hi ${referrerUser.firstName}\nYour buddy ${userRecord.firstName} just joined OdyStorm and you just received 20 $ODY.`,
+          `Hi ${referrerUser.username}\nYour buddy @${userRecord.username} just joined the OdyStorm Space Defense and you just received 1500 $ODY.`,
           inlineKeyboard
         )
 
