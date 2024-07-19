@@ -61,7 +61,6 @@ module.exports = {
         }
       }
     } catch (error) {
-      sails.log.error(error)
       return ""
     }
   },
