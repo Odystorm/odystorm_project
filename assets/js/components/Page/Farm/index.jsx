@@ -57,11 +57,12 @@ export function FarmUpgrades({ setUpgrades, user }) {
     setIsPurchasing(true)
     try {
       await axios.post('/api/v1/upgrade/farming', {
-        telegramId: '1860438101',
+        telegramId: user.chatId,
         upgrade,
       })
 
       toast.success('Successfully Purchased Upgrade')
+      window.location.reload()
     } catch (error) {
       toast.error('Upgrade Purchase Failed')
       console.error(error)
@@ -70,9 +71,13 @@ export function FarmUpgrades({ setUpgrades, user }) {
     }
   }
 
+  const upgrades = farmUpgrades.filter(
+    (upgrade) => upgrade.Increment > user.activity.farmLevel
+  )
+
   return (
     <motion.div
-      className="absolute left-0 top-0 z-50 flex h-screen w-full flex-col items-center justify-start space-y-3 overflow-y-scroll bg-black p-5 text-white"
+      className="absolute left-0 top-0 z-50 flex h-screen w-full flex-col items-center justify-start space-y-3 overflow-y-scroll bg-gradient-to-b from-indigo-500 to-blue-950 p-5 font-orbitron text-white"
       initial={{ opacity: 0.8 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -94,21 +99,18 @@ export function FarmUpgrades({ setUpgrades, user }) {
       </div>
       <h3 className="text-3xl font-bold">Purchase Upgrades</h3>
       <div className="-m-2 flex flex-wrap gap-y-3 p-3">
-        {farmUpgrades.map((upgrade, index) => (
+        {upgrades.map((upgrade, index) => (
           <div
-            key={index}
             className="w-full space-y-2 rounded-md border p-3 text-center"
+            key={index}
           >
             <p className="text-xl">{upgrade.Tool}</p>
             <p>{upgrade.Description}</p>
             <p>Cost: {upgrade.Cost.toLocaleString()} $ODY</p>
             <p>Token: +{upgrade.Increment}</p>
-            <p>Farm Period: {upgrade.FarmPeriod} Hours</p>
+            <p className="font-bold">Mine Period: {upgrade.FarmPeriod} Hours</p>
             {isPurchasing ? (
-              <button
-                className={`rounded-md bg-white px-7 py-3 text-black`}
-                key={index}
-              >
+              <button className={`rounded-md bg-white px-7 py-3 text-black`}>
                 <Puff
                   visible={true}
                   height="25"
@@ -129,7 +131,6 @@ export function FarmUpgrades({ setUpgrades, user }) {
                     : 'bg-white'
                 }`}
                 onClick={() => handleUpgradePurchase(upgrade)}
-                key={index}
               >
                 {upgrade.Cost > user.wallet[0].balance
                   ? 'Insufficient Balance'
@@ -193,7 +194,7 @@ export default function Farm({ user }) {
 
       try {
         const farmData = await axios.post('/api/v1/reward/store-farm', {
-          telegramId: tgUser.id,
+          telegramId: user.chatId,
           startTime,
           endTime: endTime.getTime(),
           hours: user.activity.currentNoOfFarmHours,
@@ -289,7 +290,7 @@ export default function Farm({ user }) {
               className="h-[100px] w-[100px]"
               alt=""
             />
-            <h3 className="text-3xl">Successfully Started Farming</h3>
+            <h3 className="text-3xl">Successfully Started Mining</h3>
           </motion.div>
         )}
       </AnimatePresence>
@@ -473,7 +474,7 @@ export default function Farm({ user }) {
               )}
             </button>
           ) : (
-            <button className="inline-flex h-[3.5rem] w-full items-center justify-between rounded-md bg-gradient-to-r from-cyan-400 to-blue-500 p-3 font-orbitron text-lg font-semibold text-white shadow-2xl shadow-blue-500">
+            <div className="inline-flex h-[3.5rem] w-full items-center justify-between rounded-md bg-gradient-to-r from-cyan-400 to-blue-500 p-3 font-orbitron text-lg font-semibold text-white shadow-2xl shadow-blue-500">
               {farm && (
                 <Countdown
                   increment={farm.increment}
@@ -482,7 +483,7 @@ export default function Farm({ user }) {
                   setIsFarmingComplete={setIsFarmingComplete}
                 />
               )}
-            </button>
+            </div>
           )}
         </div>
       </div>
