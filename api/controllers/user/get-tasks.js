@@ -15,6 +15,12 @@ module.exports = {
       const userRecord = await User.findOne({ chatId: tgId })
       const tasks = await Tasks.find({ owner: userRecord.id })
 
+      if (tasks.length === 0) {
+        await sails.helpers.generateBotTasks(userRecord.id)
+        const newTaskList = await Tasks.find({ owner: userRecord.id })
+        return res.status(200).json(newTaskList)
+      }
+
       return res.status(200).json(tasks)
     } catch (error) {
       sails.log.error(error)
