@@ -328,7 +328,10 @@ export default function Farm({ user }) {
               )}
             </div>
           </div>
-          <button className="h-fit">
+          <button
+            className="h-fit"
+            onClick={() => toast('Feature currently in development')}
+          >
             {openMenuDropdown && (
               <div className="absolute z-30 h-[300px] w-20"></div>
             )}
@@ -337,7 +340,6 @@ export default function Farm({ user }) {
               width="35"
               height="35"
               viewBox="0 0 24 24"
-              onClick={() => toast('Feature currently in development')}
             >
               <path
                 fill="#FFF"
