@@ -1,3 +1,4 @@
+import { Puff } from 'react-loader-spinner'
 import { useState, useEffect } from 'react'
 
 const Countdown = ({ startTime, endTime, increment, setIsFarmingComplete }) => {
@@ -44,8 +45,15 @@ const Countdown = ({ startTime, endTime, increment, setIsFarmingComplete }) => {
 
   return (
     <div className="flex w-full items-center justify-between">
-      <div>Farming $ODY {currentScore}</div>
-      <div>{timeLeft > 0 ? formatTime(timeLeft) : "Time's up!"}</div>
+      <div className='gap-x-3 inline-flex justify-center items-center'>
+        Mining $ODY{' '}
+        {currentScore ? (
+          currentScore
+        ) : (
+          <Puff color="#fff" width={30} height={30} />
+        )}
+      </div>
+      <div>{timeLeft > 0 ? formatTime(timeLeft) : ""}</div>
     </div>
   )
 }
