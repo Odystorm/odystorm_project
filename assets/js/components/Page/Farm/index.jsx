@@ -415,7 +415,7 @@ export default function Farm({ user }) {
                   visible={true}
                   height="35"
                   width="35"
-                  color="#000"
+                  color="#FFF"
                   ariaLabel="puff-loading"
                   wrapperStyle={{}}
                   wrapperClass=""
