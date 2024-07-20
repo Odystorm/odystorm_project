@@ -2,9 +2,10 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import React, { useEffect, useState } from 'react'
 import { Puff } from 'react-loader-spinner'
+
 const Tasks = ({ wallet, user }) => {
   const [isTasksLoading, setIsTasksLoading] = useState(true)
-  const [isLoadingTaskClaim, setIsLoadingTaskClaim] = useState(false)
+  const [loadingTaskId, setLoadingTaskId] = useState('')
   const [tasks, setTasks] = useState([])
 
   async function getTasks() {
@@ -18,8 +19,29 @@ const Tasks = ({ wallet, user }) => {
     }
   }
 
+  async function handleSocialTask(task) {
+    const link = task.requirement.url
+    setLoadingTaskId(task.id)
+    try {
+      // @todo Open Task Link
+      window.open(link)
+      // @todo Register Clicked Request
+      await axios.post('/user/task/social', {
+        telegramId: user.chatId,
+        claimedTask: task,
+      })
+
+      setTimeout(() => {
+        getTasks()
+        setLoadingTaskId('')
+      }, 15000)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   async function collectMileStoneReward(task) {
-    setIsLoadingTaskClaim(true)
+    setLoadingTaskId(task.id)
     try {
       await axios.post(`/user/tasks/claim`, {
         telegramId: user.chatId,
@@ -27,18 +49,28 @@ const Tasks = ({ wallet, user }) => {
       })
 
       getTasks()
-      toast('Successfully claimed reward')
+      toast('Successfully Claimed Reward')
     } catch (error) {
       console.error(error)
       toast('There was a problem claiming your tokens, please try again later')
     } finally {
-      setIsLoadingTaskClaim(false)
+      setLoadingTaskId('')
     }
   }
 
   useEffect(() => {
     getTasks()
   }, [])
+
+  // useEffect(() => {
+  //   if(tasks.length > 0){
+  //     tasks.forEach(task => {
+  //       if(task.taskType === "social_following"){
+
+  //       }
+  //     })
+  //   }
+  // }, [])
 
   return (
     <div className="relative flex max-h-fit w-full items-center justify-center overflow-y-scroll">
@@ -68,7 +100,7 @@ const Tasks = ({ wallet, user }) => {
         ) : (
           <div className="mb-[3rem] max-h-[500px] w-full space-y-5 px-2">
             {tasks.map((task, index) => {
-              if (task.taskType === 'milestone') {
+              if (task.taskType === 'social_following') {
                 return (
                   <React.Fragment key={index}>
                     <div className="flex w-full flex-row justify-between gap-x-5 px-2 text-white">
@@ -81,7 +113,7 @@ const Tasks = ({ wallet, user }) => {
                           </span>
                         </div>
                       </div>
-                      {task.taskType === 'milestone' &&
+                      {task.taskType === 'social_following' &&
                         task.status !== 'done' && (
                           <button
                             className={`to-blue-500active:bg-gray-300 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-1 text-sm 
@@ -90,10 +122,24 @@ const Tasks = ({ wallet, user }) => {
                             disabled={
                               wallet.balance < task.requirement.mineTotal
                             }
-                            onClick={() => collectMileStoneReward(task)}
+                            onClick={() => {
+                              if (task.requirement.isClicked) {
+                                collectMileStoneReward(task)
+                                return
+                              }
+
+                              handleSocialTask(task)
+                            }}
                           >
-                            {isLoadingTaskClaim ? (
-                              <Puff color="#fff" height={25} width={25} key={task.id} />
+                            {loadingTaskId === task.id ? (
+                              <Puff
+                                color="#fff"
+                                height={25}
+                                width={25}
+                                key={task.id}
+                              />
+                            ) : !task.requirement.isClicked ? (
+                              'Join'
                             ) : (
                               'Claim'
                             )}
@@ -108,14 +154,58 @@ const Tasks = ({ wallet, user }) => {
                           Completed
                         </button>
                       )}
+                    </div>
+                    {index < tasks.length - 1 && (
+                      <hr className="my-5 border-t border-gray-500" />
+                    )}
+                  </React.Fragment>
+                )
+              }
+            })}
 
-                      {/* {!task.status === "" ? (
-                    <button className="rounded-full bg-white px-6 py-1 text-sm text-black hover:bg-gray-200 focus:outline-none active:bg-gray-300">
-                      Start
-                    </button>
-                  ) : (
-                    
-                  )} */}
+            {tasks.map((task, index) => {
+              if (task.taskType === 'milestone') {
+                return (
+                  <React.Fragment key={index}>
+                    <div className="flex w-full flex-row justify-between gap-x-5 px-2 text-white">
+                      <div className="flex items-center gap-x-5">
+                        {/* <div>{task.icon(iconProps)}</div> */}
+                        <div className="flex flex-col gap-y-1 ">
+                          <span className="text-md">{task.title}</span>
+                          <span className="font-orbitron text-sm font-medium text-white/50">
+                            +{task.rewardAmount.toLocaleString()} $ODY
+                          </span>
+                        </div>
+                      </div>
+                      {task.status !== 'done' && (
+                        <button
+                          className={`to-blue-500active:bg-gray-300 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-1 text-sm 
+                          text-white shadow-2xl shadow-blue-500 focus:outline-none disabled:from-cyan-900 disabled:to-blue-900`}
+                          key={index}
+                          disabled={wallet.balance < task.requirement.mineTotal}
+                          onClick={() => collectMileStoneReward(task)}
+                        >
+                          {loadingTaskId === task.id ? (
+                            <Puff
+                              color="#fff"
+                              height={25}
+                              width={25}
+                              key={task.id}
+                            />
+                          ) : (
+                            'Claim'
+                          )}
+                        </button>
+                      )}
+
+                      {task.status === 'done' && (
+                        <button
+                          className={`to-blue-500active:bg-gray-300 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-1 text-sm text-white shadow-2xl shadow-blue-500 
+                          focus:outline-none disabled:from-cyan-900 disabled:to-blue-900`}
+                        >
+                          Completed
+                        </button>
+                      )}
                     </div>
                     {index < tasks.length - 1 && (
                       <hr className="my-5 border-t border-gray-500" />
