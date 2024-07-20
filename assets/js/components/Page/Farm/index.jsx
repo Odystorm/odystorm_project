@@ -304,7 +304,7 @@ export default function Farm({ user }) {
             ) : (
               <img
                 src={user?.profilePicture}
-                className="h-[55px] w-[55px] rounded-full"
+                className="h-[55px] w-[55px] rounded-full shadow-2xl shadow-blue-500 border-blue-500 border-2"
               />
             )}
             <div className="flex flex-col font-orbitron">
