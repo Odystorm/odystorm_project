@@ -63,7 +63,7 @@ module.exports = {
         // Find Referrer Wallet
         const wallet = await Wallet.findOne({ owner: referrerUser.id })
         await Wallet.updateOne({ owner: referrerUser.id }).set({
-          balance: wallet.balance + 1500,
+          balance: wallet.balance + 5000,
         })
 
         const inlineKeyboard = {
@@ -82,7 +82,7 @@ module.exports = {
         // Send Message To Referrer
         await sails.helpers.sendMessageCustom(
           referrerUser.chatId,
-          `Hi ${referrerUser.username}\nYour buddy @${userRecord.username} just joined the OdyStorm Space Defense and you just received 1500 $ODY.`,
+          `Hi ${referrerUser.username}\nYour buddy @${userRecord.username} just joined the OdyStorm Space Defense and you just received 5000 $ODY.`,
           inlineKeyboard
         )
 
