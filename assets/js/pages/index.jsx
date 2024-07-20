@@ -63,7 +63,7 @@ export default function Index() {
         animate={{ opacity: 1 }}
         transition={{ duration: 1.5 }}
       >
-        <img src="/images/bg/bg_space.png" alt="" className='h-screen absolute top-0 left-0 object-cover brightness-[0.5]' />
+        <img src="/images/bg/bg_space.webp" alt="" className='h-screen absolute top-0 left-0 object-cover brightness-[0.5]' />
         <div className="absolute z-10 flex h-screen flex-col items-center justify-center py-3">
           <div className="flex w-[350px] flex-col items-center justify-center gap-y-5 p-2">
             <motion.img
