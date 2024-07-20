@@ -38,14 +38,11 @@ module.exports = {
         })
       }
 
-      // @todo Check for If user has reached Milestone
       if (task && task.milestone) {
         if (task.requirement.mineTotal > wallet.balance) {
           return res.badRequest({ message: 'Milestone not reached' })
         }
       }
-
-      // @todo Set Up Claiming Task Reward for Social Media Following
 
       await Wallet.updateOne({ owner: userRecord.id }).set({
         balance: wallet.balance + task.rewardAmount,
