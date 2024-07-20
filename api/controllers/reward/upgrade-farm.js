@@ -25,7 +25,7 @@ module.exports = {
       const wallet = await Wallet.findOne({ owner: userRecord.id })
 
       // Verify User Can Afford Upgrade
-      if (upgrade.cost > wallet.balance) {
+      if (upgrade.Cost > wallet.balance) {
         return res.badRequest({ message: "You can't afford this upgrade" })
       }
 
@@ -34,6 +34,13 @@ module.exports = {
       }).set({
         farmLevel: upgrade.Increment,
         currentNoOfFarmHours: upgrade.FarmPeriod,
+      })
+
+      // @todo Deduct Upgrade Fees
+      await Wallet.updateOne({
+        id: wallet.id,
+      }).set({
+        balance: wallet.balance - upgrade.Cost,
       })
 
       return res.status(200).json({
