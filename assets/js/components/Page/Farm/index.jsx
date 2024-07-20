@@ -166,16 +166,16 @@ export default function Farm({ user }) {
     },
   ]
 
-  useEffect(() => {
-    async function getWallet() {
-      try {
-        const response = await axios.get(`/user/wallet/${user.chatId}`)
-        setWalletBalance(response.data.balance)
-      } catch (error) {
-        console.error(error)
-      }
+  async function getWallet() {
+    try {
+      const response = await axios.get(`/user/wallet/${user.chatId}`)
+      setWalletBalance(response.data.balance)
+    } catch (error) {
+      console.error(error)
     }
+  }
 
+  useEffect(() => {
     getWallet()
   }, [])
 
@@ -250,7 +250,7 @@ export default function Farm({ user }) {
         )
         setIsFarmingComplete(false)
         setIsFarming(false)
-        window.location.reload()
+        getWallet()
       } catch (error) {
         console.error(error)
         toast.error(
@@ -360,7 +360,8 @@ export default function Farm({ user }) {
             )}
             <p className="rounded-md bg-gradient-to-r from-cyan-400 to-blue-500 p-3 font-orbitron text-lg font-semibold text-white shadow-2xl shadow-blue-500">
               Mining Rate <sup>+{user?.activity?.farmLevel}</sup> | Timeline{' '}
-              {user?.activity.currentNoOfFarmHours} {user.activity.currentNoOfFarmHours === 1 ? "Hr" : "Hrs"}
+              {user?.activity.currentNoOfFarmHours}{' '}
+              {user.activity.currentNoOfFarmHours === 1 ? 'Hr' : 'Hrs'}
             </p>
             <p className="inline-flex items-center justify-center gap-x-3 text-xl">
               <svg
