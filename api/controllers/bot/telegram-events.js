@@ -240,6 +240,12 @@ module.exports = {
           ],
           [
             {
+              text: 'OdyStorm on Tik Tok',
+              url: 'https://www.tiktok.com/@odystormofficial',
+            },
+          ],
+          [
+            {
               text: 'Launch OdyStorm',
               web_app: {
                 url: `${botBaseURL}/play?user=${chat.id}`,
