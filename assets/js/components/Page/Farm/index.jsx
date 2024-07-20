@@ -290,7 +290,7 @@ export default function Farm({ user }) {
               className="h-[100px] w-[100px]"
               alt=""
             />
-            <h3 className="text-3xl">Successfully Started Mining</h3>
+            <h3 className="text-3xl font-orbitron text-center">Successfully Started Mining</h3>
           </motion.div>
         )}
       </AnimatePresence>
@@ -304,7 +304,7 @@ export default function Farm({ user }) {
             ) : (
               <img
                 src={user?.profilePicture}
-                className="h-[55px] w-[55px] rounded-full shadow-2xl shadow-blue-500 border-blue-500 border-2"
+                className="h-[55px] w-[55px] rounded-full shadow-2xl shadow-blue-500 border-blue-500 border-[5px]"
               />
             )}
             <div className="flex flex-col font-orbitron">
