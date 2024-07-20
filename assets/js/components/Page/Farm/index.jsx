@@ -382,14 +382,6 @@ export default function Farm({ user }) {
         </div>
       </div>
       <div className="mb-[7.5rem] flex flex-col items-center justify-center gap-y-3 px-2">
-        {/* <motion.img
-          src="/images/ships/base_ship.webp"
-          className="h-auto w-[10%]"
-          alt=""
-          initial={{ y: '0' }}
-          animate={{ y: '-5' }}
-          transition={{ duration: '0.8s' }}
-        /> */}
         <p className="text-center font-orbitron font-semibold text-white">
           Rank : {getRankingOfficerTitle(user.activity.farmLevel)}
         </p>
@@ -412,51 +404,6 @@ export default function Farm({ user }) {
             Upgrade 🛠
           </button>
         </div>
-        {/* <div className="flex w-full flex-col items-center justify-center gap-y-2 rounded-md bg-white px-5 py-3 font-orbitron shadow-lg">
-          <img
-            src="/images/logo/logo_black.svg"
-            className="h-[90px] w-[90px] drop-shadow-lg"
-            alt="OdyStorm Logo"
-          />
-          <div className="flex w-full justify-between">
-            <button
-              className="inline-flex items-center gap-x-3 rounded-md bg-black p-3 text-white"
-              onClick={() => setUpgrades(true)}
-            >
-              Upgrade Ship{' '}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="25"
-                height="25"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  fill="#FFF"
-                  d="M5.33 3.272a3.5 3.5 0 0 1 4.472 4.473L20.647 18.59l-2.122 2.121L7.68 9.867a3.5 3.5 0 0 1-4.472-4.474L5.444 7.63a1.5 1.5 0 0 0 2.121-2.121zm10.367 1.883l3.182-1.768l1.414 1.415l-1.768 3.181l-1.768.354l-2.12 2.121l-1.415-1.414l2.121-2.121zm-7.071 7.778l2.121 2.122l-4.95 4.95A1.5 1.5 0 0 1 3.58 17.99l.097-.107z"
-                />
-              </svg>
-            </button>
-            <button
-              className="inline-flex items-center gap-x-3 rounded-md bg-black p-3 font-semibold text-white"
-              onClick={() => {
-                toast.info('Game is Currently in Development!')
-              }}
-            >
-              Play
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="32"
-                height="32"
-                viewBox="0 0 512 512"
-              >
-                <path
-                  fill="#FFF"
-                  d="m265 34l47.898 35.924l61.563 123.123l-8.057 32.23l-24.943-4.158l3.16-10.533l2.842-9.473L256 182.823l-91.463 18.29l6.002 20.006l-24.943 4.156l-8.057-32.228L199.1 69.926L247 34v56h-39l-16 32l64 38l64-38l-16-32h-39zm188.313 169.258l30.3 10.101l-13.478 29.205l-30.016-5.001zm-394.626 0l13.194 34.304l-30.016 5.002l-13.478-29.205zM256 205.32l53.8 58.692L281.306 359h-50.61L202.2 264.012zm25.254.909l43.283 8.658l-8.715 29.052zm-50.508.002l-34.568 37.709l-8.715-29.053zm105.5 32.267L482.5 262.873L429.799 368.28L329.98 259.385zm-160.492 0l6.266 20.887L82.2 368.279L29.5 262.873zm148.205 40.96l72.201 78.765l-84.556-37.582zm-135.918 0l12.355 41.183l-84.556 37.582zm118.348 58.564l28.646 12.732L312.973 439H265v-62h29.695zm-100.778 0L217.305 377H247v62h-47.973l-22.062-88.246zM387.6 374.115l18.105 8.047l-9.984 21.635l-16.387-8.193zm-263.2 0l8.266 21.489l-16.387 8.193l-9.984-21.635zM311 457v30h-30v-30zm-80 0v30h-30v-30z"
-                />
-              </svg>
-            </button>
-          </div>
-        </div> */}
         <div className="w-full">
           {!isFarming ? (
             <button
