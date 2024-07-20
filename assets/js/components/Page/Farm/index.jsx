@@ -46,7 +46,7 @@ export function FarmComplete({ amountFarmed, claimToken, isClaimLoading }) {
 }
 
 export function FarmUpgrades({ setUpgrades, user }) {
-  const [isPurchasing, setIsPurchasing] = useState(false)
+  const [purchasingUpgrade, setPurchasingUpgrade] = useState(null)
 
   async function handleUpgradePurchase(upgrade) {
     if (upgrade.Cost > user.wallet[0].balance) {
@@ -54,7 +54,7 @@ export function FarmUpgrades({ setUpgrades, user }) {
       return
     }
 
-    setIsPurchasing(true)
+    setPurchasingUpgrade(upgrade.Tool)
     try {
       await axios.post('/api/v1/upgrade/farming', {
         telegramId: user.chatId,
@@ -67,7 +67,7 @@ export function FarmUpgrades({ setUpgrades, user }) {
       toast.error('Upgrade Purchase Failed')
       console.error(error)
     } finally {
-      setIsPurchasing(false)
+      setPurchasingUpgrade(null)
     }
   }
 
@@ -109,7 +109,7 @@ export function FarmUpgrades({ setUpgrades, user }) {
             <p>Cost: {upgrade.Cost.toLocaleString()} $ODY</p>
             <p>Token: +{upgrade.Increment}</p>
             <p className="font-bold">Mine Period: {upgrade.FarmPeriod} Hours</p>
-            {isPurchasing ? (
+            {purchasingUpgrade === upgrade.Tool ? (
               <button className={`rounded-md bg-white px-7 py-3 text-black`}>
                 <Puff
                   visible={true}
