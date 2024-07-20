@@ -155,7 +155,6 @@ export default function Farm({ user }) {
   const [isFarmingComplete, setIsFarmingComplete] = useState(false)
   const [isLoadingStartFarming, setIsLoadingStartFarming] = useState(false)
   const [isClaimLoading, setIsClaimLoading] = useState(false)
-  const [farmingStarted, setFarmingStarted] = useState(false)
   const [viewUpgrades, setUpgrades] = useState(false)
   const [openMenuDropdown, setOpenMenuDropdown] = useState(true)
   const [walletBalance, setWalletBalance] = useState(0)
@@ -193,7 +192,7 @@ export default function Farm({ user }) {
   useEffect(() => {
     getWallet()
     getCurrentFarm()
-  }, [])
+  }, [isFarmingComplete, isFarming, isLoadingStartFarming])
 
   async function handleStartFarming() {
     tg.ready()
@@ -245,8 +244,9 @@ export default function Farm({ user }) {
           `You have successfully claimed $ODY ${farm.eligibleClaimAmount}`
         )
         setIsFarmingComplete(false)
-        setIsFarming(false)
         getWallet()
+        getCurrentFarm()
+        setIsLoadingStartFarming(false)
       } catch (error) {
         console.error(error)
         toast.error(
@@ -271,26 +271,6 @@ export default function Farm({ user }) {
       </AnimatePresence>
       <AnimatePresence initial={false} mode="sync" exitBeforeEnter={true}>
         {viewUpgrades && <FarmUpgrades setUpgrades={setUpgrades} user={user} />}
-      </AnimatePresence>
-      <AnimatePresence initial={false} mode="sync" exitBeforeEnter={true}>
-        {farmingStarted && (
-          <motion.div
-            className="absolute z-[100] flex h-[100dvh] w-full flex-col items-center justify-center space-y-3 bg-black text-white"
-            initial={{ opacity: 0.8 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-          >
-            <img
-              src="/images/logo/logo.svg"
-              className="h-[100px] w-[100px]"
-              alt=""
-            />
-            <h3 className="text-center font-orbitron text-3xl">
-              Successfully Started Mining
-            </h3>
-          </motion.div>
-        )}
       </AnimatePresence>
       <div className="flex w-full flex-col items-center justify-center gap-y-3 text-white">
         <div className="flex h-20 w-full items-center justify-between bg-black bg-opacity-20 px-2 shadow-lg backdrop-blur-md backdrop-filter">
