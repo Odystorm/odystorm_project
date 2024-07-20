@@ -33,10 +33,15 @@ module.exports.routes = {
   'GET /user/tasks/:tgId': { action: 'user/get-tasks' },
   // Claim Task Tokens
   'POST /user/tasks/claim': { action: 'reward/claim-task-reward' },
+  // Click Social Task
+  'POST /user/task/social': { action: 'reward/click-social-task' },
 
   // Activity
   // Store Farm Timeline
   'POST /api/v1/reward/store-farm': { action: 'reward/store-farm' },
+
+  // Get Current farm Session
+  'GET /api/v1/farm/:tgId': { action: 'user/get-current-farm-session' },
 
   // Rewards
   'POST /api/v1/reward/confirm-daily-reward': {
