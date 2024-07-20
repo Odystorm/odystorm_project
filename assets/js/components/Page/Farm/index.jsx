@@ -150,8 +150,8 @@ export function FarmUpgrades({ setUpgrades, user }) {
 const tg = window.Telegram.WebApp
 
 export default function Farm({ user }) {
-  const [farm, setFarm] = useState(user.currentFarm ? user.currentFarm : null)
-  const [isFarming, setIsFarming] = useState(false)
+  const [farm, setFarm] = useState(null)
+  const [isFarming, setIsFarming] = useState(true)
   const [isFarmingComplete, setIsFarmingComplete] = useState(false)
   const [isLoadingStartFarming, setIsLoadingStartFarming] = useState(false)
   const [isClaimLoading, setIsClaimLoading] = useState(false)
@@ -175,12 +175,27 @@ export default function Farm({ user }) {
     }
   }
 
+  async function getCurrentFarm() {
+    try {
+      const response = await axios.get(`/api/v1/farm/${user.chatId}`)
+      if (response.data) {
+        setIsFarming(true)
+        setFarm(response.data)
+        return
+      } else {
+        setIsFarming(false)
+      }
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
   useEffect(() => {
     getWallet()
+    getCurrentFarm()
   }, [])
 
   async function handleStartFarming() {
-    setIsLoadingStartFarming(true)
     tg.ready()
     if (tg) {
       const tgUser = tg.initDataUnsafe.user
@@ -205,33 +220,14 @@ export default function Farm({ user }) {
           ),
         })
 
-        setFarm(farmData)
-        setFarmingStarted(true)
-        setTimeout(() => {
-          setIsFarming(true)
-        }, 2000)
-        window.location.reload()
+        getCurrentFarm()
+        setIsLoadingStartFarming(true)
       } catch (error) {
         console.error(error)
-        if (error && error.response && error.response.status) {
-          toast.error("There's a Farm Session in Progress... Reloading Now")
-          setTimeout(() => {
-            window.location.reload()
-          }, 2000)
-          return
-        }
-        toast.error('Failed to Store Farm timeline')
-      } finally {
-        setIsLoadingStartFarming(false)
+        toast.error('Failed to Start Mining Session timeline')
       }
     }
   }
-
-  useEffect(() => {
-    if (user.currentFarm) {
-      setIsFarming(true)
-    }
-  }, [])
 
   async function handleClaim() {
     setIsClaimLoading(true)
@@ -290,7 +286,9 @@ export default function Farm({ user }) {
               className="h-[100px] w-[100px]"
               alt=""
             />
-            <h3 className="text-3xl font-orbitron text-center">Successfully Started Mining</h3>
+            <h3 className="text-center font-orbitron text-3xl">
+              Successfully Started Mining
+            </h3>
           </motion.div>
         )}
       </AnimatePresence>
@@ -304,7 +302,7 @@ export default function Farm({ user }) {
             ) : (
               <img
                 src={user?.profilePicture}
-                className="h-[55px] w-[55px] rounded-full shadow-2xl shadow-blue-500 border-blue-500 border-[5px]"
+                className="h-[55px] w-[55px] rounded-full border-[5px] border-blue-500 shadow-2xl shadow-blue-500"
               />
             )}
             <div className="flex flex-col font-orbitron">
@@ -425,13 +423,27 @@ export default function Farm({ user }) {
               )}
             </button>
           ) : (
-            <div className="inline-flex h-[3.5rem] w-full items-center justify-between rounded-md bg-gradient-to-r from-cyan-400 to-blue-500 p-3 font-orbitron text-lg font-semibold text-white shadow-2xl shadow-blue-500">
-              {farm && (
+            <div
+              className={`inline-flex h-[3.5rem] w-full items-center ${
+                farm ? 'justify-between' : 'justify-center'
+              } rounded-md bg-gradient-to-r from-cyan-400 to-blue-500 p-3 font-orbitron text-lg font-semibold text-white shadow-2xl shadow-blue-500`}
+            >
+              {farm ? (
                 <Countdown
                   increment={farm.increment}
                   startTime={farm.startTime}
                   endTime={farm.endTime}
                   setIsFarmingComplete={setIsFarmingComplete}
+                />
+              ) : (
+                <Puff
+                  visible={true}
+                  height="35"
+                  width="35"
+                  color="#FFF"
+                  ariaLabel="puff-loading"
+                  wrapperStyle={{}}
+                  wrapperClass=""
                 />
               )}
             </div>
