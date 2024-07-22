@@ -51,6 +51,7 @@ export function FarmUpgrades({
   walletBalance,
   userLevel,
   getUserData,
+  getCurrentFarm,
 }) {
   const [purchasingUpgrade, setPurchasingUpgrade] = useState(null)
   const [upgrade, setUpgrade] = useState(null)
@@ -96,6 +97,7 @@ export function FarmUpgrades({
 
       toast('Successfully bought new mining ship')
       getUserData()
+      getCurrentFarm()
     } catch (error) {
       console.error(error)
       toast('Unable to Buy a New Ship... Please Try Again Later')
@@ -106,22 +108,23 @@ export function FarmUpgrades({
 
   async function buyPower() {
     setLoadingPowerPurchase(periodUpgrade.Tool)
-    if (walletBalance < periodUpgrade.Cost) {
+    if (walletBalance < periodUpgrade.Cost / 2) {
       toast('Insufficient Balance... Please Try Again Later')
       setLoadingPowerPurchase('')
       return
     }
     try {
-      const response = await axios.post('/api/v1/boost/ship', {
+      const response = await axios.post('/api/v1/boost/power', {
         telegramId: user.chatId,
         upgrade: periodUpgrade,
       })
 
-      toast('Successfully bought new mining ship')
+      toast('Successfully bought power grid')
       getUserData()
+      getCurrentFarm()
     } catch (error) {
       console.error(error)
-      toast('Unable to Buy a New Ship... Please Try Again Later')
+      toast('Unable to Buy a Power... Please Try Again Later')
     } finally {
       setLoadingPowerPurchase('')
     }
@@ -138,11 +141,12 @@ export function FarmUpgrades({
     ) {
       setPeriodUpgrade(farmUpgrades[0])
     } else {
-      const locatedUpgrade = farmUpgrades.findIndex(
-        (upgrade) => upgrade.FarmPeriod === userLevel.farmLevel
+      const farmPeriodUpgrades = farmUpgrades.findIndex(
+        (upgrade) => upgrade.FarmPeriod === userLevel.currentNoOfFarmHours
       )
 
-      setPeriodUpgrade(locatedUpgrade)
+      console.log(farmUpgrades[farmPeriodUpgrades + 1])
+      setPeriodUpgrade(farmUpgrades[farmPeriodUpgrades + 1])
     }
 
     setUpgrade(locatedUpgrade)
@@ -184,7 +188,15 @@ export function FarmUpgrades({
               $ODY {walletBalance.toLocaleString()}
             </span>
           ) : (
-            <Puff color="#fff" width={30} height={30} />
+            <>
+              {walletBalance === 0 ? (
+                <span className="inline-flex items-center gap-x-3 text-4xl">
+                  $ODY {walletBalance.toLocaleString()}
+                </span>
+              ) : (
+                <Puff color="#fff" width={30} height={30} />
+              )}
+            </>
           )}
           <p className="rounded-md bg-gradient-to-r from-cyan-400 to-blue-500 p-3 font-orbitron text-lg font-semibold text-white shadow-2xl shadow-blue-500">
             Mining Rate <sup>+{userLevel?.farmLevel}</sup> | Timeline{' '}
@@ -236,8 +248,8 @@ export function FarmUpgrades({
                   <p className="flex flex-col items-start justify-start">
                     <p className="text-md">Buy Mining Ship</p>
                     <p>
-                      $ODY {upgrade ? upgrade.Cost : ''} | Mine Rate{' '}
-                      <sup>+1</sup>{' '}
+                      $ODY {upgrade ? upgrade.Cost.toLocaleString() : ''} | Mine
+                      Rate <sup>+1</sup>{' '}
                     </p>
                   </p>
                 </>
@@ -271,8 +283,11 @@ export function FarmUpgrades({
                   <p className="flex flex-col items-start justify-start">
                     <p className="text-md">Buy Energy Core</p>
                     <p>
-                      $ODY {periodUpgrade ? periodUpgrade.Cost / 2 : ''} |
-                      Timeline <sup>+1</sup>
+                      $ODY{' '}
+                      {periodUpgrade
+                        ? (periodUpgrade.Cost / 2).toLocaleString()
+                        : ''}{' '}
+                      | Timeline <sup>+1</sup>
                     </p>
                   </p>
                 </>
@@ -298,12 +313,6 @@ export default function Farm({ user }) {
   const [openMenuDropdown, setOpenMenuDropdown] = useState(true)
   const [walletBalance, setWalletBalance] = useState(0)
   const [userLevel, setUserLevel] = useState(null)
-
-  const menuOptions = [
-    {
-      option: 'Profile',
-    },
-  ]
 
   async function getUserData() {
     try {
@@ -416,6 +425,7 @@ export default function Farm({ user }) {
             user={user}
             userLevel={userLevel}
             getUserData={getUserData}
+            getCurrentFarm={getCurrentFarm}
           />
         )}
       </AnimatePresence>
@@ -453,13 +463,6 @@ export default function Farm({ user }) {
               )}
             </div>
           </div>
-          {/* <AnimatePresence initial={false} mode="sync" exitBeforeEnter={true}>
-            {openMenuDropdown && (
-              <motion.div className="absolute z-30 h-full w-full bg-space">
-
-              </motion.div>
-            )}
-          </AnimatePresence> */}
           <button className="h-fit" onClick={() => setUpgrades(true)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -484,7 +487,15 @@ export default function Farm({ user }) {
                 $ODY {walletBalance.toLocaleString()}
               </span>
             ) : (
-              <Puff color="#fff" width={30} height={30} />
+              <>
+                {walletBalance === 0 ? (
+                  <span className="inline-flex items-center gap-x-3 text-4xl">
+                    $ODY {walletBalance.toLocaleString()}
+                  </span>
+                ) : (
+                  <Puff color="#fff" width={30} height={30} />
+                )}
+              </>
             )}
             <p className="rounded-md bg-gradient-to-r from-cyan-400 to-blue-500 p-3 font-orbitron text-lg font-semibold text-white shadow-2xl shadow-blue-500">
               Mining Rate <sup>+{userLevel?.farmLevel}</sup> | Timeline{' '}
