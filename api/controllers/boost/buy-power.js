@@ -23,20 +23,21 @@ module.exports = {
 
     try {
       const userRecord = await User.findOne({ chatId: telegramId })
-      const activity = await Activity.findOne({ owner: userRecord.id })
       const wallet = await Wallet.findOne({ owner: userRecord.id })
 
-      if (upgrade.Cost > wallet.balance) {
+      const upgradeCost = upgrade.Cost / 2
+
+      if (upgradeCost > wallet.balance) {
         return res.badRequest({
           message: 'Insufficient Balance to Purchase Upgrade',
         })
       }
 
       await Wallet.updateOne({ owner: userRecord.id }).set({
-        balance: wallet.balance - upgrade.Cost,
+        balance: wallet.balance - upgradeCost,
       })
 
-      await Activity.updateOne({ id: activity.id }).set({
+      await Activity.updateOne({ owner: userRecord.id }).set({
         currentNoOfFarmHours: upgrade.FarmPeriod,
       })
 
