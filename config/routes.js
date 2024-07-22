@@ -42,6 +42,9 @@ module.exports.routes = {
 
   // Get Current farm Session
   'GET /api/v1/farm/:tgId': { action: 'user/get-current-farm-session' },
+  // Boost Level
+  'POST /api/v1/boost/ship': { action: 'boost/buy-ship' },
+  'POST /api/v1/boost/power': { action: 'boost/buy-power' },
 
   // Rewards
   'POST /api/v1/reward/confirm-daily-reward': {
