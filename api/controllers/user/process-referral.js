@@ -82,7 +82,7 @@ module.exports = {
         // Send Message To Referrer
         await sails.helpers.sendMessageCustom(
           referrerUser.chatId,
-          `Hi ${referrerUser.username}\nYour buddy @${userRecord.username} just joined the OdyStorm Space Defense and you just received 5000 $ODY.`,
+          `Hi @${referrerUser.username}\nYour buddy @${userRecord.username} just joined the OdyStorm Space Defense and you just received 5000 $ODY.`,
           inlineKeyboard
         )
 
