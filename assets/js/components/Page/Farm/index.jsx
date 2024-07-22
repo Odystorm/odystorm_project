@@ -276,7 +276,7 @@ export default function Farm({ user }) {
         <div className="flex h-20 w-full items-center justify-between bg-black bg-opacity-20 px-2 shadow-lg backdrop-blur-md backdrop-filter">
           <div className="flex h-full items-center justify-start gap-x-3">
             {!user?.profilePicture ? (
-              <p className="flex h-[55px] w-[55px] items-center justify-center rounded-full bg-white text-4xl font-bold text-black">
+              <p className="flex h-[55px] w-[55px] items-center justify-center rounded-full border-[5px] border-blue-500 bg-white text-4xl font-bold text-black shadow-2xl shadow-blue-500">
                 {user?.firstName[0]}
               </p>
             ) : (
@@ -328,7 +328,9 @@ export default function Farm({ user }) {
         </div>
         <div className="mt-5 space-y-5">
           <p className="mt-5 flex flex-col items-center justify-center gap-y-3 font-orbitron font-semibold">
-            <p className="text-sm uppercase">Current Balance</p>
+            <p className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-sm font-extrabold uppercase text-transparent shadow-blue-500 drop-shadow-2xl">
+              Current Balance
+            </p>
             {walletBalance ? (
               <span className="inline-flex items-center gap-x-3 text-4xl">
                 $ODY {walletBalance.toLocaleString()}
