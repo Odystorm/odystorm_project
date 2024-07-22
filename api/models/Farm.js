@@ -37,5 +37,15 @@ module.exports = {
       isIn: ['farming', 'farmed'],
       defaultsTo: 'farming',
     },
+    tenMinuteReminded: {
+      type: 'boolean',
+      description: 'If Reminder is sent after 10 minutes',
+      defaultsTo: false,
+    },
+    twelveHourReminded: {
+      type: 'boolean',
+      description: 'if Reminder is sent after 12 hours',
+      defaultsTo: false,
+    },
   },
 }
