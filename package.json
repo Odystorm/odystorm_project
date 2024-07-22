@@ -25,6 +25,7 @@
     "sails": "^1.5.2",
     "sails-flash": "^0.0.1",
     "sails-hook-apianalytics": "^2.0.6",
+    "sails-hook-cronjob": "^1.0.5",
     "sails-hook-dotenv": "^0.1.1",
     "sails-hook-organics": "^2.2.2",
     "sails-hook-orm": "^4.0.0",
