@@ -14,7 +14,7 @@ import { getRankingOfficerTitle } from '@/utils'
 export function FarmComplete({ amountFarmed, claimToken, isClaimLoading }) {
   return (
     <motion.div
-      className="absolute left-0 top-0 z-50 flex h-screen w-full flex-col items-center justify-center gap-y-3 overflow-x-hidden bg-black text-center font-orbitron text-white"
+      className="absolute left-0 top-0 z-50 flex h-screen w-full flex-col items-center justify-center gap-y-3 overflow-x-hidden bg-black text-center font-orbitron text-white bg-space bg-opacity-50"
       initial={{ opacity: 0.8 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
