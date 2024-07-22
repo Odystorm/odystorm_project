@@ -55,6 +55,8 @@ module.exports.routes = {
   'GET /cron-job': {
     action: 'cronjob/stay-alive',
   },
+  // Run Reminders
+  'GET /mine/session/reminder': { action: 'cronjob/mine-session-reminder' },
 
   // Referrals
   'GET /user/referrals/:tgId': { action: 'reward/get-referrals' },
