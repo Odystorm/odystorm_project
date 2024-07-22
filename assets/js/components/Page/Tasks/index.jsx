@@ -84,9 +84,9 @@ const Tasks = ({ wallet, user }) => {
           alt="OdyStorm Logo"
         />
         <div className="text-center">
-          <h3 className=" font-orbitron text-3xl font-bold text-white">
-            OdyStorm Space
-            <br /> Defense Tasks
+          <h3 className=" bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text font-orbitron text-3xl font-bold text-transparent shadow-blue-500 drop-shadow-2xl">
+            OdyStorm
+            <br /> Mission Control
           </h3>
           <div className="px-2 text-white/50">
             <p className="">
