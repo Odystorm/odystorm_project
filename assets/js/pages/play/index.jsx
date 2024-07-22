@@ -13,7 +13,7 @@ import { router } from '@inertiajs/react'
 export function Notification({ activity, setShowNotification }) {
   return (
     <motion.div
-      className="absolute left-0 top-0 z-[100] flex min-h-screen w-full flex-col items-center justify-center gap-y-3 bg-black text-center text-white"
+      className="absolute left-0 top-0 z-[100] flex min-h-screen w-full flex-col items-center justify-center gap-y-3 bg-black text-center text-white font-orbitron"
       onClick={() => {
         setShowNotification(false)
         window.location.reload()
@@ -24,7 +24,7 @@ export function Notification({ activity, setShowNotification }) {
       transition={{ duration: 0.8 }}
     >
       <h2 className="text-3xl font-bold">Day {activity.noOfActiveDays}</h2>
-      <h3 className="text-xl">You have received your daily bonus</h3>
+      <h3 className="text-xl ">You have received your daily bonus</h3>
       <p className="text-lg font-semibold">+100 ODY</p>
     </motion.div>
   )
