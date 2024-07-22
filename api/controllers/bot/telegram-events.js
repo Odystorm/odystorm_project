@@ -14,7 +14,13 @@ module.exports = {
 
     const botBaseURL = sails.config.custom.botBaseURL
 
-    const botCommandList = ['/start', 'new-user', 'socials', 'join-community']
+    const botCommandList = [
+      '/start',
+      'new-user',
+      'socials',
+      'join-community',
+      'new-user-web-app',
+    ]
 
     function isValidCommand(command, botCommandList) {
       try {
@@ -111,6 +117,19 @@ module.exports = {
         }
       }
 
+      if (update.message && update.message.web_app_data) {
+        return {
+          type: 'private',
+          command: 'new-user-web-app',
+          chat: {
+            id: update.message.chat.id,
+            firstName: update.message.chat.first_name,
+            lastName: update.message.chat?.last_name,
+            username: update.message.chat.username,
+          },
+        }
+      }
+
       return {
         type: 'unspecified',
         command: 'unknown',
@@ -151,8 +170,7 @@ module.exports = {
     }
 
     if (
-      (type === 'private' && command.includes('start')) ||
-      command.includes('new-user')
+      (type === 'private' && command.includes('start'))
     ) {
       try {
         const userRecord = await User.findOne({ chatId: chat.id })
