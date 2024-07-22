@@ -24,6 +24,7 @@ module.exports = {
     try {
       const userRecord = await User.findOne({ chatId: telegramId })
       const wallet = await Wallet.findOne({ owner: userRecord.id })
+      const activity = await Activity.findOne({ owner: userRecord.id })
 
       const upgradeCost = upgrade.Cost / 2
 
@@ -42,7 +43,10 @@ module.exports = {
       })
 
       // Check for Existing Farm Session
-      const farm = await Farm.findOne({ status: 'farming' })
+      const farm = await Farm.findOne({
+        status: 'farming',
+        activity: activity.id,
+      })
 
       if (farm) {
         const { startTime } = farm

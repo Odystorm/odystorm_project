@@ -39,7 +39,10 @@ module.exports = {
       })
 
       // Check for Existing Farm Session
-      const farm = await Farm.findOne({ status: 'farming' })
+      const farm = await Farm.findOne({
+        status: 'farming',
+        activity: activity.id,
+      })
 
       if (farm) {
         await Farm.updateOne({ id: farm.id }).set({
