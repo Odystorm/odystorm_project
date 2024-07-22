@@ -1,7 +1,9 @@
 // @ts-nocheck
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'react-toastify'
+import axios from 'axios'
+import { Puff } from 'react-loader-spinner'
 
 const data = [
   {
@@ -140,6 +142,22 @@ const InviteModal = ({ setOpenModal, user }) => {
 
 const Referrals = ({ user }) => {
   const [openModal, setOpenModal] = useState(false)
+  const [referrals, setReferrals] = useState(null)
+  const [loadingReferrals, setLoadingReferrals] = useState(true)
+
+  async function getReferrals() {
+    try {
+      const response = await axios.get(`/user/referrals/${user.chatId}`)
+      setReferrals(response.data)
+      setLoadingReferrals(false)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+
+  useEffect(() => {
+    getReferrals()
+  }, [])
 
   return (
     <div className="relative flex min-h-screen w-full flex-col justify-between overflow-y-scroll px-3">
@@ -150,7 +168,7 @@ const Referrals = ({ user }) => {
             className="h-[150px] w-[150px]"
             alt=""
           />
-          <h3 className="font-orbitron text-3xl font-semibold text-white">
+          <h3 className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text font-orbitron text-3xl font-bold text-transparent shadow-blue-500 drop-shadow-2xl">
             Invite Friends to Join the Odystorm Space Defense
           </h3>
         </div>
@@ -171,55 +189,77 @@ const Referrals = ({ user }) => {
           </ol>
         </div> */}
 
-        <div className="h-full space-y-3 overflow-y-scroll">
-          <h3 className="text-lg font-bold text-white">
-            {user.referrals.length}{' '}
-            {user.referrals.length > 1 ? 'Friends' : 'Friend'}
-          </h3>
-          <div className="space-y-2">
-            {user.referrals.map((referral, index) => {
-              return (
-                <div
-                  key={index}
-                  className="flex items-center justify-between text-white"
-                >
-                  <div className="flex items-center justify-center gap-x-3">
-                    <p className="text-md inline-flex h-[40px] w-[40px] items-center justify-center rounded-full bg-white text-black">
-                      {referral.firstName[0]}
-                    </p>
-                    <div className="flex flex-col items-start justify-center">
-                      <h3>{referral.firstName}</h3>
-                      <p className="flex items-center justify-center">
-                        <svg
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="25"
-                          height="25"
-                          viewBox="0 0 20 20"
-                        >
-                          <path
-                            fill="#FFF"
-                            d="M6.75 10a3.25 3.25 0 1 0 0-6.5a3.25 3.25 0 0 0 0 6.5m5.687 5.145c.53.217 1.204.355 2.062.355c4 0 4-3 4-3A1.5 1.5 0 0 0 17 11h-4.628c.393.476.629 1.085.629 1.75v.356a3 3 0 0 1-.017.252a5 5 0 0 1-.546 1.787M17 7.5a2.5 2.5 0 1 1-5 0a2.5 2.5 0 0 1 5 0M1.5 13a2 2 0 0 1 2-2H10a2 2 0 0 1 2 2s0 4-5.25 4s-5.25-4-5.25-4m11.5.106l-.003.064Z"
+        <div className="min-h-[250px] space-y-3 overflow-y-scroll">
+          {!loadingReferrals && (
+            <h3 className="text-lg font-bold text-white">
+              {referrals ? referrals.length : 0}{' '}
+              {referrals
+                ? referrals.length > 1
+                  ? 'Friends'
+                  : 'Friend'
+                : 'No Referrals'}
+            </h3>
+          )}
+          {loadingReferrals ? (
+            <div className="flex w-full items-center justify-center">
+              <Puff color="#fff" height={55} width={55} />
+            </div>
+          ) : (
+            <div className="space-y-2">
+              {referrals &&
+                referrals.map((referral, index) => {
+                  return (
+                    <div
+                      key={index}
+                      className="flex items-center justify-between text-white"
+                    >
+                      <div className="flex items-center justify-center gap-x-3">
+                        {!referral.profilePicture ? (
+                          <p className="text-md inline-flex h-[40px] w-[40px] items-center justify-center rounded-full border-[5px] border-blue-500 bg-white text-black shadow-2xl shadow-blue-500">
+                            {referral.firstName[0]}
+                          </p>
+                        ) : (
+                          <img
+                            src={referral.profilePicture}
+                            className="h-[40px] w-[40px] rounded-full border-[5px] border-blue-500 shadow-2xl shadow-blue-500"
                           />
-                        </svg>
+                        )}
+                        <div className="flex flex-col items-start justify-center">
+                          <h3 className="font-orbitron font-medium">
+                            {referral.firstName}
+                          </h3>
+                          <p className="flex items-center justify-center">
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              width="25"
+                              height="25"
+                              viewBox="0 0 20 20"
+                            >
+                              <path
+                                fill="#FFF"
+                                d="M6.75 10a3.25 3.25 0 1 0 0-6.5a3.25 3.25 0 0 0 0 6.5m5.687 5.145c.53.217 1.204.355 2.062.355c4 0 4-3 4-3A1.5 1.5 0 0 0 17 11h-4.628c.393.476.629 1.085.629 1.75v.356a3 3 0 0 1-.017.252a5 5 0 0 1-.546 1.787M17 7.5a2.5 2.5 0 1 1-5 0a2.5 2.5 0 0 1 5 0M1.5 13a2 2 0 0 1 2-2H10a2 2 0 0 1 2 2s0 4-5.25 4s-5.25-4-5.25-4m11.5.106l-.003.064Z"
+                              />
+                            </svg>
 
-                        {referral.referrals.length}
-                      </p>
+                            {referral.referrals.length}
+                          </p>
+                        </div>
+                      </div>
+                      <div>
+                        <span className="font-orbitron text-lg font-semibold">
+                          $ODY {referral.wallet[0].balance.toLocaleString()}
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                  <div>
-                    <span className="text-xl font-semibold">
-                      {referral.wallet[0].balance} ODY
-                    </span>
-                  </div>
-                </div>
-              )
-            })}
-          </div>
+                  )
+                })}
+            </div>
+          )}
         </div>
       </div>
       <div className="mb-[7rem] w-full">
         <button
-          className="h-[3.5rem] w-full rounded-md bg-gradient-to-r from-cyan-400 to-blue-500 font-semibold text-white shadow-2xl shadow-blue-500 text-lg font-orbitron"
+          className="h-[3.5rem] w-full rounded-md bg-gradient-to-r from-cyan-400 to-blue-500 font-orbitron text-lg font-semibold text-white shadow-2xl shadow-blue-500"
           onClick={() => setOpenModal(true)}
         >
           Invite a Friend
