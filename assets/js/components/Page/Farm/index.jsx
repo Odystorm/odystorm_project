@@ -14,7 +14,7 @@ import { getRankingOfficerTitle } from '@/utils'
 export function FarmComplete({ amountFarmed, claimToken, isClaimLoading }) {
   return (
     <motion.div
-      className="absolute left-0 top-0 z-50 flex h-screen w-full flex-col items-center justify-center gap-y-3 overflow-x-hidden bg-black text-center font-orbitron text-white bg-space bg-opacity-50"
+      className="absolute left-0 top-0 z-50 flex h-screen w-full flex-col items-center justify-center gap-y-3 overflow-x-hidden bg-black bg-opacity-50 bg-space text-center font-orbitron text-white"
       initial={{ opacity: 0.8 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -45,8 +45,18 @@ export function FarmComplete({ amountFarmed, claimToken, isClaimLoading }) {
   )
 }
 
-export function FarmUpgrades({ setUpgrades, user }) {
+export function FarmUpgrades({
+  setUpgrades,
+  user,
+  walletBalance,
+  userLevel,
+  getUserData,
+}) {
   const [purchasingUpgrade, setPurchasingUpgrade] = useState(null)
+  const [upgrade, setUpgrade] = useState(null)
+  const [periodUpgrade, setPeriodUpgrade] = useState(null)
+  const [loadingPurchase, setLoadingPurchase] = useState('')
+  const [loadingPowerPurchase, setLoadingPowerPurchase] = useState('')
 
   async function handleUpgradePurchase(upgrade) {
     if (upgrade.Cost > user.wallet[0].balance) {
@@ -71,24 +81,89 @@ export function FarmUpgrades({ setUpgrades, user }) {
     }
   }
 
-  const upgrades = farmUpgrades.filter(
-    (upgrade) => upgrade.Increment > user.activity.farmLevel
-  )
+  async function buyShip() {
+    setLoadingPurchase(upgrade.Tool)
+    if (walletBalance < upgrade.Cost) {
+      toast('Insufficient Balance... Please Try Again Later')
+      setLoadingPurchase('')
+      return
+    }
+    try {
+      const response = await axios.post('/api/v1/boost/ship', {
+        telegramId: user.chatId,
+        upgrade,
+      })
+
+      toast('Successfully bought new mining ship')
+      getUserData()
+    } catch (error) {
+      console.error(error)
+      toast('Unable to Buy a New Ship... Please Try Again Later')
+    } finally {
+      setLoadingPurchase('')
+    }
+  }
+
+  async function buyPower() {
+    setLoadingPowerPurchase(periodUpgrade.Tool)
+    if (walletBalance < periodUpgrade.Cost) {
+      toast('Insufficient Balance... Please Try Again Later')
+      setLoadingPowerPurchase('')
+      return
+    }
+    try {
+      const response = await axios.post('/api/v1/boost/ship', {
+        telegramId: user.chatId,
+        upgrade: periodUpgrade,
+      })
+
+      toast('Successfully bought new mining ship')
+      getUserData()
+    } catch (error) {
+      console.error(error)
+      toast('Unable to Buy a New Ship... Please Try Again Later')
+    } finally {
+      setLoadingPowerPurchase('')
+    }
+  }
+
+  useEffect(() => {
+    const locatedUpgrade = farmUpgrades.find(
+      (upgrade) => upgrade.Increment - 1 === userLevel.farmLevel
+    )
+
+    if (
+      userLevel.currentNoOfFarmHours === 1 ||
+      userLevel.currentNoOfFarmHours === 0.01
+    ) {
+      setPeriodUpgrade(farmUpgrades[0])
+    } else {
+      const locatedUpgrade = farmUpgrades.findIndex(
+        (upgrade) => upgrade.FarmPeriod === userLevel.farmLevel
+      )
+
+      setPeriodUpgrade(locatedUpgrade)
+    }
+
+    setUpgrade(locatedUpgrade)
+  }, [])
 
   return (
     <motion.div
-      className="absolute left-0 top-0 z-50 flex h-screen w-full flex-col items-center justify-start space-y-3 overflow-y-scroll bg-space p-5 font-orbitron text-white"
-      initial={{ opacity: 0.8 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
+      className="absolute left-0 top-0 z-50 flex h-screen w-full flex-col items-center justify-start gap-y-10 space-y-3 overflow-y-scroll bg-space p-5 font-orbitron text-white"
+      initial={{ y: '100%' }}
+      animate={{ y: 0 }}
+      exit={{ y: '100%' }}
+      transition={{ type: 'spring', stiffness: 80, duration: '0.8s' }}
     >
+      <div className="absolute inset-0 bg-black bg-opacity-20"></div>
       <div className="flex w-full justify-end">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width="32"
           height="32"
           viewBox="0 0 24 24"
+          className="z-50"
           onClick={() => setUpgrades(false)}
         >
           <path
@@ -97,50 +172,114 @@ export function FarmUpgrades({ setUpgrades, user }) {
           />
         </svg>
       </div>
-      <h3 className="text-3xl font-bold">Purchase Upgrades</h3>
-      <div className="-m-2 flex flex-wrap gap-y-3 p-3">
-        {upgrades.map((upgrade, index) => (
-          <div
-            className="w-full space-y-2 rounded-md border p-3 text-center"
-            key={index}
-          >
-            <p className="text-xl">{upgrade.Tool}</p>
-            <p>{upgrade.Description}</p>
-            <p>Cost: {upgrade.Cost.toLocaleString()} $ODY</p>
-            <p>Token: +{upgrade.Increment}</p>
-            <p className="font-bold">Mine Period: {upgrade.FarmPeriod} Hours</p>
-            {purchasingUpgrade === upgrade.Tool ? (
-              <button className={`rounded-md bg-white px-7 py-3 text-black`}>
-                <Puff
-                  visible={true}
-                  height="25"
-                  width="25"
-                  color="#000"
-                  ariaLabel="puff-loading"
-                  wrapperStyle={{}}
-                  wrapperClass=""
-                />
-              </button>
-            ) : (
-              <button
-                className={`rounded-md px-7 py-3 text-black ${
-                  upgrade.Cost > user.wallet[0].balance
-                    ? 'bg-white/60'
-                    : user.activity.farmLevel >= upgrade.Increment
-                    ? 'bg-white/60'
-                    : 'bg-white'
-                }`}
-                onClick={() => handleUpgradePurchase(upgrade)}
-              >
-                {upgrade.Cost > user.wallet[0].balance
-                  ? 'Insufficient Balance'
-                  : user.activity.farmLevel >= upgrade.Increment
-                  ? 'Already own this upgrade'
-                  : 'Pay'}
-              </button>
-            )}
+      <div className="z-10 space-y-3">
+        <h3 className="text-3xl font-bold">Purchase Upgrades</h3>
+        <div className="w-full border border-white"></div>
+        <div className="mt-3 flex w-full flex-col items-center justify-center gap-y-3 font-orbitron font-semibold">
+          <p className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-sm font-extrabold uppercase text-transparent shadow-blue-500 drop-shadow-2xl">
+            Current Balance
+          </p>
+          {walletBalance ? (
+            <span className="inline-flex items-center gap-x-3 text-4xl">
+              $ODY {walletBalance.toLocaleString()}
+            </span>
+          ) : (
+            <Puff color="#fff" width={30} height={30} />
+          )}
+          <p className="rounded-md bg-gradient-to-r from-cyan-400 to-blue-500 p-3 font-orbitron text-lg font-semibold text-white shadow-2xl shadow-blue-500">
+            Mining Rate <sup>+{userLevel?.farmLevel}</sup> | Timeline{' '}
+            {userLevel?.currentNoOfFarmHours}{' '}
+            {userLevel?.currentNoOfFarmHours === 1 ? 'Hr' : 'Hrs'}
+          </p>
+          <p className="inline-flex items-center justify-center gap-x-3 text-xl">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="32"
+              height="32"
+              viewBox="0 0 512 512"
+            >
+              <path
+                fill="#FFF"
+                d="m265 34l47.898 35.924l61.563 123.123l-8.057 32.23l-24.943-4.158l3.16-10.533l2.842-9.473L256 182.823l-91.463 18.29l6.002 20.006l-24.943 4.156l-8.057-32.228L199.1 69.926L247 34v56h-39l-16 32l64 38l64-38l-16-32h-39zm188.313 169.258l30.3 10.101l-13.478 29.205l-30.016-5.001zm-394.626 0l13.194 34.304l-30.016 5.002l-13.478-29.205zM256 205.32l53.8 58.692L281.306 359h-50.61L202.2 264.012zm25.254.909l43.283 8.658l-8.715 29.052zm-50.508.002l-34.568 37.709l-8.715-29.053zm105.5 32.267L482.5 262.873L429.799 368.28L329.98 259.385zm-160.492 0l6.266 20.887L82.2 368.279L29.5 262.873zm148.205 40.96l72.201 78.765l-84.556-37.582zm-135.918 0l12.355 41.183l-84.556 37.582zm118.348 58.564l28.646 12.732L312.973 439H265v-62h29.695zm-100.778 0L217.305 377H247v62h-47.973l-22.062-88.246zM387.6 374.115l18.105 8.047l-9.984 21.635l-16.387-8.193zm-263.2 0l8.266 21.489l-16.387 8.193l-9.984-21.635zM311 457v30h-30v-30zm-80 0v30h-30v-30z"
+              />
+            </svg>
+            {userLevel?.farmLevel}{' '}
+          </p>
+
+          <div className="flex w-full flex-col items-center justify-center gap-y-3">
+            <h3 className="text-2xl">Mining Boosters</h3>
+            <button
+              className={`inline-flex min-h-[3.5rem] w-full items-center justify-start gap-x-3 rounded-md bg-gradient-to-r from-cyan-400 to-blue-500 p-2 font-orbitron font-semibold text-white shadow-2xl shadow-blue-500 ${
+                loadingPurchase === upgrade?.Tool
+                  ? 'justify-center'
+                  : 'justify-start'
+              }`}
+              onClick={() => buyShip()}
+            >
+              {loadingPurchase === upgrade?.Tool ? (
+                <Puff color="#fff" width={55} height={55} />
+              ) : (
+                <>
+                  <p>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="32"
+                      height="32"
+                      viewBox="0 0 512 512"
+                    >
+                      <path
+                        fill="#FFF"
+                        d="m265 34l47.898 35.924l61.563 123.123l-8.057 32.23l-24.943-4.158l3.16-10.533l2.842-9.473L256 182.823l-91.463 18.29l6.002 20.006l-24.943 4.156l-8.057-32.228L199.1 69.926L247 34v56h-39l-16 32l64 38l64-38l-16-32h-39zm188.313 169.258l30.3 10.101l-13.478 29.205l-30.016-5.001zm-394.626 0l13.194 34.304l-30.016 5.002l-13.478-29.205zM256 205.32l53.8 58.692L281.306 359h-50.61L202.2 264.012zm25.254.909l43.283 8.658l-8.715 29.052zm-50.508.002l-34.568 37.709l-8.715-29.053zm105.5 32.267L482.5 262.873L429.799 368.28L329.98 259.385zm-160.492 0l6.266 20.887L82.2 368.279L29.5 262.873zm148.205 40.96l72.201 78.765l-84.556-37.582zm-135.918 0l12.355 41.183l-84.556 37.582zm118.348 58.564l28.646 12.732L312.973 439H265v-62h29.695zm-100.778 0L217.305 377H247v62h-47.973l-22.062-88.246zM387.6 374.115l18.105 8.047l-9.984 21.635l-16.387-8.193zm-263.2 0l8.266 21.489l-16.387 8.193l-9.984-21.635zM311 457v30h-30v-30zm-80 0v30h-30v-30z"
+                      />
+                    </svg>
+                  </p>
+                  <p className="flex flex-col items-start justify-start">
+                    <p className="text-md">Buy Mining Ship</p>
+                    <p>
+                      $ODY {upgrade ? upgrade.Cost : ''} | Mine Rate{' '}
+                      <sup>+1</sup>{' '}
+                    </p>
+                  </p>
+                </>
+              )}
+            </button>
+            <button
+              className={`inline-flex min-h-[3.5rem] w-full items-center gap-x-3 rounded-md bg-white p-2 font-orbitron font-semibold text-blue-500 ${
+                loadingPowerPurchase === periodUpgrade?.Tool
+                  ? 'justify-center'
+                  : 'justify-start'
+              }`}
+              onClick={() => buyPower()}
+            >
+              {loadingPowerPurchase === periodUpgrade?.Tool ? (
+                <Puff color="#3b82f6" width={55} height={55} />
+              ) : (
+                <>
+                  <p>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      width="32"
+                      height="32"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        fill="currentColor"
+                        d="M15.67 4H14V2h-4v2H8.33C7.6 4 7 4.6 7 5.33v15.33C7 21.4 7.6 22 8.33 22h7.33c.74 0 1.34-.6 1.34-1.33V5.33C17 4.6 16.4 4 15.67 4M11 20v-5.5H9L13 7v5.5h2z"
+                      />
+                    </svg>
+                  </p>
+                  <p className="flex flex-col items-start justify-start">
+                    <p className="text-md">Buy Energy Core</p>
+                    <p>
+                      $ODY {periodUpgrade ? periodUpgrade.Cost / 2 : ''} |
+                      Timeline <sup>+1</sup>
+                    </p>
+                  </p>
+                </>
+              )}
+            </button>
           </div>
-        ))}
+        </div>
       </div>
     </motion.div>
   )
@@ -158,6 +297,7 @@ export default function Farm({ user }) {
   const [viewUpgrades, setUpgrades] = useState(false)
   const [openMenuDropdown, setOpenMenuDropdown] = useState(true)
   const [walletBalance, setWalletBalance] = useState(0)
+  const [userLevel, setUserLevel] = useState(null)
 
   const menuOptions = [
     {
@@ -165,10 +305,11 @@ export default function Farm({ user }) {
     },
   ]
 
-  async function getWallet() {
+  async function getUserData() {
     try {
       const response = await axios.get(`/user/wallet/${user.chatId}`)
       setWalletBalance(response.data.balance)
+      setUserLevel(response.data.activity)
     } catch (error) {
       console.error(error)
     }
@@ -190,7 +331,7 @@ export default function Farm({ user }) {
   }
 
   useEffect(() => {
-    getWallet()
+    getUserData()
     getCurrentFarm()
   }, [isFarmingComplete, isFarming, isLoadingStartFarming])
 
@@ -242,7 +383,7 @@ export default function Farm({ user }) {
 
         toast(`You have successfully claimed $ODY ${farm.eligibleClaimAmount}`)
         setIsFarmingComplete(false)
-        getWallet()
+        getUserData()
         getCurrentFarm()
         setIsLoadingStartFarming(false)
       } catch (error) {
@@ -268,7 +409,15 @@ export default function Farm({ user }) {
         )}
       </AnimatePresence>
       <AnimatePresence initial={false} mode="sync" exitBeforeEnter={true}>
-        {viewUpgrades && <FarmUpgrades setUpgrades={setUpgrades} user={user} />}
+        {viewUpgrades && (
+          <FarmUpgrades
+            setUpgrades={setUpgrades}
+            walletBalance={walletBalance}
+            user={user}
+            userLevel={userLevel}
+            getUserData={getUserData}
+          />
+        )}
       </AnimatePresence>
       <div className="flex w-full flex-col items-center justify-center gap-y-3 text-white">
         <div className="flex h-20 w-full items-center justify-between bg-black bg-opacity-20 px-2 shadow-lg backdrop-blur-md backdrop-filter">
@@ -311,10 +460,7 @@ export default function Farm({ user }) {
               </motion.div>
             )}
           </AnimatePresence> */}
-          <button
-            className="h-fit"
-            onClick={() => setUpgrades(true)}
-          >
+          <button className="h-fit" onClick={() => setUpgrades(true)}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="35"
@@ -341,9 +487,9 @@ export default function Farm({ user }) {
               <Puff color="#fff" width={30} height={30} />
             )}
             <p className="rounded-md bg-gradient-to-r from-cyan-400 to-blue-500 p-3 font-orbitron text-lg font-semibold text-white shadow-2xl shadow-blue-500">
-              Mining Rate <sup>+{user?.activity?.farmLevel}</sup> | Timeline{' '}
-              {user?.activity.currentNoOfFarmHours}{' '}
-              {user.activity.currentNoOfFarmHours === 1 ? 'Hr' : 'Hrs'}
+              Mining Rate <sup>+{userLevel?.farmLevel}</sup> | Timeline{' '}
+              {userLevel?.currentNoOfFarmHours}{' '}
+              {userLevel?.currentNoOfFarmHours === 1 ? 'Hr' : 'Hrs'}
             </p>
             <p className="inline-flex items-center justify-center gap-x-3 text-xl">
               <svg
@@ -357,7 +503,7 @@ export default function Farm({ user }) {
                   d="m265 34l47.898 35.924l61.563 123.123l-8.057 32.23l-24.943-4.158l3.16-10.533l2.842-9.473L256 182.823l-91.463 18.29l6.002 20.006l-24.943 4.156l-8.057-32.228L199.1 69.926L247 34v56h-39l-16 32l64 38l64-38l-16-32h-39zm188.313 169.258l30.3 10.101l-13.478 29.205l-30.016-5.001zm-394.626 0l13.194 34.304l-30.016 5.002l-13.478-29.205zM256 205.32l53.8 58.692L281.306 359h-50.61L202.2 264.012zm25.254.909l43.283 8.658l-8.715 29.052zm-50.508.002l-34.568 37.709l-8.715-29.053zm105.5 32.267L482.5 262.873L429.799 368.28L329.98 259.385zm-160.492 0l6.266 20.887L82.2 368.279L29.5 262.873zm148.205 40.96l72.201 78.765l-84.556-37.582zm-135.918 0l12.355 41.183l-84.556 37.582zm118.348 58.564l28.646 12.732L312.973 439H265v-62h29.695zm-100.778 0L217.305 377H247v62h-47.973l-22.062-88.246zM387.6 374.115l18.105 8.047l-9.984 21.635l-16.387-8.193zm-263.2 0l8.266 21.489l-16.387 8.193l-9.984-21.635zM311 457v30h-30v-30zm-80 0v30h-30v-30z"
                 />
               </svg>
-              {user.wallet[0].noOfTickets}{' '}
+              {userLevel?.farmLevel}{' '}
             </p>
           </p>
           <p></p>
@@ -365,7 +511,7 @@ export default function Farm({ user }) {
       </div>
       <div className="mb-[7.5rem] flex flex-col items-center justify-center gap-y-3 px-2">
         <p className="text-center font-orbitron font-semibold text-white">
-          Rank : {getRankingOfficerTitle(user.activity.farmLevel)}
+          Rank : {getRankingOfficerTitle(userLevel?.farmLevel)}
         </p>
         <p className="text-center font-orbitron text-2xl font-semibold text-white">
           Odystorm Galaxy Defense Corp
