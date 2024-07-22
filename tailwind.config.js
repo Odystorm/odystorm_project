@@ -5,6 +5,9 @@ module.exports = {
       fontFamily: {
         orbitron: ['Orbitron', 'sans-serif'],
       },
+      backgroundImage: {
+        space: "url('/assets/images/bg/bg_space.webp')",
+      },
     },
   },
   plugins: [],

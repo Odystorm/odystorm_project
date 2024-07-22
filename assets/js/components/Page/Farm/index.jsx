@@ -77,7 +77,7 @@ export function FarmUpgrades({ setUpgrades, user }) {
 
   return (
     <motion.div
-      className="absolute left-0 top-0 z-50 flex h-screen w-full flex-col items-center justify-start space-y-3 overflow-y-scroll bg-gradient-to-b from-indigo-500 to-blue-950 p-5 font-orbitron text-white"
+      className="absolute left-0 top-0 z-50 flex h-screen w-full flex-col items-center justify-start space-y-3 overflow-y-scroll bg-space p-5 font-orbitron text-white"
       initial={{ opacity: 0.8 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
@@ -304,13 +304,17 @@ export default function Farm({ user }) {
               )}
             </div>
           </div>
+          {/* <AnimatePresence initial={false} mode="sync" exitBeforeEnter={true}>
+            {openMenuDropdown && (
+              <motion.div className="absolute z-30 h-full w-full bg-space">
+
+              </motion.div>
+            )}
+          </AnimatePresence> */}
           <button
             className="h-fit"
-            onClick={() => toast('Feature currently in development')}
+            onClick={() => setUpgrades(true)}
           >
-            {openMenuDropdown && (
-              <div className="absolute z-30 h-[300px] w-20"></div>
-            )}
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="35"
