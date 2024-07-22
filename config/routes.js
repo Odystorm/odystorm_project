@@ -56,8 +56,14 @@ module.exports.routes = {
     action: 'cronjob/stay-alive',
   },
 
+  // Referrals
+  'GET /user/referrals/:tgId': { action: 'reward/get-referrals' },
+
   // Upgrades
   'POST /api/v1/upgrade/farming': { action: 'reward/upgrade-farm' },
+
+  // Stats
+  'GET /api/v1/stats': { action: 'ranks/stats' },
 
   // Telegram Webhook
   'POST /telegram/webhook': { action: 'bot/telegram-events' },
