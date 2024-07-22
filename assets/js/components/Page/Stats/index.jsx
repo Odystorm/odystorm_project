@@ -44,7 +44,7 @@ const Stats = () => {
           <div className="w-full border border-white"></div>
           <div className="flex flex-col items-center justify-center text-center">
             <p className="text-md font-orbitron font-extrabold text-white">
-              No. of Mine Sessions
+             Total No. of Mine Sessions
             </p>
             <span className="font-orbitron text-xl">
               {stats.noOfMineSessions.toLocaleString()}
