@@ -47,7 +47,7 @@ module.exports = {
 
             await sails.helpers.sendMessageCustom(
               userRecord.chatId,
-              `Hello ${userRecord.firstName}\nYour Mining Session finished a while ago, check in now to claim your $ODY ${session.eligibleClaimAmount} and start a new mining session.`,
+              `Hello ${userRecord.firstName}\nYour Mining Session just finished, check in now to claim your $ODY ${session.eligibleClaimAmount} and start a new mining session.`,
               inlineKeyboard
             )
 
