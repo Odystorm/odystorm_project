@@ -50,7 +50,7 @@ export function FarmUpgrades({ setUpgrades, user }) {
 
   async function handleUpgradePurchase(upgrade) {
     if (upgrade.Cost > user.wallet[0].balance) {
-      toast.info('You have insufficient funds...')
+      toast('You have insufficient funds...')
       return
     }
 
@@ -61,10 +61,10 @@ export function FarmUpgrades({ setUpgrades, user }) {
         upgrade,
       })
 
-      toast.success('Successfully Purchased Upgrade')
+      toast('Successfully Purchased Upgrade')
       window.location.reload()
     } catch (error) {
-      toast.error('Upgrade Purchase Failed')
+      toast('Upgrade Purchase Failed')
       console.error(error)
     } finally {
       setPurchasingUpgrade(null)
@@ -223,7 +223,7 @@ export default function Farm({ user }) {
         setIsLoadingStartFarming(true)
       } catch (error) {
         console.error(error)
-        toast.error('Failed to Start Mining Session timeline')
+        toast('Failed to Start Mining Session timeline')
       }
     }
   }
@@ -240,16 +240,14 @@ export default function Farm({ user }) {
           tokenFarmAmount: farm.eligibleClaimAmount,
         })
 
-        toast.success(
-          `You have successfully claimed $ODY ${farm.eligibleClaimAmount}`
-        )
+        toast(`You have successfully claimed $ODY ${farm.eligibleClaimAmount}`)
         setIsFarmingComplete(false)
         getWallet()
         getCurrentFarm()
         setIsLoadingStartFarming(false)
       } catch (error) {
         console.error(error)
-        toast.error(
+        toast(
           'There was a problem claiming your tokens... Please Try Again later'
         )
       } finally {
@@ -370,7 +368,7 @@ export default function Farm({ user }) {
         </p>
         <div className="flex w-full items-center justify-center gap-x-3">
           <button
-            className="rounded-md bg-white p-3 font-orbitron text-lg font-semibold text-blue-500 shadow-2xl w-full"
+            className="w-full rounded-md bg-white p-3 font-orbitron text-lg font-semibold text-blue-500 shadow-2xl"
             onClick={() => {
               toast('Game is currently in development')
             }}

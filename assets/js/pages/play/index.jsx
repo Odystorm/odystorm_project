@@ -44,7 +44,7 @@ const Play = ({ user }) => {
 
   useEffect(() => {
     if (user.activity.eligibleDailyBonus) {
-      toast.success(
+      toast(
         `Day ${user.activity.noOfActiveDays} You have Received your Daily Bonus of $ODY 100`
       )
       window.location.reload()
@@ -76,7 +76,9 @@ const Play = ({ user }) => {
         toastClassName={() =>
           'relative flex items-center justify-between p-4 bg-gradient-to-r from-cyan-400 to-blue-500 text-white rounded-md'
         }
-        bodyClassName={() => 'text-sm text-center flex-grow font-orbitron font-bold'}
+        bodyClassName={() =>
+          'text-sm text-center flex-grow font-orbitron font-bold'
+        }
         hideProgressBar={true}
         closeButton={false} // Hide the default close button
       />
