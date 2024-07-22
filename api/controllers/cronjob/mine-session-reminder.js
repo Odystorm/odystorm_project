@@ -13,22 +13,37 @@ module.exports = {
     const { res } = this
     const mineSessions = await Farm.find({ status: 'farming' })
     if (mineSessions.length > 0) {
-      // const readyToClaim = mineSessions.filter(
-      //   (session) => differenceInHours(Date.now(), session.endTime) > 1
-      // )
+      const readyToClaim = mineSessions.filter(
+        (session) => differenceInHours(Date.now(), session.endTime) > 1
+      )
 
       // Find Activity and Users
       await Promise.all(
-        mineSessions.map(async (session) => {
+        readyToClaim.map(async (session) => {
+          const botBaseURL = sails.config.custom.botBaseURL
           try {
             const userActivity = await Activity.findOne({
               id: session.activity,
             })
             const userRecord = await User.findOne({ id: userActivity.owner })
 
-            await sails.helpers.sendMessage(
+            const inlineKeyboard = {
+              inline_keyboard: [
+                [
+                  {
+                    text: 'Launch OdyStorm',
+                    web_app: {
+                      url: `${botBaseURL}/play?user=${userRecord.chatId}`,
+                    },
+                  },
+                ],
+              ],
+            }
+
+            await sails.helpers.sendMessageCustom(
               userRecord.chatId,
-              `Hello ${userRecord.firstName}\nYour Mining Session finished a while ago, check in now to claim $ODY ${session.eligibleClaimAmount} and start a new mining session.`
+              `Hello ${userRecord.firstName}\nYour Mining Session finished a while ago, check in now to claim $ODY ${session.eligibleClaimAmount} and start a new mining session.`,
+              inlineKeyboard
             )
           } catch (error) {
             sails.log.error(error)
