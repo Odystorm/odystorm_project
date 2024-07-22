@@ -62,7 +62,7 @@ const InviteModal = ({ setOpenModal, user }) => {
         initial={{ y: '100%' }}
         animate={{ y: 0 }}
         exit={{ y: '100%' }}
-        transition={{ type: 'spring', stiffness: 80, duration: '800' }}
+        transition={{ type: 'spring', stiffness: 80, duration: '0.8s' }}
       >
         <div className="flex items-center justify-between px-3 text-center">
           <span>
