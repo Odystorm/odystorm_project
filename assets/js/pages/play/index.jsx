@@ -70,9 +70,15 @@ const Play = ({ user }) => {
     <GameLayout setComponent={setComponent} component={component}>
       {renderComponent()}
       <ToastContainer
+        position="top-center"
         autoClose={3000}
-        toastStyle={{ backgroundColor: 'white', color: 'black' }}
+        className="shadow-blue-500 drop-shadow-2xl"
+        toastClassName={() =>
+          'relative flex items-center justify-between p-4 bg-gradient-to-r from-cyan-400 to-blue-500 text-white rounded-md'
+        }
+        bodyClassName={() => 'text-sm text-center flex-grow font-orbitron font-bold'}
         hideProgressBar={true}
+        closeButton={false} // Hide the default close button
       />
     </GameLayout>
   )

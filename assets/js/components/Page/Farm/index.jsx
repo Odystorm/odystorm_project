@@ -370,18 +370,12 @@ export default function Farm({ user }) {
         </p>
         <div className="flex w-full items-center justify-center gap-x-3">
           <button
-            className="rounded-md bg-gradient-to-r from-cyan-400 to-blue-500 p-3  font-orbitron text-lg font-semibold text-white shadow-2xl shadow-blue-500"
+            className="rounded-md bg-white p-3 font-orbitron text-lg font-semibold text-blue-500 shadow-2xl w-full"
             onClick={() => {
               toast('Game is currently in development')
             }}
           >
             Play 👾
-          </button>
-          <button
-            className="rounded-md bg-white p-3 font-orbitron text-lg font-semibold text-blue-500 shadow-2xl"
-            onClick={() => setUpgrades(true)}
-          >
-            Upgrade 🛠
           </button>
         </div>
         <div className="w-full">

@@ -63,7 +63,11 @@ export default function Index() {
         animate={{ opacity: 1 }}
         transition={{ duration: 1.5 }}
       >
-        <img src="/images/bg/bg_space.webp" alt="" className='h-screen absolute top-0 left-0 object-cover brightness-[0.5]' />
+        <img
+          src="/images/bg/bg_space.webp"
+          alt=""
+          className="absolute left-0 top-0 h-screen object-cover brightness-[0.5]"
+        />
         <div className="absolute z-10 flex h-screen flex-col items-center justify-center py-3">
           <div className="flex w-[350px] flex-col items-center justify-center gap-y-5 p-2">
             <motion.img
@@ -89,9 +93,17 @@ export default function Index() {
           </div>
         </div>
         <ToastContainer
+          position="top-center"
           autoClose={3000}
-          toastStyle={{ backgroundColor: 'white', color: 'black' }}
+          className="shadow-blue-500 drop-shadow-2xl"
+          toastClassName={() =>
+            'relative flex items-center justify-between p-4 bg-gradient-to-r from-cyan-400 to-blue-500 text-white rounded-md'
+          }
+          bodyClassName={() =>
+            'text-sm text-center flex-grow font-orbitron font-bold'
+          }
           hideProgressBar={true}
+          closeButton={false} // Hide the default close button
         />
       </motion.section>
     </>
