@@ -1,4 +1,4 @@
-const { differenceInHours } = require('date-fns')
+const { differenceInMinutes } = require('date-fns')
 
 module.exports = {
   friendlyName: 'Mine session reminder',
@@ -11,15 +11,20 @@ module.exports = {
 
   fn: async function () {
     const { res } = this
-    const mineSessions = await Farm.find({ status: 'farming' })
+    const mineSessions = await Farm.find({
+      status: 'farming',
+      tenMinuteReminded: false,
+    })
     if (mineSessions.length > 0) {
-      const readyToClaim = mineSessions.filter(
-        (session) => differenceInHours(Date.now(), session.endTime) > 1
+      const recentlyFinished = mineSessions.filter(
+        (session) =>
+          differenceInMinutes(Date.now(), session.endTime) > 10 &&
+          differenceInMinutes(Date.now(), session.endTime) < 20
       )
 
       // Find Activity and Users
       await Promise.all(
-        readyToClaim.map(async (session) => {
+        recentlyFinished.map(async (session) => {
           const botBaseURL = sails.config.custom.botBaseURL
           try {
             const userActivity = await Activity.findOne({
@@ -42,9 +47,13 @@ module.exports = {
 
             await sails.helpers.sendMessageCustom(
               userRecord.chatId,
-              `Hello ${userRecord.firstName}\nYour Mining Session finished a while ago, check in now to claim $ODY ${session.eligibleClaimAmount} and start a new mining session.`,
+              `Hello ${userRecord.firstName}\nYour Mining Session finished a while ago, check in now to claim your $ODY ${session.eligibleClaimAmount} and start a new mining session.`,
               inlineKeyboard
             )
+
+            await Farm.updateOne({ id: session.id }).set({
+              tenMinuteReminded: true,
+            })
           } catch (error) {
             sails.log.error(error)
           }
