@@ -45,8 +45,20 @@ module.exports = {
       })
 
       if (farm) {
+        const { startTime, endTime } = farm
+
+        const calculateFinalScore = (startTime, endTime, increment) => {
+          const totalTimeInSeconds = Math.floor((endTime - startTime) / 1000)
+          return totalTimeInSeconds * increment
+        }
+
         await Farm.updateOne({ id: farm.id }).set({
           increment: upgrade.Increment,
+          eligibleClaimAmount: calculateFinalScore(
+            startTime,
+            endTime,
+            upgrade.Increment
+          ),
         })
       }
 

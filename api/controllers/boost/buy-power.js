@@ -49,10 +49,22 @@ module.exports = {
       })
 
       if (farm) {
-        const { startTime } = farm
+        const { startTime, increment } = farm
+        const endTime = addHours(startTime, upgrade.FarmPeriod) // New End Time
+
+        const calculateFinalScore = (startTime, endTime, increment) => {
+          const totalTimeInSeconds = Math.floor((endTime - startTime) / 1000)
+          return totalTimeInSeconds * increment
+        }
+        
         await Farm.updateOne({ id: farm.id }).set({
           hours: upgrade.FarmPeriod,
-          endTime: addHours(startTime, upgrade.FarmPeriod),
+          endTime: endTime,
+          eligibleClaimAmount: calculateFinalScore(
+            startTime,
+            endTime,
+            increment
+          ),
         })
       }
 
