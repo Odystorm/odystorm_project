@@ -34,6 +34,7 @@ const InviteModal = ({ setOpenModal, user }) => {
       })
       setOpenModal(false)
     } catch (err) {
+      console.error(err)
       toast('Failed to Copy Referral Link', {
         position: 'top-center',
       })
