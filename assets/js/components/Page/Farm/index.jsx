@@ -145,7 +145,6 @@ export function FarmUpgrades({
         (upgrade) => upgrade.FarmPeriod === userLevel.currentNoOfFarmHours
       )
 
-      console.log(farmUpgrades[farmPeriodUpgrades + 1])
       setPeriodUpgrade(farmUpgrades[farmPeriodUpgrades + 1])
     }
 
