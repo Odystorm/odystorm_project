@@ -6,7 +6,7 @@ export const GameLayout = ({ children, component, setComponent }) => {
     <>
       <Head title="Play OdyStorm Token Farm" />
       <section className="relative max-h-[100dvh] min-h-[100dvh] w-full overflow-hidden flex flex-col items-center justify-between bg-space">
-        <main className="min-w-full max-h-fit border">{children}</main>
+        <main className="min-w-full max-h-fit">{children}</main>
         <BottomNav component={component} setComponent={setComponent} />
       </section>
     </>
