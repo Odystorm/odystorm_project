@@ -33,36 +33,36 @@ const Stats = () => {
       {!loading ? (
         <>
           <div className="flex flex-col items-center justify-center text-center">
-            <p className="text-md font-orbitron font-extrabold text-white">
+            <p className="text-xl font-orbitron font-extrabold text-white">
               Total $ODY Mined
             </p>
-            <span className="text2xl font-orbitron">
+            <span className="text-2xl font-orbitron">
               <span className="font-semibold">$ODY</span>{' '}
               {stats.totalMined.toLocaleString()}
             </span>
           </div>
           <div className="w-full border border-white"></div>
           <div className="flex flex-col items-center justify-center text-center">
-            <p className="text-md font-orbitron font-extrabold text-white">
+            <p className="text-xl font-orbitron font-extrabold text-white">
              Total No. of Mine Sessions
             </p>
-            <span className="font-orbitron text-xl">
+            <span className="font-orbitron text-2xl">
               {stats.noOfMineSessions.toLocaleString()}
             </span>
           </div>
           <div className="flex flex-col items-center justify-center text-center">
-            <p className="text-md font-orbitron font-extrabold text-white">
+            <p className="text-xl font-orbitron font-extrabold text-white">
               OdyStorm Army Total
             </p>
-            <span className="font-orbitron text-xl">
+            <span className="font-orbitron text-2xl">
               {stats.armyTotal.toLocaleString()}
             </span>
           </div>
           <div className="flex flex-col items-center justify-center text-center">
-            <p className="text-md font-orbitron font-extrabold text-white">
+            <p className="text-xl font-orbitron font-extrabold text-white">
               Soldiers Reported Today
             </p>
-            <span className="font-orbitron text-xl">
+            <span className="font-orbitron text-2xl">
               {stats.reportedToday.toLocaleString()}
             </span>
           </div>
