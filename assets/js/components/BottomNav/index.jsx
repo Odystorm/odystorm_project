@@ -3,7 +3,7 @@ import { navLinks } from '@/data/sample'
 
 const BottomNav = ({ component, setComponent }) => {
   return (
-    <nav className="absolute bottom-0 flex w-full justify-between bg-black bg-opacity-20 px-5 py-3 shadow-lg backdrop-blur-md backdrop-filter">
+    <nav className="flex w-full justify-between bg-black bg-opacity-20 px-5 py-3 shadow-lg backdrop-blur-md backdrop-filter border fixed bottom-0">
       {navLinks.map((link, index) => {
         const isActive = component === link.component
         const iconProps = {
