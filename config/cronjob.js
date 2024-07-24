@@ -30,6 +30,18 @@ module.exports.cronjob = {
         sails.log.error('Failed to Run Reminder Cron Job')
       }
     },
-    start: true,
+  },
+  checkEveryDay: {
+    schedule: '0 0 * * *', // This cron expression means "at midnight every day"
+    onTick: async function () {
+      sails.log.info('Currently Running Daily Reminder...')
+      const url = `${baseURL}/mine/session/reminder/daily`
+      try {
+        const response = await axios.get(url)
+        sails.log.info(response.status)
+      } catch (error) {
+        sails.log.error('Failed to Run Reminder Cron Job')
+      }
+    },
   },
 }

@@ -24,6 +24,10 @@ module.exports.routes = {
   // Register New Account Via Referral
   'POST /register/referral': { action: 'user/process-referral' },
 
+  // Admin
+  // Send Mass Message
+  'POST /api/v1/admin/mass/message': { action: 'admin/send-mass-message' },
+
   // Play Page
   'GET /play': 'game/play',
 
@@ -65,6 +69,9 @@ module.exports.routes = {
   'GET /mine/session/reminder/hours': {
     action: 'cronjob/mine-session-reminder-hours',
   },
+
+  // Daily Reminder
+  'GET /mine/session/reminder/daily': { action: 'cronjob/daily-checkin' },
 
   // Referrals
   'GET /user/referrals/:tgId': { action: 'reward/get-referrals' },
