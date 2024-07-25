@@ -41,8 +41,7 @@ module.exports = {
 
       if (userRecord.referrer !== '') {
         // Pay Referer
-        const referrer = await User.findOne({ referrer: userRecord.referrer })
-        sails.log.info(referrer)
+        const referrer = await User.findOne({ referralId: userRecord.referrer })
         if (referrer) {
           // Find Wallet
           const wallet = await Wallet.findOne({ owner: referrer.id })
