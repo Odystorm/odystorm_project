@@ -2,3 +2,27 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* In your custom CSS file, e.g., styles.css */
+.scrollbar-custom {
+  scrollbar-width: thin; /* For Firefox */
+  scrollbar-color: var(--tw-gradient-stops) transparent; /* For Firefox */
+}
+
+.scrollbar-custom::-webkit-scrollbar {
+  width: 3px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+  background: linear-gradient(to bottom, #22d3ee, #3b82f6); /* From cyan-400 to blue-500 */
+  border-radius: 9999px;
+}
+
+/* Optionally, add some hover effect */
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(to bottom, #38bdf8, #2563eb); /* Slightly darker gradient for hover effect */
+}

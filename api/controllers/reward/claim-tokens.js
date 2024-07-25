@@ -39,6 +39,25 @@ module.exports = {
         status: 'farmed',
       })
 
+      // Pay Referer
+      const referrer = await User.findOne({ referrer: userRecord.referrer })
+      if (referrer) {
+        // Find Wallet
+        const wallet = await Wallet.findOne({ owner: referrer.id })
+        const share = (10 / 100) * tokenFarmAmount
+
+        // Update Wallet Balance
+        await Wallet.updateOne({ id: wallet.id }).set({
+          wallet: wallet.balance + share,
+        })
+
+        // Notify User of Their Share
+        await sails.helpers.sendMessage(
+          referrer.chatId,
+          `Hello Soldier!\nYou just received token shares from your fellow comrade's mining, your account balance just received $ODY ${share}`
+        )
+      }
+
       return res.status(200).json({
         message: 'Successfully claimed tokens',
       })

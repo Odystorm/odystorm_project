@@ -3,7 +3,7 @@ import { navLinks } from '@/data/sample'
 
 const BottomNav = ({ component, setComponent }) => {
   return (
-    <nav className="flex w-full justify-between bg-black bg-opacity-20 px-5 py-3 shadow-lg backdrop-blur-md backdrop-filter fixed bottom-0">
+    <nav className="relative bottom-0 flex w-full justify-between bg-opacity-20 px-5 py-3 shadow-lg backdrop-blur-md backdrop-filter object-cover rounded-t-lg">
       {navLinks.map((link, index) => {
         const isActive = component === link.component
         const iconProps = {
@@ -16,7 +16,7 @@ const BottomNav = ({ component, setComponent }) => {
           >
             {isActive && (
               <motion.div
-                className="absolute inset-0 z-0 rounded-lg bg-gradient-to-r from-cyan-400 to-blue-500  shadow-blue-500 shadow-2xl"
+                className="absolute inset-0 z-0 rounded-lg bg-gradient-to-r from-cyan-400 to-blue-500  shadow-2xl shadow-blue-500"
                 layoutId="activeBackground"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}

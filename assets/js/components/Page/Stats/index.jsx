@@ -21,7 +21,7 @@ const Stats = () => {
   }, [])
 
   return (
-    <div className="relative flex max-h-screen min-h-screen w-full flex-col items-center justify-start gap-y-3 p-5 text-white">
+    <div className="relative flex h-[85dvh] w-full flex-col items-center justify-start gap-y-3 p-5 text-white">
       <img
         src="/images/logo/logo.svg"
         className="animate h-[100px] w-[100px]"

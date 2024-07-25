@@ -360,11 +360,11 @@ export default function Farm({ user }) {
           telegramId: user.chatId,
           startTime,
           endTime: endTime.getTime(),
-          hours: user.activity.currentNoOfFarmHours,
+          hours: userLevel.currentNoOfFarmHours,
           eligibleClaimAmount: calculateFinalScore(
             startTime,
             endTime.getTime(),
-            user.activity.farmLevel
+            userLevel.farmLevel
           ),
         })
 
@@ -406,7 +406,7 @@ export default function Farm({ user }) {
   }
 
   return (
-    <div className="relative flex h-screen max-h-screen w-full flex-col justify-between overflow-x-hidden overflow-y-scroll">
+    <div className="relative flex h-[85dvh] w-full flex-col items-center justify-between">
       <AnimatePresence initial={false} mode="sync" exitBeforeEnter={true}>
         {isFarmingComplete && (
           <FarmComplete
@@ -428,7 +428,7 @@ export default function Farm({ user }) {
           />
         )}
       </AnimatePresence>
-      <div className="flex w-full flex-col items-center justify-center gap-y-3 text-white">
+      <div className="flex h-fit w-full flex-col items-center justify-center gap-y-3 text-white">
         <div className="flex h-20 w-full items-center justify-between bg-black bg-opacity-20 px-2 shadow-lg backdrop-blur-md backdrop-filter">
           <div className="flex h-full items-center justify-start gap-x-3">
             {!user?.profilePicture ? (
@@ -438,7 +438,9 @@ export default function Farm({ user }) {
             ) : (
               <img
                 src={user?.profilePicture}
-                className="h-[55px] w-[55px] rounded-full border-[5px] border-blue-500 shadow-2xl shadow-blue-500"
+                className={`h-[55px] w-[55px] rounded-full border-[5px] border-blue-500 shadow-2xl shadow-blue-500 ${
+                  user.username === 'theaethar' ? 'animate-pulse' : ''
+                }`}
               />
             )}
             <div className="flex flex-col font-orbitron">
@@ -519,7 +521,7 @@ export default function Farm({ user }) {
           <p></p>
         </div>
       </div>
-      <div className="mb-[7.5rem] flex flex-col items-center justify-center gap-y-3 px-2">
+      <div className="flex h-fit flex-col items-center justify-center gap-y-3 px-2">
         <p className="text-center font-orbitron font-semibold text-white">
           Rank : {getRankingOfficerTitle(userLevel?.farmLevel)}
         </p>

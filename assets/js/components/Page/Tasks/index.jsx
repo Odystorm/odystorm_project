@@ -62,22 +62,9 @@ const Tasks = ({ wallet, user }) => {
     getTasks()
   }, [])
 
-  // useEffect(() => {
-  //   if(tasks.length > 0){
-  //     tasks.forEach(task => {
-  //       if(task.taskType === "social_following"){
-
-  //       }
-  //     })
-  //   }
-  // }, [])
-
   return (
-    <div className="relative flex max-h-fit w-full items-center justify-center overflow-y-scroll">
-      {/* <div className='absolute top-0 left-0 h-[100dvh] w-full bg-black'>
-        <h3>Feature is Currently Undergoing Development</h3>
-      </div> */}
-      <div className="mt-5 flex flex-col items-center justify-center overflow-y-auto py-3">
+    <div className="relative flex h-[85dvh] w-full items-start justify-center">
+      <div className="mt-5 flex flex-col items-center justify-center py-3">
         <img
           src="/images/logo/logo.svg"
           className="h-[90px] w-[90px] drop-shadow-lg"
@@ -98,16 +85,17 @@ const Tasks = ({ wallet, user }) => {
         {isTasksLoading ? (
           <Puff color="#fff" height={50} width={50} />
         ) : (
-          <div className="mb-[3rem] max-h-[500px] w-full space-y-5 px-2">
+          <div className="scrollbar-custom relative max-h-[70vh] w-full overflow-y-scroll px-2 py-5">
             {tasks.map((task, index) => {
               if (task.taskType === 'social_following') {
                 return (
                   <React.Fragment key={index}>
-                    <div className="flex w-full flex-row justify-between gap-x-5 px-2 text-white">
+                    <div className="flex w-full flex-row items-center justify-between gap-x-5 px-2 text-white">
                       <div className="flex items-center gap-x-5">
-                        {/* <div>{task.icon(iconProps)}</div> */}
                         <div className="flex flex-col gap-y-1 ">
-                          <span className="text-md">{task.title}</span>
+                          <span className="text-md font-semibold">
+                            {task.title}
+                          </span>
                           <span className="font-orbitron text-sm font-medium text-white/50">
                             +{task.rewardAmount.toLocaleString()} $ODY
                           </span>
@@ -116,8 +104,8 @@ const Tasks = ({ wallet, user }) => {
                       {task.taskType === 'social_following' &&
                         task.status !== 'done' && (
                           <button
-                            className={`to-blue-500active:bg-gray-300 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-1 text-sm 
-                          text-white shadow-2xl shadow-blue-500 focus:outline-none disabled:from-cyan-900 disabled:to-blue-900`}
+                            className={`inline-flex h-14 items-center justify-center rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-1 text-sm text-white 
+                  shadow-2xl shadow-blue-500 focus:outline-none active:bg-gray-300 disabled:from-cyan-900 disabled:to-blue-900`}
                             key={index}
                             disabled={
                               wallet.balance < task.requirement.mineTotal
@@ -148,8 +136,8 @@ const Tasks = ({ wallet, user }) => {
 
                       {task.status === 'done' && (
                         <button
-                          className={`to-blue-500active:bg-gray-300 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-1 text-sm text-white shadow-2xl shadow-blue-500 
-                          focus:outline-none disabled:from-cyan-900 disabled:to-blue-900`}
+                          className={`h-14 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-1 text-sm text-white shadow-2xl shadow-blue-500 focus:outline-none 
+                active:bg-gray-300 disabled:from-cyan-900 disabled:to-blue-900`}
                         >
                           Completed
                         </button>
@@ -167,9 +155,8 @@ const Tasks = ({ wallet, user }) => {
               if (task.taskType === 'milestone') {
                 return (
                   <React.Fragment key={index}>
-                    <div className="flex w-full flex-row justify-between gap-x-5 px-2 text-white">
+                    <div className="flex w-full flex-row items-center justify-between gap-x-5 px-2 text-white">
                       <div className="flex items-center gap-x-5">
-                        {/* <div>{task.icon(iconProps)}</div> */}
                         <div className="flex flex-col gap-y-1 ">
                           <span className="text-md">{task.title}</span>
                           <span className="font-orbitron text-sm font-medium text-white/50">
@@ -179,8 +166,8 @@ const Tasks = ({ wallet, user }) => {
                       </div>
                       {task.status !== 'done' && (
                         <button
-                          className={`to-blue-500active:bg-gray-300 inline-flex items-center justify-center rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-1 text-sm 
-                          text-white shadow-2xl shadow-blue-500 focus:outline-none disabled:from-cyan-900 disabled:to-blue-900`}
+                          className={`inline-flex h-14 items-center justify-center rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-1 text-sm text-white 
+                shadow-2xl shadow-blue-500 focus:outline-none active:bg-gray-300 disabled:from-cyan-900 disabled:to-blue-900`}
                           key={index}
                           disabled={wallet.balance < task.requirement.mineTotal}
                           onClick={() => collectMileStoneReward(task)}
@@ -200,8 +187,8 @@ const Tasks = ({ wallet, user }) => {
 
                       {task.status === 'done' && (
                         <button
-                          className={`to-blue-500active:bg-gray-300 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-1 text-sm text-white shadow-2xl shadow-blue-500 
-                          focus:outline-none disabled:from-cyan-900 disabled:to-blue-900`}
+                          className={`h-14 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-1 text-sm text-white shadow-2xl shadow-blue-500 focus:outline-none 
+                active:bg-gray-300 disabled:from-cyan-900 disabled:to-blue-900`}
                         >
                           Completed
                         </button>

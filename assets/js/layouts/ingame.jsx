@@ -3,13 +3,13 @@ import BottomNav from '@/components/BottomNav'
 
 export const GameLayout = ({ children, component, setComponent }) => {
   return (
-    <>
+    <section className="flex min-h-[100dvh] flex-col items-center justify-between gap-y-3  bg-space container">
       <Head title="Play OdyStorm Token Farm" />
-      <section className="relative max-h-[100dvh] min-h-[100dvh] w-full overflow-hidden flex flex-col items-center justify-between bg-space">
-        <main className="min-w-full max-h-fit">{children}</main>
-        <BottomNav component={component} setComponent={setComponent} />
-      </section>
-    </>
+      <div className="relative flex w-full min-h-full overflow-hidden">
+        {children}
+      </div>
+      <BottomNav component={component} setComponent={setComponent} />
+    </section>
   )
 }
 

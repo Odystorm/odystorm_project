@@ -161,9 +161,12 @@ const Referrals = ({ user }) => {
   }, [])
 
   return (
-    <div className="relative flex min-h-screen w-full flex-col justify-between overflow-y-scroll px-3">
+    <div className="relative flex h-[85dvh] w-full flex-col items-center justify-between gap-y-3 overflow-y-scroll p-3">
+      <AnimatePresence initial={false} mode="sync" exitBeforeEnter={true}>
+        {openModal && <InviteModal setOpenModal={setOpenModal} user={user} />}
+      </AnimatePresence>
       <div>
-        <div className="my-5 mt-20 flex flex-col items-center justify-center text-center">
+        <div className="flex flex-col items-center justify-center text-center">
           <img
             src="/images/logo/logo.svg"
             className="h-[150px] w-[150px]"
@@ -173,24 +176,8 @@ const Referrals = ({ user }) => {
             Invite Friends to Join the Odystorm Space Defense
           </h3>
         </div>
-        {/* <div className="text-white">
-          <h4 className="text-xl font-bold">How it Works</h4>
-          <ol className="space-y-5">
-            {data.map((step, index) => (
-              <li className="flex items-start gap-x-4" key={index}>
-                <div className="text-md font-bold">
-                  <span>{index + 1}</span>
-                </div>
-                <div>
-                  <p className="text-lg">{step.heading}</p>
-                  <p className="text-md font-thin">{step.text}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </div> */}
 
-        <div className="min-h-[250px] space-y-3 overflow-y-scroll">
+        <div className="space-y-3">
           {!loadingReferrals && (
             <h3 className="text-lg font-bold text-white">
               {referrals ? referrals.length : 0}{' '}
@@ -206,7 +193,7 @@ const Referrals = ({ user }) => {
               <Puff color="#fff" height={55} width={55} />
             </div>
           ) : (
-            <div className="space-y-2">
+            <div className="scrollbar-custom max-h-[25dvh] min-h-[25dvh] space-y-2 overflow-y-scroll">
               {referrals &&
                 referrals.map((referral, index) => {
                   return (
@@ -258,17 +245,14 @@ const Referrals = ({ user }) => {
           )}
         </div>
       </div>
-      <div className="mb-[7rem] w-full">
+      <div className="w-full">
         <button
-          className="h-[3.5rem] w-full rounded-md bg-gradient-to-r from-cyan-400 to-blue-500 font-orbitron text-lg font-semibold text-white shadow-2xl shadow-blue-500"
+          className="h-[3.5rem] w-full rounded-md bg-gradient-to-r from-cyan-400 to-blue-500 font-orbitron text-lg font-semibold text-white shadow-blue-500"
           onClick={() => setOpenModal(true)}
         >
           Invite a Friend
         </button>
       </div>
-      <AnimatePresence initial={false} mode="sync" exitBeforeEnter={true}>
-        {openModal && <InviteModal setOpenModal={setOpenModal} user={user} />}
-      </AnimatePresence>
     </div>
   )
 }
