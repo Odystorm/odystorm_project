@@ -43,6 +43,26 @@ module.exports = {
         // Pay Referer
         const referrer = await User.findOne({ referralId: userRecord.referrer })
         if (referrer) {
+          const botBaseURL = sails.config.custom.botBaseURL
+
+          const inlineKeyboard = {
+            inline_keyboard: [
+              [
+                {
+                  text: 'Launch OdyStorm',
+                  web_app: {
+                    url: `${botBaseURL}/play?user=${referrer.id}`,
+                  },
+                },
+              ],
+              [
+                {
+                  text: 'Join Community',
+                  callback_data: `join-community`,
+                },
+              ],
+            ],
+          }
           // Find Wallet
           const wallet = await Wallet.findOne({ owner: referrer.id })
           const share = (10 / 100) * tokenFarmAmount
@@ -53,9 +73,10 @@ module.exports = {
           })
 
           // Notify User of Their Share
-          await sails.helpers.sendMessage(
+          await sails.helpers.sendMessageCustom(
             referrer.chatId,
-            `Hello Soldier!\nYou just received token shares from your fellow comrade's mining, your account balance just received $ODY ${share}`
+            `Hello Soldier!\nYou just received token shares from your fellow comrade ${referrer.username}'s mining, your account balance just received $ODY ${share}`,
+            inlineKeyboard
           )
         }
       }
