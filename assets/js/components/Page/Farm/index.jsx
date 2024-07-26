@@ -527,7 +527,7 @@ export default function Farm({ user }) {
           <p></p>
         </div>
       </div>
-      <div className="absolute bottom-0 flex h-fit flex-col items-center justify-center gap-y-3 px-2 iphone7:bottom-8">
+      <div className="absolute bottom-0 flex h-fit flex-col items-center justify-center gap-y-3 px-2 iphone7:bottom-5">
         <p className="text-center font-orbitron font-semibold text-white">
           Rank : {getRankingOfficerTitle(userLevel?.farmLevel)}
         </p>

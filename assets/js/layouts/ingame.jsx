@@ -44,10 +44,10 @@ export const GameLayout = ({ children, component, setComponent }) => {
             className="min-h-screen w-full object-cover"
             alt="OdyStorm Splash"
           />
-          <div className="absolute bottom-20 left-1/2 w-3/4 -translate-x-1/2 transform">
-            <div className="h-8 w-full rounded-full bg-gray-200 dark:bg-gray-700">
+          <div className="absolute iphone7:bottom-5 bottom-20 left-1/2 w-3/4 -translate-x-1/2 transform">
+            <div className="h-6 w-full rounded-full bg-gray-200 dark:bg-gray-700">
               <motion.div
-                className="h-8 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 shadow-2xl shadow-blue-500"
+                className="h-6 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 shadow-2xl shadow-blue-500"
                 initial={{ width: 0 }}
                 animate={{ width: `${progress}%` }}
                 transition={{ duration: 0.5 }}
