@@ -7,6 +7,7 @@ module.exports = {
       },
       backgroundImage: {
         space: "url('/assets/images/bg/bg_space.webp')",
+        splash: "url('/assets/images/splash/odystorm.webp')"
       },
     },
   },
