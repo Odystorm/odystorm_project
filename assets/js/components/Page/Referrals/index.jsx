@@ -5,18 +5,18 @@ import { toast } from 'react-toastify'
 import axios from 'axios'
 import { Puff } from 'react-loader-spinner'
 
-const data = [
+const referralInfo = [
   {
     heading: 'Share Your Invitation Link',
-    text: 'Win a chance to play a Match',
+    text: 'Win $ODY 5000',
   },
   {
     heading: 'Your friends Join OdyStorm',
-    text: 'and start farming tokens',
+    text: 'Start Mining tokens',
   },
   {
     heading: 'Score 10% from friends',
-    text: 'Plus an Extra 2.5% from their referrals',
+    text: 'Watch each other rise the ranks',
   },
 ]
 
@@ -169,12 +169,15 @@ const Referrals = ({ user }) => {
         <div className="flex flex-col items-center justify-center text-center">
           <img
             src="/images/logo/logo.svg"
-            className="h-[150px] w-[150px]"
+            className="h-[100px] w-[100px]"
             alt=""
           />
           <h3 className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text font-orbitron text-3xl font-bold text-transparent shadow-blue-500 drop-shadow-2xl">
             Invite Friends to Join the Odystorm Space Defense
           </h3>
+          <p className="text-md font-orbitron font-semibold text-white">
+            Earn $ODY 5000 on every referral and 10% from their mining sessions.
+          </p>
         </div>
 
         <div className="space-y-3">
