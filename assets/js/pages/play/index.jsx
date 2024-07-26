@@ -47,7 +47,6 @@ const Play = ({ user }) => {
       toast(
         `Day ${user.activity.noOfActiveDays} You have Received your Daily Bonus of $ODY 100`
       )
-      window.location.reload()
     }
   }, [])
 
