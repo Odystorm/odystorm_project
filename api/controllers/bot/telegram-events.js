@@ -169,9 +169,7 @@ module.exports = {
       return
     }
 
-    if (
-      (type === 'private' && command.includes('start'))
-    ) {
+    if (type === 'private' && command.includes('start')) {
       try {
         const userRecord = await User.findOne({ chatId: chat.id })
 
@@ -226,9 +224,11 @@ module.exports = {
           ],
         ],
       }
+      // Send Message to New User
       await sails.helpers.sendMessageCustom(
         chat.id,
-        `Hello @${chat.username} 😁!\nPlay now and earn valuable OdyStorm tokens! 💲\n\n\nInvite your friends, family, and colleagues to join the adventure! The more, the merrier—and the more $ODY you'll earn!`,
+        `🌌 Welcome to OdyStorm @${chat.username}! 🌌\n\nGreetings, Space Defender! 🚀\nWe’re excited to have you join us. Here’s how to get started:\n\nExplore Missions: Complete tasks to earn $ODY tokens and upgrade your spaceship.💲\n\n\nInvite your friends, family, and colleagues to join the adventure! The more, the merrier—and the more $ODY you'll earn!\nStay Updated: Check out our community for tips and events.\n\nNeed help? Our community is here for you!\n\nWelcome aboard and happy defending! 🌠\nThe OdyStorm Team
+          `,
         inlineKeyboard
       )
 

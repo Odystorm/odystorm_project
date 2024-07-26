@@ -19,7 +19,6 @@ module.exports = {
 
   fn: async function ({ chatId, referralId }) {
     const { res } = this
-    sails.log.debug(chatId, referralId)
     const botBaseURL = sails.config.custom.botBaseURL
 
     try {
@@ -83,6 +82,14 @@ module.exports = {
         await sails.helpers.sendMessageCustom(
           referrerUser.chatId,
           `Hi @${referrerUser.username}\nYour buddy @${userRecord.username} just joined the OdyStorm Space Defense and you just received 5000 $ODY.`,
+          inlineKeyboard
+        )
+
+        // Send Message to New User
+        await sails.helpers.sendMessageCustom(
+          userRecord.chatId,
+          `🌌 Welcome to OdyStorm @${userRecord.username}! 🌌\n\nGreetings, Space Defender! 🚀\nWe’re excited to have you join us. Here’s how to get started:\n\nExplore Missions: Complete tasks to earn $ODY tokens and upgrade your spaceship.💲\n\n\nInvite your friends, family, and colleagues to join the adventure! The more, the merrier—and the more $ODY you'll earn!\nStay Updated: Check out our community for tips and events.\n\nNeed help? Our community is here for you!\n\nWelcome aboard and happy defending! 🌠\nThe OdyStorm Team
+          `,
           inlineKeyboard
         )
 
