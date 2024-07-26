@@ -63,8 +63,8 @@ const Tasks = ({ wallet, user }) => {
   }, [])
 
   return (
-    <div className="relative flex h-[85dvh] w-full items-start justify-center">
-      <div className="mt-5 flex flex-col items-center justify-center py-3">
+    <div className="scrollbar-custom relative flex h-[85dvh] w-full items-start justify-center overflow-y-scroll">
+      <div className="flex flex-col items-center justify-center py-3">
         <img
           src="/images/logo/logo.svg"
           className="h-[90px] w-[90px] drop-shadow-lg"
@@ -75,8 +75,8 @@ const Tasks = ({ wallet, user }) => {
             OdyStorm
             <br /> Mission Control
           </h3>
-          <div className="px-2 text-white/50">
-            <p className="">
+          <div className="px-2 text-white/70">
+            <p className="font-orbitron">
               You'll be rewarded immediately with OdyStorm Tokens after each
               task completion.
             </p>
@@ -85,7 +85,7 @@ const Tasks = ({ wallet, user }) => {
         {isTasksLoading ? (
           <Puff color="#fff" height={50} width={50} />
         ) : (
-          <div className="scrollbar-custom relative max-h-[70vh] w-full overflow-y-scroll px-2 py-5">
+          <div className="scrollbar-custom relative w-full overflow-y-auto px-2 py-5">
             {tasks.map((task, index) => {
               if (task.taskType === 'social_following') {
                 return (

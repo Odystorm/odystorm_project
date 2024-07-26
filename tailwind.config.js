@@ -7,7 +7,10 @@ module.exports = {
       },
       backgroundImage: {
         space: "url('/assets/images/bg/bg_space.webp')",
-        splash: "url('/assets/images/splash/odystorm.webp')"
+        splash: "url('/assets/images/splash/odystorm.webp')",
+      },
+      screens: {
+        iphone7: '375px',
       },
     },
   },

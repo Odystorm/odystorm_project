@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Head } from '@inertiajs/react'
 import BottomNav from '@/components/BottomNav'
-import Preloader from '@/components/Preloader'
 
 export const GameLayout = ({ children, component, setComponent }) => {
   const [isLoading, setIsLoading] = useState(true)
@@ -25,7 +24,7 @@ export const GameLayout = ({ children, component, setComponent }) => {
   }, [])
 
   return !isLoading ? (
-    <section className="container relative flex min-h-[100dvh] flex-col items-center justify-between gap-y-3 bg-space">
+    <section className="relative flex min-h-[100dvh] flex-col items-center justify-between gap-y-3 bg-space">
       <Head title="Play OdyStorm Token Farm" />
       <div className="relative flex h-full w-full flex-col">{children}</div>
       <BottomNav component={component} setComponent={setComponent} />

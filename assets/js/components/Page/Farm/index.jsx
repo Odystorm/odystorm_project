@@ -149,6 +149,7 @@ export function FarmUpgrades({
     }
 
     setUpgrade(locatedUpgrade)
+
   }, [])
 
   return (
@@ -178,7 +179,7 @@ export function FarmUpgrades({
       <div className="z-10 space-y-3">
         <h3 className="text-3xl font-bold">Purchase Upgrades</h3>
         <div className="w-full border border-white"></div>
-        <div className="mt-3 flex w-full flex-col items-center justify-center gap-y-3 font-orbitron font-semibold">
+        <div className="mt-1 flex w-full flex-col items-center justify-center gap-y-3 font-orbitron font-semibold">
           <p className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-sm font-extrabold uppercase text-transparent shadow-blue-500 drop-shadow-2xl">
             Current Balance
           </p>
@@ -249,7 +250,7 @@ export function FarmUpgrades({
                     <p>
                       $ODY {upgrade ? upgrade.Cost.toLocaleString() : ''} | Mine
                       Rate{' '}
-                      <sup>+{upgrade?.Increment - userLevel.farmLevel}</sup>{' '}
+                      <sup>+{upgrade ? upgrade?.Increment - userLevel.farmLevel : ""}</sup>{' '}
                     </p>
                   </p>
                 </>
@@ -290,8 +291,8 @@ export function FarmUpgrades({
                       | Timeline{' '}
                       <sup>
                         +
-                        {periodUpgrade?.FarmPeriod -
-                          userLevel.currentNoOfFarmHours}
+                        {periodUpgrade ? periodUpgrade?.FarmPeriod -
+                          userLevel.currentNoOfFarmHours : ""}
                       </sup>
                     </p>
                   </p>
@@ -412,7 +413,7 @@ export default function Farm({ user }) {
   }
 
   return (
-    <div className="relative flex h-[83dvh] w-full flex-col items-center justify-between">
+    <div className="relative h-[83dvh] w-full">
       <AnimatePresence initial={false} mode="sync" exitBeforeEnter={true}>
         {isFarmingComplete && (
           <FarmComplete
@@ -527,7 +528,7 @@ export default function Farm({ user }) {
           <p></p>
         </div>
       </div>
-      <div className="flex h-fit flex-col items-center justify-center gap-y-3 px-2">
+      <div className="absolute bottom-0 flex h-fit flex-col items-center justify-center gap-y-3 px-2 iphone7:bottom-8">
         <p className="text-center font-orbitron font-semibold text-white">
           Rank : {getRankingOfficerTitle(userLevel?.farmLevel)}
         </p>
