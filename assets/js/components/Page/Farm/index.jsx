@@ -149,8 +149,7 @@ export function FarmUpgrades({
     }
 
     setUpgrade(locatedUpgrade)
-
-  }, [])
+  }, [loadingPurchase, loadingPowerPurchase])
 
   return (
     <motion.div
