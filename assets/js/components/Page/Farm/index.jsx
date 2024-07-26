@@ -248,7 +248,8 @@ export function FarmUpgrades({
                     <p className="text-md">Buy Mining Ship</p>
                     <p>
                       $ODY {upgrade ? upgrade.Cost.toLocaleString() : ''} | Mine
-                      Rate <sup>+1</sup>{' '}
+                      Rate{' '}
+                      <sup>+{upgrade?.Increment - userLevel.farmLevel}</sup>{' '}
                     </p>
                   </p>
                 </>
@@ -286,7 +287,12 @@ export function FarmUpgrades({
                       {periodUpgrade
                         ? (periodUpgrade.Cost / 2).toLocaleString()
                         : ''}{' '}
-                      | Timeline <sup>+1</sup>
+                      | Timeline{' '}
+                      <sup>
+                        +
+                        {periodUpgrade?.FarmPeriod -
+                          userLevel.currentNoOfFarmHours}
+                      </sup>
                     </p>
                   </p>
                 </>
