@@ -161,7 +161,7 @@ const Referrals = ({ user }) => {
   }, [])
 
   return (
-    <div className="relative flex h-[85dvh] w-full flex-col items-center justify-between gap-y-3 overflow-y-scroll p-3">
+    <div className="relative flex h-[85dvh] w-full flex-col items-center justify-between gap-y-3 overflow-y-scroll p-3 scrollbar-custom">
       <AnimatePresence initial={false} mode="sync" exitBeforeEnter={true}>
         {openModal && <InviteModal setOpenModal={setOpenModal} user={user} />}
       </AnimatePresence>
@@ -175,7 +175,7 @@ const Referrals = ({ user }) => {
           <h3 className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text font-orbitron text-3xl font-bold text-transparent shadow-blue-500 drop-shadow-2xl">
             Invite Friends to Join the Odystorm Space Defense
           </h3>
-          <p className="text-md font-orbitron font-semibold text-white">
+          <p className="font-orbitron text-white/70">
             Earn $ODY 5000 on every referral and 10% from their mining sessions.
           </p>
         </div>
@@ -196,7 +196,7 @@ const Referrals = ({ user }) => {
               <Puff color="#fff" height={55} width={55} />
             </div>
           ) : (
-            <div className="scrollbar-custom max-h-[25dvh] min-h-[25dvh] space-y-2 overflow-y-scroll">
+            <div className="scrollbar-custom space-y-2 overflow-y-auto">
               {referrals &&
                 referrals.map((referral, index) => {
                   return (
