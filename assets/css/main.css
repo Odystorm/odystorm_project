@@ -27,8 +27,16 @@
   background: linear-gradient(to bottom, #38bdf8, #2563eb); /* Slightly darker gradient for hover effect */
 }
 
-@media (max-width: 375px) {
+@media screen and (max-width: 375px) {
   .pullup {
     margin-top: -5rem;
+  }
+}
+
+@media screen and (max-width:375px){
+  .task-list{
+    height: 30dvh;
+    overflow-y: hidden;
+    border:5px solid green;
   }
 }
