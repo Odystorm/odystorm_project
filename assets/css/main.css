@@ -26,3 +26,9 @@
 .scrollbar-custom::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(to bottom, #38bdf8, #2563eb); /* Slightly darker gradient for hover effect */
 }
+
+@media (max-width: 375px) {
+  .pullup {
+    margin-top: -5rem;
+  }
+}

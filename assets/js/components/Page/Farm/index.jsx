@@ -484,8 +484,8 @@ export default function Farm({ user }) {
             </svg>
           </button>
         </div>
-        <div className="mt-5 space-y-5">
-          <p className="mt-5 flex flex-col items-center justify-center gap-y-3 font-orbitron font-semibold">
+        <div className="space-y-5">
+          <p className="flex flex-col items-center justify-center gap-y-3 font-orbitron font-semibold">
             <p className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-sm font-extrabold uppercase text-transparent shadow-blue-500 drop-shadow-2xl">
               Current Balance
             </p>
