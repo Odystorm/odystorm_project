@@ -412,7 +412,7 @@ export default function Farm({ user }) {
   }
 
   return (
-    <div className="relative h-[83dvh] w-full">
+    <div className="relative h-[83dvh] w-full flex flex-col items-center">
       <AnimatePresence initial={false} mode="sync" exitBeforeEnter={true}>
         {isFarmingComplete && (
           <FarmComplete
