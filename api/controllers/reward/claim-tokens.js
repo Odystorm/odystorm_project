@@ -75,7 +75,7 @@ module.exports = {
           // Notify User of Their Share
           await sails.helpers.sendMessageCustom(
             referrer.chatId,
-            `Hello Soldier!\nYou just received token shares from your fellow comrade ${referrer.username}'s mining, your account balance just received $ODY ${share}`,
+            `Hello Soldier!\nYou just received token shares from your fellow comrade ${userRecord.username}'s mining, your account balance just received $ODY ${share}`,
             inlineKeyboard
           )
         }
