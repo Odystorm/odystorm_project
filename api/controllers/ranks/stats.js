@@ -14,13 +14,17 @@ module.exports = {
 
     // Get Total No. Of Farm Sessions
     const farms = await Farm.find({})
+    const farmed = await Farm.find({ status: 'farmed' })
 
     // Get Accounts of Highest Earners
     const wallets = await Wallet.find({})
 
     // Total Earnings
-    const getTotalEarnings = (wallets) => {
-      return wallets.reduce((sum, wallet) => sum + wallet.balance, 0)
+    const getTotalEarnings = (sessions) => {
+      return sessions.reduce(
+        (sum, session) => sum + session.eligibleClaimAmount,
+        0
+      )
     }
 
     // Total No Of Users
@@ -35,7 +39,7 @@ module.exports = {
     )
 
     return res.status(200).json({
-      totalMined: getTotalEarnings(wallets),
+      totalMined: getTotalEarnings(farmed),
       noOfMineSessions: farms.length,
       armyTotal: users.length,
       reportedToday: loggedInToday.length,
