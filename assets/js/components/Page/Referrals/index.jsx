@@ -196,7 +196,7 @@ const Referrals = ({ user }) => {
               <Puff color="#fff" height={55} width={55} />
             </div>
           ) : (
-            <div className="scrollbar-custom space-y-2 overflow-y-auto">
+            <div className="scrollbar-custom space-y-2 overflow-y-auto max-h-[40dvh] iphone7:max-h-[25dvh]">
               {referrals &&
                 referrals.map((referral, index) => {
                   return (
