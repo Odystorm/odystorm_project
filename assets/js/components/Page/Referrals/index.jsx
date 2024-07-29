@@ -161,7 +161,7 @@ const Referrals = ({ user }) => {
   }, [])
 
   return (
-    <div className="relative flex h-[85dvh] w-full flex-col items-center justify-between gap-y-3 overflow-y-scroll p-3 scrollbar-custom">
+    <div className="relative flex h-[85dvh] w-full flex-col items-center justify-between gap-y-3 overflow-y-auto p-3 scrollbar-custom">
       <AnimatePresence initial={false} mode="sync" exitBeforeEnter={true}>
         {openModal && <InviteModal setOpenModal={setOpenModal} user={user} />}
       </AnimatePresence>
