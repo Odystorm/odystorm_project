@@ -20,6 +20,7 @@ module.exports = {
       'socials',
       'join-community',
       'new-user-web-app',
+      'referrallink',
     ]
 
     function isValidCommand(command, botCommandList) {
@@ -324,6 +325,40 @@ module.exports = {
         chat.id,
         `Join our Socials so you do not miss any important news or updates.`,
         inlineKeyboard
+      )
+
+      return
+    }
+
+    if (type === 'private' && command.includes('referrallink')) {
+      // Find User
+      const user = await User.findOne({ chatId: chat.id })
+      const inlineKeyboard = [
+        [
+          {
+            text: 'Launch OdyStorm',
+            web_app: {
+              url: `${botBaseURL}/play?user=${chat.id}`,
+            },
+          },
+        ],
+      ]
+
+      if (!user) {
+        await sails.helpers.sendMessageCustom(
+          chat.id,
+          `You aren't yet enlisted at the OdyStorm Defense\nClick /start to get started`,
+          inlineKeyboard
+        )
+
+        return
+      }
+
+      const referralLink = `https://t.me/odystorm_bot/app?startapp=ref_${user.referralId}`
+
+      await sails.helpers.sendMessageCustom(
+        chat.id,
+        `Hello ${user.firstName}\nYour Referral Link is ${referralLink}\n\nInvite your friends, family, and colleagues to join the adventure! The more, the merrier—and the more $ODY you'll earn!`
       )
 
       return
