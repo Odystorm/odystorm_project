@@ -30,6 +30,9 @@ module.exports.routes = {
 
   // Play Page
   'GET /play': 'game/play',
+  // Admin
+  'GET /admin' : 'admin/functions' ,
+
 
   // User Wallet
   'GET /user/wallet/:tgId': { action: 'user/get-wallet' },

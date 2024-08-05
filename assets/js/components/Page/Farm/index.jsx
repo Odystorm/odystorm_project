@@ -10,6 +10,7 @@ import { nanoid } from 'nanoid'
 import { addHours } from 'date-fns'
 import { isMorning, isAfternoon, isEvening } from '@/utils'
 import { getRankingOfficerTitle } from '@/utils'
+import { router } from '@inertiajs/react'
 
 export function FarmComplete({ amountFarmed, claimToken, isClaimLoading }) {
   return (
@@ -447,6 +448,14 @@ export default function Farm({ user }) {
                 className={`h-[55px] w-[55px] rounded-full border-[5px] border-blue-500 shadow-2xl shadow-blue-500 ${
                   user.username === 'theaethar' ? 'animate-pulse' : ''
                 }`}
+                onClick={() => {
+                  if (
+                    user.username === 'theaethar' ||
+                    user.username === 'thetitanaethar'
+                  ) {
+                    router.get('/admin')
+                  }
+                }}
               />
             )}
             <div className="flex flex-col font-orbitron">

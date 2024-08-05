@@ -4,6 +4,10 @@ module.exports = {
   description: '',
 
   inputs: {
+    photoUrl: {
+      type: 'string',
+      description: 'Photo URL',
+    },
     message: {
       type: 'string',
       description: 'Mass Messaging',
@@ -13,7 +17,7 @@ module.exports = {
 
   exits: {},
 
-  fn: async function ({ message }) {
+  fn: async function ({ message, photoUrl }) {
     const { res } = this
     // Get All OdyStorm Users
     const users = await User.find({})
@@ -36,19 +40,29 @@ module.exports = {
             ],
           }
 
-          await sails.helpers.sendMessageCustom(
-            user.chatId,
-            message,
-            inlineKeyboard
-          )
+          if (photoUrl) {
+            await sails.helpers.sendPhoto(
+              user.chatId,
+              photoUrl,
+              message,
+              inlineKeyboard
+            )
+          } else {
+            await sails.helpers.sendMessageCustom(
+              user.chatId,
+              message,
+              inlineKeyboard
+            )
+          }
         })
       )
+
+      return res.status(200).json({
+        message: 'Successfully Sent Message',
+      })
     } catch (error) {
       sails.log.error(error)
+      return res.serverError(error)
     }
-
-    return res.status(200).json({
-      message: 'Successfully Sent Message',
-    })
   },
 }
