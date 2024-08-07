@@ -8,6 +8,10 @@ module.exports = {
       type: 'string',
       description: 'Photo URL',
     },
+    videoUrl: {
+      type: 'string',
+      description: 'Video URL',
+    },
     message: {
       type: 'string',
       description: 'Mass Messaging',
@@ -17,7 +21,7 @@ module.exports = {
 
   exits: {},
 
-  fn: async function ({ message, photoUrl }) {
+  fn: async function ({ message, photoUrl, videoUrl }) {
     const { res } = this
     // Get All OdyStorm Users
     const users = await User.find({})
@@ -44,6 +48,13 @@ module.exports = {
             await sails.helpers.sendPhoto(
               user.chatId,
               photoUrl,
+              message,
+              inlineKeyboard
+            )
+          } else if (videoUrl) {
+            await sails.helpers.sendVideo(
+              user.chatId,
+              videoUrl,
               message,
               inlineKeyboard
             )
