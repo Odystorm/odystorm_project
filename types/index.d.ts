@@ -44,8 +44,9 @@ interface Helper {
   getUserInitials: (fullName: string) => string
   capitalize: (inputString: string) => string
   sendMessage: (chatId: string, message: string) => Promise
-  sendMessageCustom: (chatId: string, message: string, inlineKeyboard: array) => Promise
+  sendMessageCustom: (chatId: string, message: string, reply_markup: array) => Promise
   sendPhoto: (chatId: string, photo: string, caption: string, reply_markup: array) => Promise,
+  sendVideo: (chatId: string, video: string, caption: string, reply_markup: array) => Promise,
   getProfilePhoto: (chatId: string) => Promise
   getUser: (chatId: string) => Promise
   genReferralCode: () => string
