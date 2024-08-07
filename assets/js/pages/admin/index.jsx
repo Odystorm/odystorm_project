@@ -4,10 +4,11 @@ import { toast, ToastContainer } from 'react-toastify'
 import axios from 'axios'
 import { Puff } from 'react-loader-spinner'
 
-const options = ['Image Broadcast', 'Text Broadcast']
+const options = ['Image Broadcast', 'Text Broadcast', 'Video Broadcast']
 export default function Admin() {
   const [formData, setFormData] = useState({
     photoUrl: '',
+    videoUrl: '',
     message: '',
   })
   const [selectedOption, setSelectedOption] = useState(options[0])
@@ -114,6 +115,21 @@ export default function Admin() {
                   onChange={handleChange}
                   required
                   value={formData.photoUrl}
+                />
+              </div>
+            ) : (
+              ''
+            )}
+            {selectedOption === 'Video Broadcast' ? (
+              <div>
+                <input
+                  type="url"
+                  className="h-16 w-full rounded-md border-2 border-blue-500 bg-transparent p-2 font-bold text-white"
+                  id="videoUrl"
+                  placeholder="Video URL"
+                  onChange={handleChange}
+                  required
+                  value={formData.videoUrl}
                 />
               </div>
             ) : (
