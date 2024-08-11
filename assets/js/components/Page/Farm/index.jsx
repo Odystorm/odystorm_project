@@ -250,7 +250,12 @@ export function FarmUpgrades({
                     <p>
                       $ODY {upgrade ? upgrade.Cost.toLocaleString() : ''} | Mine
                       Rate{' '}
-                      <sup>+{upgrade ? upgrade?.Increment - userLevel.farmLevel : ""}</sup>{' '}
+                      <sup>
+                        +
+                        {upgrade
+                          ? upgrade?.Increment - userLevel.farmLevel
+                          : ''}
+                      </sup>{' '}
                     </p>
                   </p>
                 </>
@@ -291,8 +296,10 @@ export function FarmUpgrades({
                       | Timeline{' '}
                       <sup>
                         +
-                        {periodUpgrade ? periodUpgrade?.FarmPeriod -
-                          userLevel.currentNoOfFarmHours : ""}
+                        {periodUpgrade
+                          ? periodUpgrade?.FarmPeriod -
+                            userLevel.currentNoOfFarmHours
+                          : ''}
                       </sup>
                     </p>
                   </p>
@@ -412,8 +419,10 @@ export default function Farm({ user }) {
     }
   }
 
+  const adminTG = ['theaethar', 'thetitanaethar', 'sir_kaisers']
+
   return (
-    <div className="relative h-[83dvh] w-full flex flex-col items-center">
+    <div className="relative flex h-[83dvh] w-full flex-col items-center">
       <AnimatePresence initial={false} mode="sync" exitBeforeEnter={true}>
         {isFarmingComplete && (
           <FarmComplete
@@ -449,10 +458,10 @@ export default function Farm({ user }) {
                   user.username === 'theaethar' ? 'animate-pulse' : ''
                 }`}
                 onClick={() => {
-                  if (
-                    user.username === 'theaethar' ||
-                    user.username === 'thetitanaethar'
-                  ) {
+                  const adminList = adminTG.find(
+                    (admin) => admin === user.username
+                  )
+                  if (adminList) {
                     router.get('/admin')
                   }
                 }}
