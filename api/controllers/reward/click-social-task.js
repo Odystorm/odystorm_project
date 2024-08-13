@@ -24,7 +24,7 @@ module.exports = {
       const task = await Tasks.findOne({
         id: claimedTask.id,
         owner: userRecord.id,
-        taskType: 'social_following',
+        or: [{ taskType: 'ody_tasks' }, { taskType: 'social_following' }],
       })
 
       if (!task) {
