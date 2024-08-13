@@ -31,8 +31,11 @@ module.exports.routes = {
   // Play Page
   'GET /play': 'game/play',
   // Admin
-  'GET /admin' : 'admin/functions' ,
-
+  'GET /admin': 'admin/functions',
+  'GET /admin/broadcast': 'admin/broadcast',
+  'GET /admin/task-manager' : 'admin/task-manager',
+  // Admin : Add New Tasks
+  'POST /admin/create-task': { action: 'admin/create-task' },
 
   // User Wallet
   'GET /user/wallet/:tgId': { action: 'user/get-wallet' },
