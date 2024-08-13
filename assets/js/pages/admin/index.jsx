@@ -84,7 +84,7 @@ export default function Admin() {
       <Head title="OdyStorm Admin" />
       <section className="relative flex min-h-screen w-full flex-col items-center justify-center gap-y-5 bg-space pt-10">
         <button
-          className="absolute right-5 top-5"
+          className="absolute left-5 top-5"
           onClick={() => window.history.back()}
         >
           <svg
@@ -95,7 +95,7 @@ export default function Admin() {
           >
             <path
               fill="#fff"
-              d="m12 13.4l-4.9 4.9q-.275.275-.7.275t-.7-.275t-.275-.7t.275-.7l4.9-4.9l-4.9-4.9q-.275-.275-.275-.7t.275-.7t.7-.275t.7.275l4.9 4.9l4.9-4.9q.275-.275.7-.275t.7.275t.275.7t-.275.7L13.4 12l4.9 4.9q.275.275.275.7t-.275.7t-.7.275t-.7-.275z"
+              d="m10 18l-6-6l6-6l1.4 1.45L7.85 11H20v2H7.85l3.55 3.55z"
             />
           </svg>
         </button>
