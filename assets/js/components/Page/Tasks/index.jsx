@@ -95,7 +95,7 @@ const Tasks = ({ wallet, user }) => {
             </p>
           </div>
         </div>
-        <div className="flex w-full items-center justify-center gap-x-3 font-orbitron text-white mt-1">
+        <div className="mt-1 flex w-full items-center justify-center gap-x-3 font-orbitron text-white">
           {tabs.map((tab, index) => {
             return (
               <button
@@ -175,7 +175,10 @@ const Tasks = ({ wallet, user }) => {
               <>
                 {' '}
                 {tasks.map((task, index) => {
-                  if (task.taskType === 'social_following') {
+                  if (
+                    task.taskType === 'social_following' ||
+                    task.taskType === 'ody_tasks'
+                  ) {
                     return (
                       <React.Fragment key={index}>
                         <div className="flex w-full flex-row items-center justify-between gap-x-5 px-2 text-white">
