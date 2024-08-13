@@ -33,7 +33,7 @@ module.exports.routes = {
   // Admin
   'GET /admin': 'admin/functions',
   'GET /admin/broadcast': 'admin/broadcast',
-  'GET /admin/task-manager' : 'admin/task-manager',
+  'GET /admin/task-manager': 'admin/task-manager',
   // Admin : Add New Tasks
   'POST /admin/create-task': { action: 'admin/create-task' },
 
@@ -41,6 +41,8 @@ module.exports.routes = {
   'GET /user/wallet/:tgId': { action: 'user/get-wallet' },
   // Tasks
   'GET /user/tasks/:tgId': { action: 'user/get-tasks' },
+  // Get Task
+  'GET /user/task/:id': { action: 'user/get-task' },
   // Claim Task Tokens
   'POST /user/tasks/claim': { action: 'reward/claim-task-reward' },
   // Click Social Task
