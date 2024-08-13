@@ -9,6 +9,10 @@ module.exports = {
       description: 'Task Title',
       required: true,
     },
+    instruction: {
+      type: 'string',
+      description: 'Instruction for Task',
+    },
     rewardAmount: {
       type: 'number',
       description: 'Task Reward Amount',
@@ -29,7 +33,14 @@ module.exports = {
 
   exits: {},
 
-  fn: async function ({ title, rewardAmount, taskType, url, icon }) {
+  fn: async function ({
+    title,
+    rewardAmount,
+    taskType,
+    url,
+    icon,
+    instruction,
+  }) {
     const { res } = this
 
     if (taskType === 'milestone') {
@@ -51,6 +62,7 @@ module.exports = {
             mineTotal: 0,
             url,
             isClicked: false,
+            instruction: instruction ? instruction : '',
           },
           icon,
         })
@@ -61,7 +73,9 @@ module.exports = {
       return res.status(200).json({ message: 'Successfully Addded task' })
     } catch (error) {
       sails.log.error(error)
-      return res.serverError(error)
+      return res.serverError({
+        message: 'There was a problem creating this task',
+      })
     }
   },
 }
