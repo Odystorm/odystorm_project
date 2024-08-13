@@ -1,5 +1,6 @@
 import { Head } from '@inertiajs/react'
 import Broadcast from '@/components/Broadcast'
+import { ToastContainer } from 'react-toastify'
 
 export default function BroadcastPage() {
   return (
@@ -7,7 +8,7 @@ export default function BroadcastPage() {
       <Head title="OdyStorm Admin" />
       <section className="relative flex min-h-screen w-full flex-col items-center justify-center gap-y-5 bg-space pt-10">
         <button
-          className="absolute right-5 top-5"
+          className="absolute left-5 top-5"
           onClick={() => window.history.back()}
         >
           <svg
@@ -24,6 +25,19 @@ export default function BroadcastPage() {
         </button>
         <Broadcast />
       </section>
+      <ToastContainer
+        position="top-center"
+        autoClose={3000}
+        className="shadow-blue-500 drop-shadow-2xl"
+        toastClassName={() =>
+          'relative flex items-center justify-between p-4 bg-gradient-to-r from-cyan-400 to-blue-500 text-white rounded-md'
+        }
+        bodyClassName={() =>
+          'text-sm text-center flex-grow font-orbitron font-bold'
+        }
+        hideProgressBar={true}
+        closeButton={false} // Hide the default close button
+      />
     </>
   )
 }
