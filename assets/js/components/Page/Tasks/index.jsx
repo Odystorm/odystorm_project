@@ -30,18 +30,18 @@ const Tasks = ({ wallet, user }) => {
       )
       setTasks(() => {
         // Find All Unfinished Social Following and Ody Tasks
-        const unfinished = sortedTasks.filter(
-          (task) =>
-            (task.taskType === 'social_following' ||
-              task.taskType === 'ody_tasks') &&
-            task.status === 'eligible'
-        )
+        // const unfinished = sortedTasks.filter(
+        //   (task) =>
+        //     (task.taskType === 'social_following' ||
+        //       task.taskType === 'ody_tasks') &&
+        //     task.status === 'eligible'
+        // )
 
-        if (unfinished.length !== 0) {
-          setTimeout(() => {
-            toast(`You have ${unfinished.length} Unfinished Tasks`)
-          }, 3000)
-        }
+        // if (unfinished.length !== 0) {
+        //   setTimeout(() => {
+        //     toast(`You have ${unfinished.length} Unfinished Tasks`)
+        //   }, 3000)
+        // }
 
         return sortedTasks
       })
@@ -85,6 +85,7 @@ const Tasks = ({ wallet, user }) => {
       setTimeout(() => {
         getTasks()
         setLoadingTaskId('')
+        toast("Verification Complete")
         setOpenTaskModal(false)
       }, 15000)
     } catch (error) {
