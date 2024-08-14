@@ -20,6 +20,7 @@ const Tasks = ({ wallet, user }) => {
   const [selectedTab, setSelectedtab] = useState(tabs[0])
   const [selectedTask, setSelectedTask] = useState(null)
   const [openTaskModal, setOpenTaskModal] = useState(false)
+  const [socialTasks, setSocialTasks] = useState([])
 
   async function getTasks() {
     try {
@@ -27,7 +28,36 @@ const Tasks = ({ wallet, user }) => {
       const sortedTasks = response?.data.sort(
         (a, b) => a.rewardAmount - b.rewardAmount
       )
-      setTasks(sortedTasks)
+      setTasks(() => {
+        // Find All Unfinished Social Following and Ody Tasks
+        const unfinished = sortedTasks.filter(
+          (task) =>
+            (task.taskType === 'social_following' ||
+              task.taskType === 'ody_tasks') &&
+            task.status === 'eligible'
+        )
+
+        toast(`You have ${unfinished.length} Unfinished Tasks`)
+        return sortedTasks
+      })
+
+      setSocialTasks(() => {
+        // Filter Out Social Tasks
+        const socialTasks = sortedTasks.filter(
+          (task) =>
+            task.taskType === 'social_following' ||
+            task.taskType === 'ody_tasks'
+        )
+        return socialTasks.sort((a, b) => {
+          if (a.status === 'eligible' && b.status !== 'eligible') {
+            return -1
+          }
+          if (a.status !== 'eligible' && b.status === 'eligible') {
+            return 1
+          }
+          return 0
+        })
+      })
     } catch (error) {
       console.error(error)
     } finally {
@@ -179,71 +209,66 @@ const Tasks = ({ wallet, user }) => {
               ) : (
                 <>
                   {' '}
-                  {tasks.map((task, index) => {
-                    if (
-                      task.taskType === 'social_following' ||
-                      task.taskType === 'ody_tasks'
-                    ) {
-                      return (
-                        <React.Fragment key={index}>
-                          <div className="flex w-full flex-row items-center justify-between gap-x-5 px-2 text-white">
-                            <div className="flex items-center gap-x-5">
-                              <div className="flex flex-col gap-y-1 ">
-                                <span className="text-md font-semibold">
-                                  {task.title}
-                                </span>
-                                <span className="font-orbitron text-sm font-medium text-white/50">
-                                  +{task.rewardAmount.toLocaleString()} $ODY
-                                </span>
-                              </div>
+                  {socialTasks.map((task, index) => {
+                    return (
+                      <React.Fragment key={index}>
+                        <div className="flex w-full flex-row items-center justify-between gap-x-5 px-2 text-white">
+                          <div className="flex items-center gap-x-5">
+                            <div className="flex flex-col gap-y-1 ">
+                              <span className="text-md font-semibold">
+                                {task.title}
+                              </span>
+                              <span className="font-orbitron text-sm font-medium text-white/50">
+                                +{task.rewardAmount.toLocaleString()} $ODY
+                              </span>
                             </div>
-                            {task.status !== 'done' && (
-                              <button
-                                className={`inline-flex h-14 items-center justify-center rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-1 text-sm text-white 
-                  shadow-2xl shadow-blue-500 focus:outline-none active:bg-gray-300 disabled:from-cyan-900 disabled:to-blue-900`}
-                                key={index}
-                                disabled={
-                                  wallet.balance < task.requirement.mineTotal
-                                }
-                                onClick={() => {
-                                  if (task.requirement.isClicked) {
-                                    collectMileStoneReward(task)
-                                    return
-                                  }
-                                  setSelectedTask(task)
-                                  setOpenTaskModal(true)
-                                }}
-                              >
-                                {loadingTaskId === task.id ? (
-                                  <Puff
-                                    color="#fff"
-                                    height={25}
-                                    width={25}
-                                    key={task.id}
-                                  />
-                                ) : task.requirement.isClicked ? (
-                                  'Claim'
-                                ) : (
-                                  'Start'
-                                )}
-                              </button>
-                            )}
-
-                            {task.status === 'done' && (
-                              <button
-                                className={`h-14 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-1 text-sm text-white shadow-2xl shadow-blue-500 focus:outline-none 
-                active:bg-gray-300 disabled:from-cyan-900 disabled:to-blue-900`}
-                              >
-                                Completed
-                              </button>
-                            )}
                           </div>
-                          {index < tasks.length - 1 && (
-                            <hr className="my-5 border-t border-gray-500" />
+                          {task.status !== 'done' && (
+                            <button
+                              className={`inline-flex h-14 items-center justify-center rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-1 text-sm text-white 
+                  shadow-2xl shadow-blue-500 focus:outline-none active:bg-gray-300 disabled:from-cyan-900 disabled:to-blue-900`}
+                              key={index}
+                              disabled={
+                                wallet.balance < task.requirement.mineTotal
+                              }
+                              onClick={() => {
+                                if (task.requirement.isClicked) {
+                                  collectMileStoneReward(task)
+                                  return
+                                }
+                                setSelectedTask(task)
+                                setOpenTaskModal(true)
+                              }}
+                            >
+                              {loadingTaskId === task.id ? (
+                                <Puff
+                                  color="#fff"
+                                  height={25}
+                                  width={25}
+                                  key={task.id}
+                                />
+                              ) : task.requirement.isClicked ? (
+                                'Claim'
+                              ) : (
+                                'Start'
+                              )}
+                            </button>
                           )}
-                        </React.Fragment>
-                      )
-                    }
+
+                          {task.status === 'done' && (
+                            <button
+                              className={`h-14 rounded-full bg-gradient-to-r from-cyan-400 to-blue-500 px-6 py-1 text-sm text-white shadow-2xl shadow-blue-500 focus:outline-none 
+                active:bg-gray-300 disabled:from-cyan-900 disabled:to-blue-900`}
+                            >
+                              Completed
+                            </button>
+                          )}
+                        </div>
+                        {index < tasks.length - 1 && (
+                          <hr className="my-5 border-t border-gray-500" />
+                        )}
+                      </React.Fragment>
+                    )
                   })}
                 </>
               )}
