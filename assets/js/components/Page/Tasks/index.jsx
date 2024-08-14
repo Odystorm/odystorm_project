@@ -37,7 +37,12 @@ const Tasks = ({ wallet, user }) => {
             task.status === 'eligible'
         )
 
-        toast(`You have ${unfinished.length} Unfinished Tasks`)
+        if (unfinished.length !== 0) {
+          setTimeout(() => {
+            toast(`You have ${unfinished.length} Unfinished Tasks`)
+          }, 3000)
+        }
+
         return sortedTasks
       })
 
