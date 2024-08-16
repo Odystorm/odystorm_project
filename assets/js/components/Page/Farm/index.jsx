@@ -419,7 +419,7 @@ export default function Farm({ user }) {
     }
   }
 
-  const adminTG = ['theaethar', 'thetitanaethar', 'sir_kaisers']
+  const adminTG = ['theaethar', 'thetitanaethar', 'sir_kaisers', 'Beulah_zion']
 
   return (
     <div className="relative flex h-[83dvh] w-full flex-col items-center">
