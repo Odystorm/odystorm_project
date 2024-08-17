@@ -66,6 +66,12 @@ module.exports = {
           },
           icon,
         })
+
+        // Send Message to All Users
+        await sails.helpers.sendMessage(
+          user.chatId,
+          `🚀 New Mission Alert! 🚀\nA fresh task has just been added to the system! Complete it quickly to win $ODY ${rewardAmount.toLocaleString()}. Don't miss out on the opportunity to boost your stash!\n\n🌌 Get started now and conquer the mission!`
+        )
       })
 
       await Promise.all(newTasks)
