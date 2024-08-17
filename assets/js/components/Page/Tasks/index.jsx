@@ -9,7 +9,7 @@ const tabs = [
     title: 'Milestones',
   },
   {
-    title: 'Social',
+    title: 'Earn',
   },
 ]
 
