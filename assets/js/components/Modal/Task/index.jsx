@@ -1,26 +1,25 @@
-import axios from 'axios'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { Puff } from 'react-loader-spinner'
 import { motion, AnimatePresence } from 'framer-motion'
 import { toast } from 'react-toastify'
 
-const data = {
-  createdAt: 1723540741517,
-  updatedAt: 1723540741517,
-  id: '66bb2505d3b5757886561bdf',
-  title: 'Engage Recent Tweet',
-  rewardAmount: 10000,
-  status: 'eligible',
-  taskType: 'ody_tasks',
-  requirement: {
-    mineTotal: 0,
-    url: 'https://x.com/AureviaWeb3/status/1823037463918531016',
-    isClicked: false,
-    instruction: 'Like, Follow & RT',
-  },
-  icon: 'https://pbs.twimg.com/profile_images/1822979078233722880/8xME1PJN_400x400.jpg',
-  owner: '66a388329a6a8af176838796',
-}
+// const data = {
+//   createdAt: 1723540741517,
+//   updatedAt: 1723540741517,
+//   id: '66bb2505d3b5757886561bdf',
+//   title: 'Engage Recent Tweet',
+//   rewardAmount: 10000,
+//   status: 'eligible',
+//   taskType: 'ody_tasks',
+//   requirement: {
+//     mineTotal: 0,
+//     url: 'https://x.com/AureviaWeb3/status/1823037463918531016',
+//     isClicked: false,
+//     instruction: 'Like, Follow & RT',
+//   },
+//   icon: 'https://pbs.twimg.com/profile_images/1822979078233722880/8xME1PJN_400x400.jpg',
+//   owner: '66a388329a6a8af176838796',
+// }
 
 export default function TaskModal({
   data,
@@ -89,7 +88,7 @@ export default function TaskModal({
                 <span className="bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text font-orbitron font-bold text-transparent shadow-blue-500 drop-shadow-2xl">
                   $ODY
                 </span>{' '}
-                {data.rewardAmount}
+                {data.rewardAmount.toLocaleString()}
               </p>
               {data.requirement.instruction ? (
                 <p>{data.requirement.instruction}</p>
