@@ -9,6 +9,7 @@ out/
 build/
 dist/
 next-env.d.ts
+*.tsbuildinfo
 
 # SQLite databases
 *.db

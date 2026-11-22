@@ -1,4 +1,8 @@
 :root {
+  --font-display: 'Orbitron';
+  --font-sans: 'Space Grotesk';
+  --font-mono: 'JetBrains Mono';
+
   /* Aerospace Obsidian & Slate Surface Hierarchy */
   --bg-void: hsl(220, 38%, 5%);
   --bg-deck: hsl(218, 32%, 8%);
