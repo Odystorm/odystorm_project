@@ -1,0 +1,29 @@
+{
+  "name": "@odystorm/api",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "bun --watch src/index.ts",
+    "start": "bun src/index.ts",
+    "db:seed": "bun src/db/seed.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "bun test tests"
+  },
+  "dependencies": {
+    "@hono/zod-validator": "^0.4.3",
+    "@odystorm/shared": "workspace:*",
+    "better-auth": "^1.2.4",
+    "drizzle-orm": "^0.40.0",
+    "hono": "^4.7.4",
+    "nanoid": "^5.1.2",
+    "web-push": "^3.6.7",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.2.4",
+    "@types/web-push": "^3.6.4",
+    "drizzle-kit": "^0.30.5",
+    "typescript": "^5.8.2"
+  }
+}

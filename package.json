@@ -1,58 +1,24 @@
 {
-  "name": "mellow-react",
-  "version": "0.0.0",
+  "name": "odystorm-monorepo",
+  "version": "2.0.0",
   "private": true,
-  "description": "a Sails application",
-  "keywords": [],
-  "dependencies": {
-    "@inertiajs/react": "^1.0.15",
-    "@sailshq/connect-redis": "^3.2.1",
-    "@sailshq/lodash": "^3.10.3",
-    "@sailshq/socket.io-redis": "^5.2.0",
-    "axios": "^1.7.2",
-    "date-fns": "^3.6.0",
-    "dotenv": "^16.4.5",
-    "framer-motion": "^7.3.5",
-    "inertia-sails": "^0.2.2",
-    "nanoid": "^5.0.7",
-    "react": "^18.2.0",
-    "react-dnd": "^16.0.1",
-    "react-dnd-html5-backend": "^16.0.1",
-    "react-dom": "^18.2.0",
-    "react-icons": "^5.2.1",
-    "react-loader-spinner": "^6.1.6",
-    "react-toastify": "^10.0.5",
-    "sails": "^1.5.2",
-    "sails-flash": "^0.0.1",
-    "sails-hook-apianalytics": "^2.0.6",
-    "sails-hook-cronjob": "^1.0.5",
-    "sails-hook-dotenv": "^0.1.1",
-    "sails-hook-organics": "^2.2.2",
-    "sails-hook-orm": "^4.0.0",
-    "sails-hook-sockets": "^3.0.0",
-    "sails-mongo": "^2.1.0",
-    "sails-postgresql": "^5.0.1"
-  },
-  "devDependencies": {
-    "@rsbuild/plugin-react": "^0.7.3",
-    "@types/axios": "^0.14.0",
-    "create-sails-generator": "^0.0.1",
-    "prettier": "^2.6.2",
-    "prettier-plugin-tailwindcss": "^0.1.11",
-    "sails-hook-shipwright": "^0.2.0",
-    "sails.io.js": "^1.2.1",
-    "socket.io-client": "^2.2.0",
-    "tailwindcss": "^3.0.24"
-  },
+  "description": "OdyStorm Space Defense — Standalone Web Game (Next.js + Bun + Hono + SQLite)",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
   "scripts": {
-    "dev": "node app.js",
-    "start": "NODE_ENV=production node app.js",
-    "test": "npm run lint && npm run custom-tests && echo 'Done.'",
-    "lint": "./node_modules/eslint/bin/eslint.js . --max-warnings=0 --report-unused-disable-directives && echo '✔  Your .js files look good.'",
-    "custom-tests": "echo \"(No other custom tests yet.)\" && echo"
+    "dev:api": "bun run --cwd apps/api dev",
+    "dev:web": "bun run --cwd apps/web dev",
+    "build": "bun run --cwd apps/web build",
+    "start:api": "bun run --cwd apps/api start",
+    "start:web": "bun run --cwd apps/web start",
+    "db:seed": "bun run --cwd apps/api db:seed",
+    "test": "bun test apps/api/tests",
+    "typecheck": "bun run --cwd packages/shared typecheck && bun run --cwd apps/api typecheck && bun run --cwd apps/web typecheck"
   },
-  "main": "app.js",
   "engines": {
-    "node": ">=18.0"
+    "bun": ">=1.2.0",
+    "node": ">=20.0.0"
   }
 }
