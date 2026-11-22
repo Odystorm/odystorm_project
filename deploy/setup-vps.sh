@@ -107,7 +107,12 @@ if command -v nginx >/dev/null 2>&1; then
 
   if command -v certbot >/dev/null 2>&1 && [ ! -f "/etc/letsencrypt/live/${DOMAIN}/fullchain.pem" ]; then
     echo "==> Requesting Let's Encrypt TLS certificate for ${DOMAIN}..."
-    certbot --nginx -d "${DOMAIN}" --non-interactive --agree-tos --redirect || echo "WARN: Certbot skipped or deferred; HTTP port 80 remains active."
+    LE_ACCOUNT_ARG=""
+    LE_ACCT="$(ls -1 /etc/letsencrypt/accounts/acme-v02.api.letsencrypt.org/directory/ 2>/dev/null | head -n 1 || true)"
+    if [ -n "${LE_ACCT}" ]; then
+      LE_ACCOUNT_ARG="--account ${LE_ACCT}"
+    fi
+    certbot --nginx -d "${DOMAIN}" --non-interactive --agree-tos --redirect ${LE_ACCOUNT_ARG} || echo "WARN: Certbot skipped or deferred; HTTP port 80 remains active."
   fi
 elif command -v caddy >/dev/null 2>&1 && [ -f /etc/caddy/Caddyfile ]; then
   if ! grep -q "${DOMAIN}" /etc/caddy/Caddyfile; then
