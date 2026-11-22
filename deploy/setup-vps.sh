@@ -104,6 +104,11 @@ if command -v nginx >/dev/null 2>&1; then
     ln -sf "/etc/nginx/sites-available/${DOMAIN}.conf" "/etc/nginx/sites-enabled/${DOMAIN}.conf"
   fi
   nginx -t && systemctl reload nginx
+
+  if command -v certbot >/dev/null 2>&1 && [ ! -f "/etc/letsencrypt/live/${DOMAIN}/fullchain.pem" ]; then
+    echo "==> Requesting Let's Encrypt TLS certificate for ${DOMAIN}..."
+    certbot --nginx -d "${DOMAIN}" --non-interactive --agree-tos --redirect || echo "WARN: Certbot skipped or deferred; HTTP port 80 remains active."
+  fi
 elif command -v caddy >/dev/null 2>&1 && [ -f /etc/caddy/Caddyfile ]; then
   if ! grep -q "${DOMAIN}" /etc/caddy/Caddyfile; then
     echo "==> Appending ${DOMAIN} block to /etc/caddy/Caddyfile..."

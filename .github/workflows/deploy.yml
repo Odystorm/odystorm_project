@@ -92,7 +92,7 @@ jobs:
             set +a
 
             cd /var/www/odystorm
-            bun install --frozen-lockfile
+            bun install
             bun run --cwd apps/api db:seed
             bun run --cwd apps/web build
 
