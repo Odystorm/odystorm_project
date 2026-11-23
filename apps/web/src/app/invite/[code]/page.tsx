@@ -92,7 +92,7 @@ export default function InviteLandingPage() {
             <button
               id="btn-invite-guest"
               type="button"
-              className="btn btn-amber btn-lg"
+              className="btn btn-primary btn-lg"
               onClick={handleGuestJoin}
               disabled={launchingGuest}
             >

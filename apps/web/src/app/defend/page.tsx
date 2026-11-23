@@ -244,7 +244,7 @@ export default function SpaceDefensePage() {
             <button
               id="btn-launch-sortie"
               type="button"
-              className="btn btn-amber btn-lg btn-full"
+              className="btn btn-primary btn-lg btn-full"
               disabled={starting || player.wallet.tickets < 1}
               onClick={() => handleStartRun(false)}
             >

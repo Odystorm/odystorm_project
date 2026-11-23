@@ -174,7 +174,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 <button
                   id="btn-play-guest"
                   type="button"
-                  className="btn btn-amber btn-lg"
+                  className="btn btn-primary btn-lg"
                   onClick={handleLaunchGuest}
                   disabled={launchingGuest}
                 >
@@ -295,7 +295,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
               <button
                 id="btn-sidebar-bind-account"
                 type="button"
-                className="btn btn-amber btn-sm btn-full"
+                className="btn btn-primary btn-sm btn-full"
                 onClick={() => setAuthModalMode('upgrade')}
               >
                 <UserPlus size={14} />
@@ -363,7 +363,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
                 <button
                   id="btn-topbar-bind-account"
                   type="button"
-                  className="btn btn-amber btn-sm"
+                  className="btn btn-primary btn-sm"
                   onClick={() => setAuthModalMode('upgrade')}
                 >
                   <UserPlus size={14} />

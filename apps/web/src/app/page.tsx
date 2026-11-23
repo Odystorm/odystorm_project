@@ -160,7 +160,7 @@ export default function CommandDeckPage() {
           </p>
         </div>
 
-        <Link id="btn-hero-defend" href="/defend" className="btn btn-amber btn-lg">
+        <Link id="btn-hero-defend" href="/defend" className="btn btn-primary btn-lg">
           <Crosshair size={18} />
           Play Space Defense ({wallet.tickets} Tickets)
         </Link>
@@ -285,7 +285,7 @@ export default function CommandDeckPage() {
               <button
                 id="btn-claim-mining"
                 type="button"
-                className="btn btn-amber btn-lg btn-full"
+                className="btn btn-primary btn-lg btn-full"
                 onClick={handleClaimMining}
                 disabled={busyAction !== null}
               >
